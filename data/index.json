@@ -1,0 +1,38 @@
+{
+  "seasons": [
+    {
+      "id": 1,
+      "title": "シーズン1: 要件を聞く",
+      "description": "曖昧な要望を「要件」に翻訳する力を鍛える。設計は聞くことから始まる。"
+    }
+  ],
+  "episodes": [
+    {
+      "id": "s1e1",
+      "file": "episodes/s1e1.json",
+      "season": 1,
+      "order": 1,
+      "title": "「絶対に落ちないシステム」の正体",
+      "summary": "初めての顧客ヒアリング。「絶対に止まらないシステムにしてほしい」と言われたら、あなたは何と返す?",
+      "estimatedMinutes": 8
+    },
+    {
+      "id": "s1e2",
+      "file": "episodes/s1e2.json",
+      "season": 1,
+      "order": 2,
+      "title": "「全部、最優先でお願いします」",
+      "summary": "要望リストは50件、納期は3か月。全部は作れない。優先順位をどう付け、どう合意するか。",
+      "estimatedMinutes": 8
+    },
+    {
+      "id": "s1e3",
+      "file": "episodes/s1e3.json",
+      "season": 1,
+      "order": 3,
+      "title": "「サクサク動くようにして」",
+      "summary": "「とにかく速く」という要望を、測れる性能要件に落とし込めるか。速さの正体を探るエピソード。",
+      "estimatedMinutes": 8
+    }
+  ]
+}
