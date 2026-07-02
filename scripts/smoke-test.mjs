@@ -1,0 +1,144 @@
+#!/usr/bin/env node
+// scripts/smoke-test.mjs — Node で engine.js を通しプレイするスモークテスト。SPEC.md 第7章。
+//
+// 実行: node scripts/smoke-test.mjs
+//
+// data/index.json に列挙された各エピソードのうち「ファイルが実在するもの」だけを検証する。
+// s1e2 / s1e3 のように執筆中でファイルがまだ無いものはスキップし、失敗扱いにはしない。
+//
+// 検証内容(SPEC.md 第7章):
+//   1. エピソード JSON のスキーマ必須項目
+//   2. 全ノードの next / start / ending の参照先が存在すること
+//   3. 「常に最初の選択肢」「常に最後の選択肢」で機械的に通しプレイし、
+//      必ず debrief に到達しランクが算出されること
+
+import { readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { validateEpisode, playThrough } from '../js/engine.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(__dirname, '..');
+const dataDir = path.join(rootDir, 'data');
+
+let failures = 0;
+let checkedEpisodes = 0;
+
+function fail(message) {
+  failures += 1;
+  console.error(`✗ ${message}`);
+}
+
+function pass(message) {
+  console.log(`✓ ${message}`);
+}
+
+async function readJson(filePath) {
+  const raw = await readFile(filePath, 'utf-8');
+  return JSON.parse(raw);
+}
+
+async function checkEpisode(entry, episodePath) {
+  console.log(`\n--- ${entry.id}: ${entry.title} ---`);
+  let episode;
+  try {
+    episode = await readJson(episodePath);
+  } catch (e) {
+    fail(`${entry.id}: failed to parse JSON: ${e.message}`);
+    return;
+  }
+
+  // 1. スキーマ必須項目 + 2. next/start/ending の参照整合性
+  const errors = validateEpisode(episode);
+  if (errors.length > 0) {
+    for (const err of errors) fail(`${entry.id}: ${err}`);
+    return; // 構造が壊れている場合は通しプレイを試みない
+  }
+  pass(`${entry.id}: schema + node references are valid`);
+
+  if (episode.id !== entry.id) {
+    fail(`${entry.id}: data/index.json id "${entry.id}" does not match episode.id "${episode.id}"`);
+  }
+
+  // 3. 常に最初 / 常に最後の選択肢で機械的に通しプレイし、debrief到達・ランク算出を確認。
+  for (const strategy of ['first', 'last']) {
+    try {
+      const { result, log } = playThrough(episode, strategy);
+      const reachedDebrief = log[log.length - 1]?.type === 'debrief';
+      if (!reachedDebrief) {
+        fail(`${entry.id} [${strategy}]: playthrough did not end on a debrief node`);
+        continue;
+      }
+      if (!['S', 'A', 'B', 'C'].includes(result.rank)) {
+        fail(`${entry.id} [${strategy}]: invalid rank "${result.rank}"`);
+        continue;
+      }
+      pass(`${entry.id} [${strategy}]: reached debrief, rank=${result.rank}, total=${result.total}`);
+    } catch (e) {
+      fail(`${entry.id} [${strategy}]: playthrough threw: ${e.message}`);
+    }
+  }
+
+  checkedEpisodes += 1;
+}
+
+function printSummaryAndExit() {
+  console.log('\n----------------------------------------');
+  if (failures > 0) {
+    console.error(`FAILED: ${failures} error(s) across ${checkedEpisodes} checked episode(s).`);
+    process.exitCode = 1;
+    return;
+  }
+  if (checkedEpisodes === 0) {
+    console.error('FAILED: no episode files were found to check.');
+    process.exitCode = 1;
+    return;
+  }
+  console.log(`OK: ${checkedEpisodes} episode(s) verified with no errors.`);
+  process.exitCode = 0;
+}
+
+async function main() {
+  console.log("Let's Architect! smoke test\n");
+
+  const indexPath = path.join(dataDir, 'index.json');
+  let indexData;
+  try {
+    indexData = await readJson(indexPath);
+    pass('data/index.json parses as JSON');
+  } catch (e) {
+    fail(`data/index.json failed to parse: ${e.message}`);
+    printSummaryAndExit();
+    return;
+  }
+
+  if (!Array.isArray(indexData.seasons) || indexData.seasons.length === 0) {
+    fail('data/index.json: seasons must be a non-empty array');
+  } else {
+    pass(`data/index.json: ${indexData.seasons.length} season(s) found`);
+  }
+
+  if (!Array.isArray(indexData.episodes) || indexData.episodes.length === 0) {
+    fail('data/index.json: episodes must be a non-empty array');
+    printSummaryAndExit();
+    return;
+  }
+
+  for (const entry of indexData.episodes) {
+    const episodePath = path.join(dataDir, entry.file);
+    if (!existsSync(episodePath)) {
+      console.log(`… skipping ${entry.id} (${entry.file} not written yet)`);
+      continue;
+    }
+    await checkEpisode(entry, episodePath);
+  }
+
+  printSummaryAndExit();
+}
+
+main().catch((e) => {
+  console.error('smoke test crashed:', e);
+  process.exitCode = 1;
+});

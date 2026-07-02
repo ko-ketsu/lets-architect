@@ -1,0 +1,183 @@
+{
+  "id": "s1e2",
+  "season": 1,
+  "title": "「全部、最優先でお願いします」",
+  "summary": "要望リストは50件、納期は3か月。全部は作れない。優先順位をどう付け、どう合意するか。",
+  "estimatedMinutes": 8,
+  "characters": {
+    "player": { "name": "あなた", "role": "player" },
+    "senpai": { "name": "アオイ先輩", "role": "mentor" },
+    "customer": { "name": "桜井マネージャー(フルフルマーケット)", "role": "customer" }
+  },
+  "params": { "customer": 50, "quality": 50, "budget": 50, "trust": 50 },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        { "speaker": "narration", "text": "ライトブリッジ株式会社に入社して5か月。今日は、ネット通販サイト「フルフルマーケット」のリニューアル案件、要望整理ミーティングに向かった。" },
+        { "speaker": "senpai", "text": "運営元の桜井さんから、機能要望のリストが届いてるはず。今日の進行は任せるね。" },
+        { "speaker": "narration", "text": "会議室のテーブルに、ぎっしり書き込まれたExcelシートが広げられる。ざっと見ただけで50件近くありそうだ。" },
+        { "speaker": "customer", "text": "見ての通り、要望は全部で50件あります。正直、どれも大事なんです。3か月後のリニューアルで、全部、最優先でお願いします!" }
+      ],
+      "next": "choice_first_response"
+    },
+    "choice_first_response": {
+      "type": "choice",
+      "prompt": "50件すべてを「最優先で」と言われた。最初の返しは?",
+      "options": [
+        {
+          "text": "「承知しました!では、50件すべて3か月で仕上げます」",
+          "effects": { "customer": 15, "budget": -20, "trust": -5 },
+          "flags": ["overpromised"],
+          "feedback": "威勢はいいけど、まだ中身も見てないのに『全部やります』は約束しすぎだよ。守れない約束は、あとで一番信頼を傷つける。",
+          "next": "reveal_late"
+        },
+        {
+          "text": "「50件すべてを同時に最優先にはできません。まず、どれが一番大事か、一緒に整理させていただけますか?」",
+          "effects": { "trust": 10 },
+          "flags": ["asked_priority"],
+          "feedback": "いいね。『全部大事』の中にも必ず濃淡がある。その濃淡を一緒に見つけにいく姿勢が大事だよ。",
+          "next": "reveal_early"
+        },
+        {
+          "text": "「承知しました。こちらで実装しやすいものから判断して進めますね」",
+          "effects": { "trust": -10 },
+          "flags": ["dev_judged_alone"],
+          "feedback": "『こちらで判断』は聞こえはいいけど、顧客の頭越しに優先順位を決めることになる。何に価値があるかを決めるのは、本来お客様の仕事だよ。",
+          "next": "reveal_late"
+        }
+      ]
+    },
+    "reveal_early": {
+      "type": "scene",
+      "lines": [
+        { "speaker": "customer", "text": "そう言ってもらえると助かります。実は……3か月後の8月に、毎年恒例の夏の大セールがあるんです。そこに間に合わないと、年間の売上が大きく変わってしまって。" },
+        { "speaker": "customer", "text": "逆に言うと、会員ランク機能とか、レビューの並び替えとか……セールに直接関係しない要望は、極端な話、年末までに入れば十分なんです。" },
+        { "speaker": "senpai", "text": "『全部最優先』の中身、だいぶ見えてきたね。" }
+      ],
+      "next": "choice_criteria"
+    },
+    "reveal_late": {
+      "type": "scene",
+      "lines": [
+        { "speaker": "narration", "text": "そのままヒアリングは、要望リストの読み合わせだけで終わってしまった。優先順位の話はできないまま、会議は解散した。" },
+        { "speaker": "senpai", "text": "さっきの『全部最優先』……結局、どれが一番大事なんだろうね?" },
+        { "speaker": "narration", "text": "数日後、慌てて確認の連絡を入れることになった。二度手間だ。" },
+        { "speaker": "customer", "text": "ああ、実は8月に夏の大セールがあって、そこに間に合わせたいのが本音でして。それを早く言えばよかったですね、すみません。" }
+      ],
+      "next": "choice_criteria"
+    },
+    "choice_criteria": {
+      "type": "choice",
+      "prompt": "夏の大セールという軸が見えてきた。50件の要望リストを、どう仕分ける?",
+      "options": [
+        {
+          "text": "「営業部長が一番熱心に推している『クーポン一括発行機能』を最優先にしましょう」",
+          "effects": { "customer": -5, "quality": -10, "trust": -5 },
+          "flags": ["loudest_voice"],
+          "feedback": "声が大きい人の要望が、セールへの影響が一番大きいとは限らないよ。個人の熱量と事業インパクトは別物として見る必要がある。",
+          "next": "budget_reveal"
+        },
+        {
+          "text": "「まずは実装が簡単なものから、順番に片付けていきましょう」",
+          "effects": { "quality": -5, "customer": -10 },
+          "flags": ["easy_first"],
+          "feedback": "作りやすさで並べると、事業的に一番効くものが後回しになりがち。優先順位は『作る側の都合』じゃなく『価値と締切』で決めるものだよ。",
+          "next": "budget_reveal"
+        },
+        {
+          "text": "「夏セールの売上に直結するもの・セール開始までに必須なものをMustとして、それ以外は効果と工数を見ながらShould以降に振り分けましょう」",
+          "effects": { "quality": 15, "customer": 10, "trust": 10 },
+          "flags": ["moscow_sorted"],
+          "feedback": "いいね。『セールに間に合わせる必要があるか』と『効果の大きさ』で仕分けるのが筋。これはMustだけを先に見極めるMVPの発想であり、MoSCoW法そのものだね。",
+          "next": "budget_reveal"
+        }
+      ]
+    },
+    "budget_reveal": {
+      "type": "scene",
+      "lines": [
+        { "speaker": "narration", "text": "仕分け作業の結果、Mustに分類されたのは15件。それでも3か月ギリギリのスコープだった。" },
+        { "speaker": "customer", "text": "残りの35件は……やっぱり全部やってほしいのが本音ですけど、無理は言えませんよね。" },
+        { "speaker": "senpai", "text": "(ここからが本番。『削る』んじゃなくて、『どう合意するか』だね。)" }
+      ],
+      "next": "choice_agreement"
+    },
+    "choice_agreement": {
+      "type": "choice",
+      "prompt": "Must以外の35件、どう合意を取り付ける?",
+      "options": [
+        {
+          "text": "「一旦、全部持ち帰って検討します、とお伝えします」",
+          "effects": { "trust": -10, "budget": -10 },
+          "flags": ["deferred_vague"],
+          "feedback": "『検討します』は聞こえはいいけど、いつ・誰が判断するのか曖昧なまま。あとで『言った言わない』の火種になるよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「申し訳ありませんが、残りは今回対応できません、とだけお伝えする」",
+          "effects": { "trust": -10, "customer": -15 },
+          "flags": ["cut_alone"],
+          "feedback": "理由も代わりの見通しも示さずに切ると、『勝手に削られた』という不満だけが残る。Noを言うときこそ、代替案が要る。",
+          "next": "ending"
+        },
+        {
+          "text": "「Must15件は8月のセールまでに。残りの35件はバックログとして優先順位をつけ、セール後の第2フェーズのロードマップとしてお示しします」",
+          "effects": { "trust": 15, "customer": 15, "budget": 10 },
+          "flags": ["roadmap_agreed"],
+          "feedback": "『削る』んじゃなくて『いつやるか』を見える形にできたね。合意は『何を諦めるか』じゃなく『いつやるか』の話にできると強い。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": { "flags": ["asked_priority", "moscow_sorted", "roadmap_agreed"] },
+          "lines": [
+            { "speaker": "customer", "text": "……なるほど、Mustの15件がセールまでに入って、残りも順番に来るとわかっているなら安心です。この内容で進めてください。" },
+            { "speaker": "narration", "text": "8月、夏の大セールは無事に開幕。Mustで組み込んだ機能が効いて、売上は前年を上回った。9月には約束通り、第2フェーズの開発が始まった。" },
+            { "speaker": "customer", "text": "最初に『全部』って言ったの、こっちが悪かったですね。次のリニューアルも、ぜひお願いしたいです。" }
+          ]
+        },
+        {
+          "require": { "minTotal": 230 },
+          "lines": [
+            { "speaker": "narration", "text": "何度かの調整を経て、優先順位についてはどうにか合意に至った。ただ、そこに至るまでの説明にはかなりの時間がかかった。" },
+            { "speaker": "senpai", "text": "まとまってよかった。でも、最初にもう少し掘れていたら、この行ったり来たりは要らなかったかもね。" }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            { "speaker": "narration", "text": "『とりあえず全部』のまま開発は進み、3か月後、本当に必要だった機能の一部が中途半端な形でしか間に合わなかった。夏セールの売上は伸び悩んだ。" },
+            { "speaker": "customer", "text": "結局、一番欲しかった機能が間に合ってないですよね……。次は正直、他の会社にも相談してみようと思います。" },
+            { "speaker": "senpai", "text": "……悔しいね。でも、いい教材になった。何がすれ違ったのか、一緒に振り返ろう。" }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        { "speaker": "senpai", "text": "お疲れさま。『全部、最優先で』は、要望というより『まだ優先順位をつけられていません』というサインなんだよね。それを一緒に整理するのが、私たちの仕事。" }
+      ],
+      "points": [
+        "「全部最優先」と言われたら、まず「どれが事業に一番効くか」「締切までに何が必須か」を一緒に整理する",
+        "優先順位は、声の大きさや実装のしやすさではなく、価値(事業インパクト)と締切で決める",
+        "削るのではなく「いつやるか」を示すロードマップにすると、合意も信頼も得やすい",
+        "Noと言うときは、理由と代替案(次フェーズなど)をセットで伝える"
+      ]
+    }
+  },
+  "glossary": [
+    { "term": "MoSCoW法", "def": "要望を Must(必須)・Should(重要)・Could(できれば)・Won't(今回はやらない)の4段階に分類して優先順位をつける手法。" },
+    { "term": "スコープ", "def": "今回のプロジェクトで「作る範囲」のこと。広げすぎると納期や予算を圧迫する。" },
+    { "term": "MVP", "def": "Minimum Viable Product(実用最小限の製品)。目的を達成するために必要な、最小限の機能の組み合わせ。" },
+    { "term": "ロードマップ", "def": "いつ、何を実現するかを示す中長期の計画表。「今回はやらない」を「いつかやる」に変える道具。" },
+    { "term": "バックログ", "def": "まだ着手していない要望やタスクを、優先順位をつけて並べたリスト。" }
+  ]
+}

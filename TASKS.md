@@ -6,9 +6,10 @@
 
 ## 現在の状態
 
-- コンセプト確定済み → [CONCEPT.md](CONCEPT.md)
-- git リポジトリ初期化・ディレクトリ構成作成済み
-- 次のアクション: 仕様書(design/SPEC.md)とエピソード1を作成し、サブエージェント2体に実装・シナリオ執筆を委譲する
+- **MVP 完成**。エンジン+UI+エピソード3話+スモークテスト、すべて検証済み
+- 検証内容: `node scripts/smoke-test.mjs` 全パス / 全27ルート総当たりでランク分布確認 / ローカル配信で全アセット200 / サブエージェントによる Playwright 実機通しプレイ(通しプレイ・用語ポップアップ・bestRank 保持・進捗リセット・中断confirm)
+- 修正済みの問題: ランク閾値が高すぎて S が到達不可能だった → S≥280/A≥240/B≥200 に変更(engine.js と SPEC.md 3.4)。各話 S はほぼ完璧なルート1本のみで到達可能
+- 残作業: GitHub リポジトリ作成 → push → Pages 有効化(Settings > Pages > Source: GitHub Actions)。これはユーザーのアカウント操作が必要
 
 ## 方針メモ(再開時に読む)
 
@@ -23,22 +24,23 @@
 
 ### フェーズ1: 土台(Fable 担当)
 - [x] T1: git init + ディレクトリ構成
-- [ ] T2: design/SPEC.md(データスキーマ・画面仕様・エンジン仕様)
-- [ ] T3: data/episodes/s1e1.json(エピソード1本体)
-- [ ] T4: data/index.json(エピソード一覧)
-- [ ] T5: .github/workflows/deploy.yml(GitHub Pages 自動デプロイ)
-- [ ] T6: 初回コミット
+- [x] T2: design/SPEC.md(データスキーマ・画面仕様・エンジン仕様)
+- [x] T3: data/episodes/s1e1.json(エピソード1本体)
+- [x] T4: data/index.json(エピソード一覧)
+- [x] T5: .github/workflows/deploy.yml(GitHub Pages 自動デプロイ)
+- [x] T6: 初回コミット
 
 ### フェーズ2: 実装(サブエージェント並列)
-- [ ] T7: ゲームエンジン+UI 実装(Sonnet エージェント①)
+- [x] T7: ゲームエンジン+UI 実装(Sonnet エージェント①)
   - index.html / css/style.css / js/*.js / scripts/smoke-test.mjs
-- [ ] T8: エピソード2・3 シナリオ執筆(Sonnet エージェント②)
-  - data/episodes/s1e2.json(テーマ: 優先順位付け)
-  - data/episodes/s1e3.json(テーマ: 性能要件の具体化)
+- [x] T8: エピソード2・3 シナリオ執筆(Sonnet エージェント②)完了
+  - s1e2: EC「フルフルマーケット」桜井マネージャー/MoSCoW仕分けとロードマップ合意
+  - s1e3: ホテル予約システム 橋本主任/性能要件の数値化と早期負荷試験
+  - エージェントによる検証済み(JSON妥当性・ノード参照整合・話者定義・glossary出現)。Fable の品質レビューは T9 で実施
 
 ### フェーズ3: 統合・検証(Fable 担当)
-- [ ] T9: 成果物レビュー・スモークテスト実行・修正
-- [ ] T10: ローカルサーバーで動作確認(全エピソード通し)
+- [x] T9: 成果物レビュー・スモークテスト実行・修正
+- [x] T10: ローカルサーバーで動作確認(全エピソード通し)
 - [ ] T11: コミット・完了報告(GitHub リポジトリ作成と Pages 有効化は手順を案内)
 
 ### 将来(初期リリース後)
