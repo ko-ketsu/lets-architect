@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="アオイ先輩(指導モード)の立ち絵">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182238"/><stop offset="1" stop-color="#0e1520"/>
+    </linearGradient>
+    <radialGradient id="phalo" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.09"/>
+      <stop offset="0.55" stop-color="#22d3ee" stop-opacity="0.035"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="240" height="320" fill="url(#pbg)"/>
+  <rect width="240" height="320" fill="url(#phalo)"/>
+  <path d="M120,60 C76,60 55,98 59,152 C62,190 78,212 94,220 L146,220 C162,212 178,190 181,152 C185,98 164,60 120,60 Z" fill="#233440"/>
+  <path d="M105,158 L105,226 C105,236 111,242 120,242 C129,242 135,236 135,226 L135,158 Z" fill="#e8b18c"/>
+  <path d="M105,166 C109,182 131,182 135,166 L135,186 C128,194 112,194 105,186 Z" fill="#cf8f6b"/>
+  <path d="M120,74 C91,74 77,101 79,131 C80,152 87,169 100,179 C107,185 133,185 140,179 C153,169 160,152 161,131 C163,101 149,74 120,74 Z" fill="#e8b18c"/>
+  <path d="M121,141 C119,149 117,155 114,158 C117,160 121,160 123,158" fill="none" stroke="#c98a66" stroke-width="2.2" stroke-linecap="round"/>
+  <ellipse cx="98" cy="157" rx="7" ry="4" fill="#e07a5a" opacity="0.16"/>
+  <ellipse cx="142" cy="157" rx="7" ry="4" fill="#e07a5a" opacity="0.16"/>
+  <path d="M120,68 C93,68 79,88 78,116 C78,126 79,134 81,141 C83,118 89,104 99,97 C96,109 96,121 100,130 C105,113 117,103 131,101 C143,99 153,108 156,122 C158,129 159,135 158,141 C162,132 164,119 162,106 C158,83 142,68 120,68 Z" fill="#2e4a58"/>
+  <path d="M84,98 C93,91 104,92 111,97 C103,111 99,124 100,139 C91,131 84,112 84,98 Z" fill="#2e4a58"/>
+  <path d="M99,97 C104,94 110,92 116,92" fill="none" stroke="#436475" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <path d="M131,101 C137,101 144,105 149,112" fill="none" stroke="#436475" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <path d="M94,84 Q120,72 148,86" fill="none" stroke="#4d6b7d" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+  <path d="M81,102 C68,140 69,188 84,216 C89,221 96,221 100,216 C90,194 85,156 95,120 C90,112 85,106 81,102 Z" fill="#2e4a58"/>
+  <path d="M159,102 C172,140 171,188 156,216 C151,221 144,221 140,216 C150,194 155,156 145,120 C150,112 155,106 159,102 Z" fill="#2e4a58"/>
+  <path d="M40,320 C46,246 76,220 104,214 C114,223 126,223 136,214 C164,220 194,246 200,320 Z" fill="#d7dee9"/>
+  <path d="M40,320 C46,246 76,220 104,214 L111,226 C86,234 64,262 60,320 Z" fill="#3a4a63"/>
+  <path d="M200,320 C194,246 164,220 136,214 L129,226 C154,234 176,262 180,320 Z" fill="#3a4a63"/>
+  <path d="M104,214 C110,222 130,222 136,214" fill="none" stroke="#aebacd" stroke-width="2"/>
+  <path d="M165,114 Q173,150 164,190" fill="none" stroke="#22d3ee" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <!-- 表情: ジト目(指導モード) -->
+  <path d="M90,124 Q101,123 112,128" fill="none" stroke="#33424f" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M150,124 Q139,123 128,128" fill="none" stroke="#33424f" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M92,138 L110,138" stroke="#2a333c" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M130,138 L148,138" stroke="#2a333c" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M96,143 Q101,145 106,143" fill="none" stroke="#463225" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M134,143 Q139,145 144,143" fill="none" stroke="#463225" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M111,170 Q120,168 129,170" fill="none" stroke="#b0654e" stroke-width="2.6" stroke-linecap="round"/>
+  <text x="172" y="106" fill="#67e8f9" font-size="20" opacity="0.8">…</text>
+</svg>

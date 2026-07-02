@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="丸川部長(マルカワ食品)の立ち絵">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182238"/><stop offset="1" stop-color="#0e1520"/>
+    </linearGradient>
+    <radialGradient id="phalo" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.09"/>
+      <stop offset="0.55" stop-color="#22d3ee" stop-opacity="0.035"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="240" height="320" fill="url(#pbg)"/>
+  <rect width="240" height="320" fill="url(#phalo)"/>
+  <!-- 耳 -->
+  <ellipse cx="81" cy="145" rx="7" ry="11" fill="#d9a878"/>
+  <ellipse cx="159" cy="145" rx="7" ry="11" fill="#d9a878"/>
+  <!-- 首(襟の奥まで) -->
+  <path d="M103,160 L103,226 C103,235 110,241 120,241 C130,241 137,235 137,226 L137,160 Z" fill="#d9a878"/>
+  <path d="M103,168 C108,184 132,184 137,168 L137,188 C129,196 111,196 103,188 Z" fill="#b8865c"/>
+  <!-- 顔 -->
+  <path d="M120,78 C92,78 78,103 80,134 C81,157 90,175 104,183 C112,189 128,189 136,183 C150,175 159,157 160,134 C162,103 148,78 120,78 Z" fill="#d9a878"/>
+  <!-- 白髪 -->
+  <path d="M84,118 C86,92 101,80 120,80 C139,80 154,92 156,118 C149,101 135,95 120,95 C105,95 91,101 84,118 Z" fill="#a8b0b8"/>
+  <path d="M81,122 C77,137 78,152 83,163 L91,158 C87,148 86,133 89,122 Z" fill="#a8b0b8"/>
+  <path d="M159,122 C163,137 162,152 157,163 L149,158 C153,148 154,133 151,122 Z" fill="#a8b0b8"/>
+  <!-- 額のしわ -->
+  <path d="M100,104 Q120,99 140,104" fill="none" stroke="#b8865c" stroke-width="1.8" opacity="0.55"/>
+  <path d="M103,112 Q120,107 137,112" fill="none" stroke="#b8865c" stroke-width="1.8" opacity="0.45"/>
+  <!-- 眉・目 -->
+  <path d="M92,127 L112,131" stroke="#6b7076" stroke-width="5" stroke-linecap="round"/>
+  <path d="M148,127 L128,131" stroke="#6b7076" stroke-width="5" stroke-linecap="round"/>
+  <path d="M95,142 Q101,139 107,142" fill="none" stroke="#3d3128" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M145,142 Q139,139 133,142" fill="none" stroke="#3d3128" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M96,148 Q101,150 106,148" fill="none" stroke="#b8865c" stroke-width="1.6" opacity="0.6"/>
+  <path d="M134,148 Q139,150 144,148" fill="none" stroke="#b8865c" stroke-width="1.6" opacity="0.6"/>
+  <!-- 眼鏡 -->
+  <rect x="88" y="133" width="26" height="19" rx="4" fill="none" stroke="#c9d4e2" stroke-width="2.2"/>
+  <rect x="126" y="133" width="26" height="19" rx="4" fill="none" stroke="#c9d4e2" stroke-width="2.2"/>
+  <line x1="114" y1="141" x2="126" y2="141" stroke="#c9d4e2" stroke-width="2.2"/>
+  <line x1="88" y1="141" x2="81" y2="142" stroke="#c9d4e2" stroke-width="2"/>
+  <line x1="152" y1="141" x2="159" y2="142" stroke="#c9d4e2" stroke-width="2"/>
+  <!-- 鼻・ほうれい線 -->
+  <path d="M121,144 C119,154 116,161 112,165 C117,168 123,167 126,164" fill="none" stroke="#b8865c" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M104,162 Q101,170 103,176" fill="none" stroke="#b8865c" stroke-width="1.6" opacity="0.5"/>
+  <path d="M136,162 Q139,170 137,176" fill="none" stroke="#b8865c" stroke-width="1.6" opacity="0.5"/>
+  <!-- 口ひげ・口 -->
+  <path d="M104,172 C110,168 130,168 136,172 C130,177 110,177 104,172 Z" fill="#8f979f"/>
+  <path d="M110,184 Q120,180 130,184" fill="none" stroke="#7a5b40" stroke-width="2.6" stroke-linecap="round"/>
+  <!-- スーツ -->
+  <path d="M36,320 C42,242 76,216 104,210 C114,219 126,219 136,210 C164,216 198,242 204,320 Z" fill="#26314a"/>
+  <path d="M104,210 L120,234 L136,210 L131,254 L120,264 L109,254 Z" fill="#dfe6f0"/>
+  <path d="M116,220 L124,220 L128,274 L120,288 L112,274 Z" fill="#8b3a3a"/>
+  <path d="M104,210 L88,246 L104,270" fill="none" stroke="#1c2536" stroke-width="3"/>
+  <path d="M136,210 L152,246 L136,270" fill="none" stroke="#1c2536" stroke-width="3"/>
+  <!-- リムライト -->
+  <path d="M162,118 Q169,150 160,188" fill="none" stroke="#22d3ee" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+</svg>

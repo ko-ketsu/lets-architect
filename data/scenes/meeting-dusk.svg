@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="夕方の会議室。窓の外に夕焼けの街、スクリーンには構成図">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2c4d"/>
+      <stop offset="0.62" stop-color="#4a3a54"/>
+      <stop offset="1" stop-color="#a05f43"/>
+    </linearGradient>
+    <linearGradient id="room" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c1220"/><stop offset="1" stop-color="#131c2d"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="300" fill="url(#room)"/>
+  <rect x="42" y="34" width="330" height="168" rx="6" fill="url(#sky)"/>
+  <circle cx="300" cy="150" r="22" fill="#f0b26a" opacity="0.9"/>
+  <path d="M42,202 L42,168 L74,168 L74,140 L104,140 L104,180 L138,180 L138,120 L166,120 L166,166 L198,166 L198,146 L232,146 L232,184 L262,184 L262,158 L296,158 L296,190 L330,190 L330,170 L372,170 L372,202 Z" fill="#0f1626"/>
+  <line x1="152" y1="34" x2="152" y2="202" stroke="#0c1220" stroke-width="7"/>
+  <line x1="262" y1="34" x2="262" y2="202" stroke="#0c1220" stroke-width="7"/>
+  <rect x="42" y="34" width="330" height="168" rx="6" fill="none" stroke="#2a3549" stroke-width="3"/>
+  <rect x="428" y="40" width="176" height="126" rx="4" fill="#101b2b" stroke="#2a3549" stroke-width="2"/>
+  <rect x="446" y="58" width="42" height="22" rx="4" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.85"/>
+  <rect x="518" y="58" width="42" height="22" rx="4" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.85"/>
+  <path d="M480,120 m-18,0 a18,7 0 1,0 36,0 a18,7 0 1,0 -36,0 M462,120 l0,18 a18,7 0 0,0 36,0 l0,-18" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.85"/>
+  <line x1="467" y1="80" x2="478" y2="110" stroke="#22d3ee" stroke-width="1.5" opacity="0.6"/>
+  <line x1="539" y1="80" x2="486" y2="110" stroke="#22d3ee" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="560" cy="120" r="9" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.9"/>
+  <line x1="560" y1="115" x2="560" y2="121" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="560" cy="125" r="1.4" fill="#f59e0b"/>
+  <path d="M0,300 L70,212 L570,212 L640,300 Z" fill="#1c2536"/>
+  <line x1="70" y1="212" x2="570" y2="212" stroke="#31405c" stroke-width="2"/>
+  <ellipse cx="320" cy="212" rx="230" ry="26" fill="#e9eef6" opacity="0.03"/>
+  <path d="M236,206 L288,206 L296,226 L228,226 Z" fill="#0b111c"/>
+  <rect x="240" y="184" width="44" height="24" rx="2" fill="#0b111c"/>
+  <rect x="243" y="187" width="38" height="18" rx="1.5" fill="#173042"/>
+  <circle cx="408" cy="118" r="15" fill="#0b111c"/>
+  <path d="M386,212 Q388,142 408,138 Q428,142 430,212 Z" fill="#0b111c"/>
+  <path d="M424,158 Q446,150 452,132" fill="none" stroke="#0b111c" stroke-width="10" stroke-linecap="round"/>
+  <path d="M420,116 Q424,136 420,150" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+  <circle cx="150" cy="164" r="14" fill="#0b111c"/>
+  <path d="M124,212 Q128,184 150,182 Q172,184 176,212 Z" fill="#0b111c"/>
+</svg>
