@@ -270,8 +270,11 @@ export function createPlayScreen(episode, { onQuit }) {
   }
 
   function showChoice(node, onChoose) {
+    // 選択肢ボタン内の用語ハイライトは行わない。<button> の中に
+    // <button class="glossary-term"> を入れ子にすると HTML として不正で、
+    // パーサーが外側のボタンを分断してテキストがはみ出すため。
     const optionsHtml = node.options.map((opt, i) => `
-      <button type="button" class="choice-option" data-index="${i}">${highlightGlossary(opt.text, episode.glossary)}</button>
+      <button type="button" class="choice-option" data-index="${i}">${escapeHtml(opt.text)}</button>
     `).join('');
     main.innerHTML = `
       <div class="choice-box">
@@ -280,8 +283,7 @@ export function createPlayScreen(episode, { onQuit }) {
       </div>
     `;
     main.querySelectorAll('.choice-option').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        if (e.target.closest('.glossary-term')) return;
+      btn.addEventListener('click', () => {
         onChoose(Number(btn.dataset.index));
       });
     });
