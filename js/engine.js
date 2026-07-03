@@ -151,6 +151,12 @@ export function validateEpisode(episode) {
 
   if (!episode.characters || typeof episode.characters !== 'object') {
     errors.push('characters must be an object');
+  } else {
+    for (const [key, ch] of Object.entries(episode.characters)) {
+      if (ch && 'portrait' in ch && typeof ch.portrait !== 'string') {
+        errors.push(`characters.${key}.portrait must be a string`);
+      }
+    }
   }
 
   if (!episode.nodes || typeof episode.nodes !== 'object') {
@@ -188,7 +194,28 @@ export function validateEpisode(episode) {
       if (!line || typeof line.text !== 'string' || line.text.length === 0) {
         errors.push(`${where}: line[${i}] missing text`);
       }
+      if (line && 'portrait' in line && typeof line.portrait !== 'string') {
+        errors.push(`${where}: line[${i}].portrait must be a string`);
+      }
     });
+  };
+
+  // SPEC 8.1: scene/choice ノードの任意フィールド image = { src, caption?, alt }
+  const checkImage = (image, where) => {
+    if (image === undefined) return;
+    if (!image || typeof image !== 'object') {
+      errors.push(`${where}: image must be an object`);
+      return;
+    }
+    if (typeof image.src !== 'string' || image.src.length === 0) {
+      errors.push(`${where}: image.src must be a non-empty string`);
+    }
+    if (typeof image.alt !== 'string' || image.alt.length === 0) {
+      errors.push(`${where}: image.alt is required and must be a non-empty string`);
+    }
+    if ('caption' in image && typeof image.caption !== 'string') {
+      errors.push(`${where}: image.caption must be a string`);
+    }
   };
 
   for (const [id, node] of Object.entries(episode.nodes)) {
@@ -200,6 +227,7 @@ export function validateEpisode(episode) {
     switch (node.type) {
       case 'scene': {
         checkLines(node.lines, where);
+        checkImage(node.image, where);
         checkNext(node.next, where);
         break;
       }
@@ -207,6 +235,7 @@ export function validateEpisode(episode) {
         if (typeof node.prompt !== 'string' || node.prompt.length === 0) {
           errors.push(`${where}: choice requires prompt`);
         }
+        checkImage(node.image, where);
         if (!Array.isArray(node.options) || node.options.length === 0) {
           errors.push(`${where}: choice requires non-empty options`);
         } else {

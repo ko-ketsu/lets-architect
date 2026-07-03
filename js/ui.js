@@ -50,6 +50,33 @@ function highlightGlossary(text, glossary) {
   return html;
 }
 
+/** data/ 配下の相対パスを実際に fetch 可能な相対 URL に変換する。 */
+function assetPath(relPath) {
+  return `./data/${relPath}`;
+}
+
+/** SPEC 8.1: scene/choice ノードの image フィールドを描画する figure マークアップ。image が無ければ空文字。 */
+function nodeImageHtml(image) {
+  if (!image || !image.src) return '';
+  const src = assetPath(image.src);
+  const alt = escapeHtml(image.alt || '');
+  return `
+    <figure class="node-image">
+      <div class="node-image-scroll">
+        <img class="node-image-img" src="${escapeHtml(src)}" alt="${alt}" data-full-src="${escapeHtml(src)}" data-full-alt="${alt}">
+      </div>
+      ${image.caption ? `<figcaption class="node-image-caption">${escapeHtml(image.caption)}</figcaption>` : ''}
+    </figure>
+  `;
+}
+
+/** SPEC 9.1: portrait(立ち絵)フレームの HTML。src が無ければ空文字。 */
+function portraitFrameHtml(portraitSrc, name) {
+  if (!portraitSrc) return '';
+  const alt = escapeHtml(`${name || ''}の立ち絵`);
+  return `<div class="portrait-frame"><img class="portrait-img" src="${escapeHtml(assetPath(portraitSrc))}" alt="${alt}"></div>`;
+}
+
 function meterBarHtml(key, value) {
   const meta = PARAM_META[key];
   return `
@@ -63,6 +90,13 @@ function meterBarHtml(key, value) {
 
 function rankLabel(rank) {
   return rank || '-';
+}
+
+/** difficulty(1〜3)を ★☆☆〜★★★ の文字列にする。範囲外や未指定は空文字。 */
+function difficultyStars(difficulty) {
+  const n = Number(difficulty);
+  if (!Number.isInteger(n) || n < 1 || n > 3) return '';
+  return '★'.repeat(n) + '☆'.repeat(3 - n);
 }
 
 // ---------------------------------------------------------------------------
@@ -118,7 +152,7 @@ export function renderEpisodeSelect({ index, progress, onSelect, onBack }) {
             ${badge}
           </div>
           <p class="episode-card-summary">${escapeHtml(ep.summary)}</p>
-          <p class="episode-card-meta">所要時間 目安 ${escapeHtml(String(ep.estimatedMinutes))} 分</p>
+          <p class="episode-card-meta">所要時間 目安 ${escapeHtml(String(ep.estimatedMinutes))} 分${difficultyStars(ep.difficulty) ? ` ・ 難易度 <span class="episode-card-difficulty" aria-label="難易度${ep.difficulty}">${difficultyStars(ep.difficulty)}</span>` : ''}</p>
         </button>
       `;
     }).join('');
@@ -173,6 +207,10 @@ export function createPlayScreen(episode, { onQuit }) {
           <button type="button" class="btn btn-ghost" data-action="close-glossary">閉じる</button>
         </div>
       </div>
+      <div class="image-modal" id="image-modal" tabindex="-1" hidden>
+        <button type="button" class="image-modal-close" aria-label="閉じる">×</button>
+        <img class="image-modal-img" id="image-modal-img" src="" alt="">
+      </div>
     </div>
   `;
 
@@ -180,6 +218,8 @@ export function createPlayScreen(episode, { onQuit }) {
   const popup = root().querySelector('#glossary-popup');
   const popupTerm = root().querySelector('#glossary-popup-term');
   const popupDef = root().querySelector('#glossary-popup-def');
+  const imageModal = root().querySelector('#image-modal');
+  const imageModalImg = root().querySelector('#image-modal-img');
 
   function characterName(speaker) {
     if (speaker === 'narration') return null;
@@ -204,7 +244,31 @@ export function createPlayScreen(episode, { onQuit }) {
     }
   });
 
+  function openImageModal(src, alt) {
+    imageModalImg.src = src;
+    imageModalImg.alt = alt || '';
+    imageModal.hidden = false;
+    imageModal.focus({ preventScroll: true });
+  }
+
+  function closeImageModal() {
+    imageModal.hidden = true;
+    imageModalImg.src = '';
+  }
+
+  // 図解の拡大モーダル: タップ(画像・背景・閉じるボタンのどこでも) or Esc で閉じる。
+  imageModal.addEventListener('click', () => closeImageModal());
+  imageModal.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeImageModal();
+  });
+
   main.addEventListener('click', (e) => {
+    const imageEl = e.target.closest('.node-image-img');
+    if (imageEl) {
+      e.stopPropagation();
+      openImageModal(imageEl.dataset.fullSrc, imageEl.dataset.fullAlt);
+      return;
+    }
     const termBtn = e.target.closest('.glossary-term');
     if (termBtn) {
       e.stopPropagation();
@@ -228,19 +292,28 @@ export function createPlayScreen(episode, { onQuit }) {
     }
   }
 
-  function renderMessageLine(speaker, text, onAdvance, advanceLabel) {
+  /** speaker/line から portrait 画像パスを解決する。line.portrait が優先。 */
+  function resolvePortrait(speaker, line) {
+    return line?.portrait || episode.characters?.[speaker]?.portrait || null;
+  }
+
+  function renderMessageLine(speaker, text, onAdvance, advanceLabel, image, portraitSrc) {
     const name = characterName(speaker);
     main.innerHTML = `
-      <div class="message-box" tabindex="0" role="button">
-        ${name ? `<p class="message-speaker">${escapeHtml(name)}</p>` : ''}
-        <p class="message-text ${name ? '' : 'is-narration'}">${highlightGlossary(text, episode.glossary)}</p>
-        <p class="message-advance">${escapeHtml(advanceLabel || '▶ タップして続ける')}</p>
+      <div class="message-row ${portraitSrc ? 'has-portrait' : ''}">
+        ${portraitFrameHtml(portraitSrc, name)}
+        <div class="message-box" tabindex="0" role="button">
+          ${nodeImageHtml(image)}
+          ${name ? `<p class="message-speaker">${escapeHtml(name)}</p>` : ''}
+          <p class="message-text ${name ? '' : 'is-narration'}">${highlightGlossary(text, episode.glossary)}</p>
+          <p class="message-advance">${escapeHtml(advanceLabel || '▶ タップして続ける')}</p>
+        </div>
       </div>
     `;
     const box = main.querySelector('.message-box');
     const advance = (e) => {
-      // 用語ボタンのクリックでは先に進めない。
-      if (e && e.target && e.target.closest && e.target.closest('.glossary-term')) return;
+      // 用語ボタン・図解のクリックでは先に進めない(モーダル表示やポップアップに専念させる)。
+      if (e && e.target && e.target.closest && (e.target.closest('.glossary-term') || e.target.closest('.node-image'))) return;
       onAdvance();
     };
     box.addEventListener('click', advance);
@@ -253,8 +326,8 @@ export function createPlayScreen(episode, { onQuit }) {
     box.focus({ preventScroll: true });
   }
 
-  /** lines を1行ずつ表示し、最後の行の後に onComplete を呼ぶ。 */
-  function showLines(lines, onComplete) {
+  /** lines を1行ずつ表示し、最後の行の後に onComplete を呼ぶ。image はノード共通(scene の image)。 */
+  function showLines(lines, onComplete, image) {
     let i = 0;
     const showNext = () => {
       if (i >= lines.length) {
@@ -264,7 +337,8 @@ export function createPlayScreen(episode, { onQuit }) {
       const line = lines[i];
       const isLast = i === lines.length - 1;
       i += 1;
-      renderMessageLine(line.speaker, line.text, showNext, isLast ? '▶ 次へ' : '▶ タップして続ける');
+      const portraitSrc = resolvePortrait(line.speaker, line);
+      renderMessageLine(line.speaker, line.text, showNext, isLast ? '▶ 次へ' : '▶ タップして続ける', image, portraitSrc);
     };
     showNext();
   }
@@ -278,6 +352,7 @@ export function createPlayScreen(episode, { onQuit }) {
     `).join('');
     main.innerHTML = `
       <div class="choice-box">
+        ${nodeImageHtml(node.image)}
         <p class="choice-prompt">${highlightGlossary(node.prompt, episode.glossary)}</p>
         <div class="choice-options">${optionsHtml}</div>
       </div>
@@ -300,11 +375,14 @@ export function createPlayScreen(episode, { onQuit }) {
       }).join('');
 
     main.innerHTML = `
-      <div class="feedback-card" tabindex="0" role="button">
-        <p class="feedback-label">アオイ先輩</p>
-        <p class="feedback-text">${highlightGlossary(option.feedback || '', episode.glossary)}</p>
-        <div class="feedback-deltas">${deltaItems || '<span class="delta delta-none">変化なし</span>'}</div>
-        <p class="message-advance">▶ タップして続ける</p>
+      <div class="message-row has-portrait">
+        ${portraitFrameHtml('portraits/aoi-dry.svg', 'アオイ先輩')}
+        <div class="feedback-card" tabindex="0" role="button">
+          <p class="feedback-label">アオイ先輩</p>
+          <p class="feedback-text">${highlightGlossary(option.feedback || '', episode.glossary)}</p>
+          <div class="feedback-deltas">${deltaItems || '<span class="delta delta-none">変化なし</span>'}</div>
+          <p class="message-advance">▶ タップして続ける</p>
+        </div>
       </div>
     `;
     const card = main.querySelector('.feedback-card');
@@ -352,6 +430,7 @@ export function renderResult({ episode, result, isNewBest, onReplay, onSelect })
         <span class="result-rank-value">${rankLabel(result.rank)}</span>
         ${isNewBest ? '<span class="result-rank-new">自己ベスト更新!</span>' : ''}
       </div>
+      ${result.rank !== 'S' ? '<p class="result-replay-hint">Sルートはこの話に1本だけ。ヒアリングの選び方から見直してみよう。</p>' : ''}
       <div class="result-meters">${barsHtml}</div>
       <section class="result-debrief">
         <h2>持ち帰りメモ</h2>

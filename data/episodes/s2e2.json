@@ -1,0 +1,819 @@
+{
+  "id": "s2e2",
+  "season": 2,
+  "title": "使いにくいAPIはこうして生まれる",
+  "summary": "パートナー企業「コネクタ」への公開API連携。シーケンス図に隠れた「1画面表示に何往復も呼ぶ」チャッティなAPIの正体に気づけるか。",
+  "estimatedMinutes": 10,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    },
+    "customer": {
+      "name": "五十嵐リーダー(コネクタ)",
+      "role": "customer",
+      "portrait": "portraits/igarashi.svg"
+    }
+  },
+  "params": {
+    "customer": 50,
+    "quality": 50,
+    "budget": 50,
+    "trust": 50
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "パートナー企業「コネクタ」は、ライトブリッジの公開APIを使って自社アプリに商品の一覧画面を作ろうとしている。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "先方の五十嵐さんはスピード重視。とにかく早く連携したい、というのが今日のテーマ。"
+        },
+        {
+          "speaker": "customer",
+          "text": "御社のAPI、ドキュメント見ながらもう繋いでみたんですけど……一覧画面、表示に何秒もかかっちゃって。早くリリースしたいので、原因サクッと教えてもらえます?"
+        },
+        {
+          "speaker": "narration",
+          "text": "打ち合わせは残り15分。聞けるのはあと2つだけだ。"
+        }
+      ],
+      "next": "hearing1"
+    },
+    "hearing1": {
+      "type": "choice",
+      "prompt": "時間は限られている。まず何を聞く?(このあと、もう1問だけ聞ける)",
+      "options": [
+        {
+          "text": "「その一覧画面、何秒以内に表示できれば御社としてOKですか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "目標値を数字で聞けたのは良い。判断の物差しになる。",
+          "next": "hearing2_q1"
+        },
+        {
+          "text": "「在庫の数は、リアルタイムで見せたいですか?多少ズレても大丈夫ですか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "地味だけど鋭い質問。キャッシュしていいかどうかを決める分かれ道だよ。",
+          "next": "hearing2_q2"
+        },
+        {
+          "text": "「御社側からAPIを呼ぶとき、同時にどれくらいの件数を扱う想定ですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "規模感は大事だけど、今日の一番の悩みどころとは少しずれてるかな。",
+          "next": "hearing2_q3"
+        },
+        {
+          "text": "「御社のロゴ、一覧画面のどのあたりに出したいですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "見た目の相談は大事だけど、今日の15分でそれを聞く?表示が遅い原因を先に詰めるべきだよね。",
+          "next": "hearing2_q4"
+        }
+      ]
+    },
+    "hearing2_q1": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「在庫の数は、リアルタイムで見せたいですか?多少ズレても大丈夫ですか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "この2問目が効いてくる。よく選んだ。",
+          "next": "answer_q1q2"
+        },
+        {
+          "text": "「御社側からAPIを呼ぶとき、同時にどれくらいの件数を扱う想定ですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "規模感は把握できた。ただ今日の悩みの核心には触れずじまい。",
+          "next": "answer_q1q3"
+        },
+        {
+          "text": "「御社のロゴ、一覧画面のどのあたりに出したいですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "残り1問をこれに使うのはもったいない。",
+          "next": "answer_q1q4"
+        }
+      ]
+    },
+    "hearing2_q2": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「その一覧画面、何秒以内に表示できれば御社としてOKですか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "目標値も掴めた。良い組み合わせ。",
+          "next": "answer_q1q2"
+        },
+        {
+          "text": "「御社側からAPIを呼ぶとき、同時にどれくらいの件数を扱う想定ですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "規模感は把握できた。",
+          "next": "answer_q2q3"
+        },
+        {
+          "text": "「御社のロゴ、一覧画面のどのあたりに出したいですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "せっかくの2問目をこれに使うのはもったいない。",
+          "next": "answer_q2q4"
+        }
+      ]
+    },
+    "hearing2_q3": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「その一覧画面、何秒以内に表示できれば御社としてOKですか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "目標値は掴めたね。",
+          "next": "answer_q1q3"
+        },
+        {
+          "text": "「在庫の数は、リアルタイムで見せたいですか?多少ズレても大丈夫ですか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "この質問、実はさっき聞いておきたかったやつ。今からでも聞けてよかった。",
+          "next": "answer_q2q3"
+        },
+        {
+          "text": "「御社のロゴ、一覧画面のどのあたりに出したいですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "うーん、この2問目はもったいない。",
+          "next": "answer_q3q4"
+        }
+      ]
+    },
+    "hearing2_q4": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「その一覧画面、何秒以内に表示できれば御社としてOKですか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "せめてこれは聞けた。",
+          "next": "answer_q1q4"
+        },
+        {
+          "text": "「在庫の数は、リアルタイムで見せたいですか?多少ズレても大丈夫ですか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "ぎりぎりで核心の質問を拾えた。",
+          "next": "answer_q2q4"
+        },
+        {
+          "text": "「御社側からAPIを呼ぶとき、同時にどれくらいの件数を扱う想定ですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "規模感は把握できた。",
+          "next": "answer_q3q4"
+        }
+      ]
+    },
+    "answer_q1q2": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "表示速度ですか。まあ体感で1秒以内には出したいですね。モバイル回線で見るユーザーも多いので。"
+        },
+        {
+          "speaker": "customer",
+          "text": "在庫は……そこまで厳密じゃなくていいです。多少古くても、1分くらいのズレなら全然問題ないですよ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……1秒以内、それと在庫はズレてもいい。この2つ、覚えておいて。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q1q3": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "表示速度ですか。まあ体感で1秒以内には出したいですね。モバイル回線で見るユーザーも多いので。"
+        },
+        {
+          "speaker": "customer",
+          "text": "同時に扱う件数?一覧には大体20件くらい並べる予定です。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q1q4": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "表示速度ですか。まあ体感で1秒以内には出したいですね。モバイル回線で見るユーザーも多いので。"
+        },
+        {
+          "speaker": "customer",
+          "text": "ロゴですか、一覧の左上あたりでいいと思います。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q2q3": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "在庫は……そこまで厳密じゃなくていいです。多少古くても、1分くらいのズレなら全然問題ないですよ。"
+        },
+        {
+          "speaker": "customer",
+          "text": "同時に扱う件数?一覧には大体20件くらい並べる予定です。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "在庫は多少ズレてもいい、大事な情報だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q2q4": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "在庫は……そこまで厳密じゃなくていいです。多少古くても、1分くらいのズレなら全然問題ないですよ。"
+        },
+        {
+          "speaker": "customer",
+          "text": "ロゴですか、一覧の左上あたりでいいと思います。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "在庫はズレてもいいって聞けたね。それが今日一番の収穫かも。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q3q4": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "同時に扱う件数?一覧には大体20件くらい並べる予定です。"
+        },
+        {
+          "speaker": "customer",
+          "text": "ロゴですか、一覧の左上あたりでいいと思います。"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……在庫がリアルタイムじゃなきゃダメかどうか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "briefing_done": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "打ち合わせの時間切れ。実際に一覧画面がどんな通信をしているか、記録したシーケンス図をアオイ先輩と確認することになった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "これが実際の通信ログを図にしたもの。まずは、何が起きてるか数えてみよう。"
+        }
+      ],
+      "next": "screen_mockup"
+    },
+    "screen_mockup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "コネクタの開発担当からもメールが届いた。「一覧に20件表示するだけなのに、通信がやたら多い気がします」。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "実際に何往復してるか、図で数えてみよう。"
+        }
+      ],
+      "next": "design_choice_1"
+    },
+    "design_choice_1": {
+      "type": "choice",
+      "prompt": "このシーケンス図を見ると、一覧画面の表示に何往復のAPI呼び出しが必要?この状況、どう対応する?",
+      "image": {
+        "src": "diagrams/s2e2-seq.svg",
+        "caption": "実際の通信ログ: 商品一覧20件を表示するときのAPI呼び出し",
+        "alt": "商品一覧を1回取得した後、商品20件それぞれについて価格取得APIと在庫取得APIを個別に呼び出しているシーケンス図"
+      },
+      "options": [
+        {
+          "text": "「今のAPIはリソースごとに分かれていて設計としては正しいです。呼び出し側でキャッシュしてもらいましょう」",
+          "effects": {
+            "budget": 8,
+            "quality": -18,
+            "customer": -10
+          },
+          "flags": [
+            "blame_consumer"
+          ],
+          "feedback": "リソースを細かく分けるREST設計は、呼び出し側が呼び出し回数を自由にコントロールできて負荷も低い場合には正しい。でも今回は1画面で41往復という規模で、モバイル回線のユーザーも多い。呼び出し側任せにするには無理があるよ。",
+          "next": "d1_reaction_blame"
+        },
+        {
+          "text": "「一覧表示に必要な情報(価格・在庫込み)をまとめて返す複合エンドポイントを新設しましょう」",
+          "effects": {
+            "quality": 14,
+            "customer": 9,
+            "budget": -8,
+            "trust": 6
+          },
+          "flags": [
+            "batch_endpoint"
+          ],
+          "feedback": "正解。図を数えると、20件の一覧のために価格APIと在庫APIをそれぞれ20回ずつ、合計41回も往復している。まとめて返す複合エンドポイントにすれば1〜2往復で済む。",
+          "next": "d1_reaction_good"
+        },
+        {
+          "text": "「GraphQLに全面切り替えして、必要なデータを1回で取れるようにしましょう」",
+          "effects": {
+            "quality": 6,
+            "budget": -20,
+            "trust": -5
+          },
+          "flags": [
+            "silver_bullet"
+          ],
+          "feedback": "GraphQLへの全面移行は、複数の画面・複数のクライアントが多様な組み合わせでデータを取りたい大規模システムなら正解になりうる。でも今回は『早く連携したい』というスピード重視の案件。複合エンドポイント1本で足りるところを、基盤ごと作り直すのはやりすぎだよ。",
+          "next": "d1_reaction_silverbullet"
+        },
+        {
+          "text": "「並列でリクエストを一気に投げれば、体感速度は速くなります。呼び出し方だけ変えてもらいましょう」",
+          "effects": {
+            "customer": -15,
+            "trust": -8,
+            "quality": -5
+          },
+          "flags": [
+            "parallelize_only"
+          ],
+          "feedback": "並列化は往復の『待ち時間』を減らす効果はあるけど、リクエストの『数』そのものは41回のままで減っていない。サーバー負荷やレート制限には効かないし、根本のチャッティな設計は温存されるよ。",
+          "next": "d1_reaction_parallel"
+        }
+      ]
+    },
+    "d1_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。『呼び出し回数を減らす』のが先。細かい最適化はその後の話だよ。"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_blame": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "モバイル回線で41往復のキャッシュ管理、コネクタさん側にそこまで背負わせるの?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_silverbullet": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "気持ちは分かるけど、それ、今日のスケジュール感に入ってたっけ?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_parallel": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "呼び出しの『数』は減ってないよね。サーバーは相変わらず41回さばくことになるよ。"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "design_choice_2": {
+      "type": "choice",
+      "prompt": "在庫の値はどう扱う?キャッシュ方針、どう設計する?",
+      "image": {
+        "src": "diagrams/s2e2-seq.svg",
+        "caption": "同じシーケンス図: 在庫取得の呼び出し回数に注目",
+        "alt": "商品一覧を1回取得した後、商品20件それぞれについて価格取得APIと在庫取得APIを個別に呼び出しているシーケンス図"
+      },
+      "options": [
+        {
+          "text": "「在庫は常に最新であるべきなので、複合エンドポイントでも都度DBへ直接問い合わせる形にしましょう」",
+          "effects": {
+            "budget": 5,
+            "customer": -18,
+            "quality": -10
+          },
+          "flags": [
+            "strict_realtime"
+          ],
+          "feedback": "在庫を1件のズレも許さず即時反映したいなら、都度DB問い合わせやプッシュ通知の仕組みは正しい選択になる。でも今回は『1分くらいのズレなら問題ない』と聞けているのに、そこまで厳密にする必要はないよ。",
+          "next": "d2_reaction_strict"
+        },
+        {
+          "text": "「在庫の取得だけは複合エンドポイントに含めず、今まで通り別のAPIのままにしておきましょう」",
+          "effects": {
+            "quality": 8,
+            "budget": -18,
+            "trust": -5
+          },
+          "flags": [
+            "stock_left_separate"
+          ],
+          "feedback": "在庫だけ特別扱いして残す設計は、在庫が極端に更新頻度の高い特殊なデータで、他の情報と一緒に扱うと事故る場合には理にかなう。でも今回はそこまでの特殊事情はなく、これでは41往復のうち半分ほどがそのまま残ってしまうよ。",
+          "next": "d2_reaction_separate"
+        },
+        {
+          "text": "「在庫は変動が多くて面倒なので、一覧には『在庫あり』か『在庫なし』かの2択だけ表示するようにしましょう」",
+          "effects": {
+            "customer": -8,
+            "quality": -10,
+            "budget": 4
+          },
+          "flags": [
+            "oversimplified_stock"
+          ],
+          "feedback": "在庫を2択に単純化するのは、そもそも数量の情報が要らない業務なら悪くない割り切り。でも五十嵐さんはあくまで在庫「数」を一覧に出したいと言っていたよね。要望より実装都合を優先してしまっているよ。",
+          "next": "d2_reaction_oversimplified"
+        },
+        {
+          "text": "「複合エンドポイントの在庫情報は、短い時間(30秒程度)だけキャッシュしたものを返すようにしましょう」",
+          "effects": {
+            "quality": 10,
+            "customer": 10,
+            "budget": -3,
+            "trust": 6
+          },
+          "flags": [
+            "short_ttl_cache"
+          ],
+          "feedback": "正解。在庫は多少ズレても構わないと聞けている。短いTTLのキャッシュで負荷を抑えつつ、実用上困らない鮮度を両立できる。",
+          "next": "d2_reaction_good"
+        }
+      ]
+    },
+    "d2_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "これで負荷も鮮度も、ちょうどいいところに落ち着いたね。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_strict": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "多少のズレは平気って、さっき五十嵐さん自身が言ってたよね?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_separate": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "せっかく価格側をまとめたのに、在庫側の呼び出しがそのまま残ってるよ。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_oversimplified": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "呼び出し回数は減らせても、欲しい情報が出せなくなったら本末転倒だよ。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "budget_reveal": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "ちなみに、このAPIリニューアル、再来週にはリリースしたいんです。うち、開発リソースあんまり余裕ないので、そのつもりで。"
+        },
+        {
+          "speaker": "customer",
+          "text": "あ、あと言い忘れてましたけど、来月からうち以外にも2社くらいこのAPI使う予定らしいですよ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……再来週リリース、そして来月には利用者が増える。さあ、どう提案する?"
+        }
+      ],
+      "next": "final_choice"
+    },
+    "final_choice": {
+      "type": "choice",
+      "prompt": "再来週リリース・開発リソースも限られる中、この変更をどう進める?",
+      "options": [
+        {
+          "text": "「どうせ他社も使うので、再来週にはこだわらず認証基盤やレート制限機能もまとめて作り込みましょう」",
+          "effects": {
+            "budget": -25,
+            "trust": -10,
+            "customer": 5
+          },
+          "flags": [
+            "scope_creep"
+          ],
+          "feedback": "利用者が増える将来を見据えて足回りを固めるのは、リリースに余裕があるなら歓迎される判断。でも再来週というスケジュールがあるのに機能を積み増すのは、今回守るべき納期を危うくするよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「開発リソースが厳しいので、複合エンドポイントの計画自体を今回は見送りましょうと提案します」",
+          "effects": {
+            "customer": -20,
+            "trust": -5,
+            "budget": 10
+          },
+          "flags": [
+            "dropped_core_need"
+          ],
+          "feedback": "本当に手が足りないなら見送る判断もありえる。でも今見送ろうとしているのは、遅いと最初に指摘された表示速度の問題そのもの。優先順位が逆だよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「まずは複合エンドポイントと短いキャッシュを再来週までに用意し、他社が増えても使える形にして展開します」",
+          "effects": {
+            "quality": 2,
+            "customer": 10,
+            "budget": 14,
+            "trust": 4
+          },
+          "flags": [
+            "scope_disciplined"
+          ],
+          "feedback": "正解。今決めた複合エンドポイント+短TTLキャッシュはコネクタ以外の利用者が増えても通用する設計。追加の作り込みをせず、再来週というスケジュールに収めた判断だよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「とにかく時間がないので、細かい設計は省いてすぐに実装に入りましょう」",
+          "effects": {
+            "quality": -15,
+            "budget": 5,
+            "trust": -8
+          },
+          "flags": [
+            "rushed_no_plan"
+          ],
+          "feedback": "本当に単純な変更ならスピード優先も分かる。でも複数社が使うAPIの形を詰めきらないまま着手すると、さっき決めたキャッシュ方針のような肝心な設計が抜け落ちるリスクが高いよ。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": {
+            "flags": [
+              "asked_q2",
+              "batch_endpoint",
+              "short_ttl_cache",
+              "scope_disciplined"
+            ],
+            "minTotal": 280
+          },
+          "lines": [
+            {
+              "speaker": "customer",
+              "text": "うわ、速い!体感1秒切ってますね。しかも在庫のズレも全然気にならないです。これなら安心してリリースできます。"
+            },
+            {
+              "speaker": "narration",
+              "text": "再来週、予定通りリリース。翌月には2社目・3社目のパートナーもこの複合エンドポイントを使い始めたが、追加の作り込みなしにそのまま耐えられた。"
+            },
+            {
+              "speaker": "customer",
+              "text": "他社さんの分もサクッと繋げましたよ。最初から良い設計にしといてもらって助かりました。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 240
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "何とか再来週のリリースには間に合った。体感速度も改善したが、一部の判断は後になって効いてきた。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "結果オーライ、ではあるけどね。もう少し早く核心の情報に気づけていたら、もっと迷わずに進めたと思うよ。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 200
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "リリースはしたものの、稼働直後に「まだ画面が重い」「在庫の表示がおかしい」という問い合わせが相次いだ。原因調査と急ぎの修正対応に、開発チームは追われることになった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "急いで直してもらえるのはありがたいですけど……最初から気づいといてほしかったです。"
+            }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "再来週のリリースには間に合わず、コネクタ側のアプリのローンチも延期。他社パートナーへの展開計画も見直しになった。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……悔しいね。でも、ここまでの判断のどこがズレたのか、一緒に振り返ろう。"
+            }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "お疲れさま。今日のテーマは『使いにくいAPIが生まれる瞬間』。ドキュメントを見ただけだと、このAPI自体はリソースごとにきれいに分かれていて悪くなさそうに見えるんだよね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "でも実際の通信ログ、つまりシーケンス図を数えてみると、1画面のために41往復も呼んでる。API設計は本文の説明だけじゃなく、『実際に呼び出し側がどう使うか』を追わないと、チャッティさは見えてこないんだ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "『リソースごとに分ける』も『GraphQLに全面移行する』も、それ自体は間違った考え方じゃない。呼び出し側の規模や利用シーンに合わせて選ぶのが設計だよ。"
+        }
+      ],
+      "points": [
+        "API設計の良し悪しは、本文の説明ではなく実際の呼び出し回数(シーケンス図)で判断する",
+        "1つの画面のために何度も往復が必要な状態(チャッティ)は、複合エンドポイントでまとめて解消できる",
+        "リソースごとに分けるREST的な設計もGraphQLへの全面移行も、それ自体は正しい。案件の規模とスケジュールに合わせて選ぶ",
+        "許容できるデータの鮮度(リアルタイム性)をヒアリングで確認すると、キャッシュ戦略を自信を持って選べる"
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "term": "シーケンス図",
+      "def": "画面やシステム同士が、どんな順番でどんなやり取り(通信)をするかを時系列で表す図。API呼び出しの回数や順序を数えるのに向く。"
+    },
+    {
+      "term": "チャッティ",
+      "def": "1つの処理のために、必要以上に細かく何度もAPI呼び出しを繰り返す状態のこと。呼び出し回数が多いほど通信の待ち時間が積み重なり、体感速度が悪化する。"
+    },
+    {
+      "term": "複合エンドポイント",
+      "def": "複数の情報(例: 価格・在庫)をまとめて1回の呼び出しで返すAPIの窓口。呼び出し側の往復回数を減らせる。"
+    },
+    {
+      "term": "TTL",
+      "def": "Time To Live。キャッシュしたデータを「どれくらいの時間まで有効とみなすか」の設定値。短くすると鮮度は上がるが負荷も上がる。"
+    },
+    {
+      "term": "レート制限",
+      "def": "一定時間内に受け付けるリクエスト数の上限。呼び出し回数の多いチャッティな設計は、この上限に引っかかりやすい。"
+    },
+    {
+      "term": "GraphQL",
+      "def": "必要なデータの形をクライアント側が指定して、1回のリクエストでまとめて取得できる問い合わせ方式。柔軟だが導入・移行にはそれなりの工数がかかる。"
+    }
+  ]
+}

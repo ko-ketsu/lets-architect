@@ -1,0 +1,823 @@
+{
+  "id": "s2e1",
+  "season": 2,
+  "title": "その画面、テーブルが泣いてます",
+  "summary": "雑貨チェーン「ハルカワ商店」の受注システム刷新。ER図を読み解き、「過去の注文金額をそのまま見たい」という要望の裏にある落とし穴に気づけるか。",
+  "estimatedMinutes": 10,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    },
+    "customer": {
+      "name": "戸田店長(ハルカワ商店)",
+      "role": "customer",
+      "portrait": "portraits/toda.svg"
+    }
+  },
+  "params": {
+    "customer": 50,
+    "quality": 50,
+    "budget": 50,
+    "trust": 50
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "雑貨チェーン「ハルカワ商店」。本部の会議室に、10店舗を切り盛りする戸田店長がやってきた。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "今日は受注管理システムの刷新案件。戸田さんは現場叩き上げの店長さんだから、話は画面のイメージで進むと思う。"
+        },
+        {
+          "speaker": "customer",
+          "text": "パソコンの難しい話はようわからんのやけど、今使ってる画面、こんな感じで作り直してほしいんよ。"
+        },
+        {
+          "speaker": "customer",
+          "text": "特に困ってるのが注文の一覧。去年の注文がいくらやったか、パッと見て分かるようにしてほしいの。"
+        },
+        {
+          "speaker": "narration",
+          "text": "打ち合わせは残り15分。聞けるのはあと2つだけだ。"
+        }
+      ],
+      "next": "hearing1"
+    },
+    "hearing1": {
+      "type": "choice",
+      "prompt": "時間は限られている。まず何を聞く?(このあと、もう1問だけ聞ける)",
+      "options": [
+        {
+          "text": "「過去の注文の金額表示は、具体的にどんなふうに見たいですか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "具体的な画面イメージを掘り下げる質問。悪くない。",
+          "next": "hearing2_q1"
+        },
+        {
+          "text": "「商品の価格って、変わることはあります?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "地味だけど鋭い質問。データの持ち方を決める大事な分かれ道だよ。",
+          "next": "hearing2_q2"
+        },
+        {
+          "text": "「繁忙期って、1日にどれくらい注文が入るんですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "件数の規模感を聞くのは大事だけど、今日の一番の悩みどころとは少しずれてるかな。",
+          "next": "hearing2_q3"
+        },
+        {
+          "text": "「画面の配色って、何色がお好みですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "見た目の話は大事だけど、今日の15分でそれを聞く?先にもっと詰めるべきことがあるよね。",
+          "next": "hearing2_q4"
+        }
+      ]
+    },
+    "hearing2_q1": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「商品の価格って、変わることはあります?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "この2問目が効いてくる。よく選んだ。",
+          "next": "answer_q1q2"
+        },
+        {
+          "text": "「繁忙期って、1日にどれくらい注文が入るんですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "規模感は把握できた。ただ今日の悩みの核心には触れずじまい。",
+          "next": "answer_q1q3"
+        },
+        {
+          "text": "「画面の配色って、何色がお好みですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "残り1問をこれに使うのはもったいない。",
+          "next": "answer_q1q4"
+        }
+      ]
+    },
+    "hearing2_q2": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「過去の注文の金額表示は、具体的にどんなふうに見たいですか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "画面のイメージも掴めた。良い組み合わせ。",
+          "next": "answer_q1q2"
+        },
+        {
+          "text": "「繁忙期って、1日にどれくらい注文が入るんですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "規模感は把握できた。",
+          "next": "answer_q2q3"
+        },
+        {
+          "text": "「画面の配色って、何色がお好みですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "せっかくの2問目をこれに使うのはもったいない。",
+          "next": "answer_q2q4"
+        }
+      ]
+    },
+    "hearing2_q3": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「過去の注文の金額表示は、具体的にどんなふうに見たいですか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "画面イメージは掴めたね。",
+          "next": "answer_q1q3"
+        },
+        {
+          "text": "「商品の価格って、変わることはあります?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "この質問、実はさっき聞いておきたかったやつ。今からでも聞けてよかった。",
+          "next": "answer_q2q3"
+        },
+        {
+          "text": "「画面の配色って、何色がお好みですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "うーん、この2問目はもったいない。",
+          "next": "answer_q3q4"
+        }
+      ]
+    },
+    "hearing2_q4": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「過去の注文の金額表示は、具体的にどんなふうに見たいですか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "せめてこれは聞けた。",
+          "next": "answer_q1q4"
+        },
+        {
+          "text": "「商品の価格って、変わることはあります?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "ぎりぎりで核心の質問を拾えた。",
+          "next": "answer_q2q4"
+        },
+        {
+          "text": "「繁忙期って、1日にどれくらい注文が入るんですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "規模感は把握できた。",
+          "next": "answer_q3q4"
+        }
+      ]
+    },
+    "answer_q1q2": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "画面のイメージ?ああ、注文一覧に金額の列があって、去年のぶんも含めてズラッと並んでたら嬉しいわ。"
+        },
+        {
+          "speaker": "customer",
+          "text": "価格が変わるかって?そらもう、セールのたびにコロコロ変えとるよ。月に2〜3回は改定しとるんちゃうかな。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……それ、大事な情報だね。覚えておいて。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q1q3": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "画面のイメージ?注文一覧に金額の列があって、去年のぶんも含めてズラッと並んでたら嬉しいわ。"
+        },
+        {
+          "speaker": "customer",
+          "text": "繁忙期?月末と、あとお中元お歳暮の時期はけっこう来るよ。1日100件は超えるかな。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q1q4": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "画面のイメージ?注文一覧に金額の列があって、去年のぶんも含めてズラッと並んでたら嬉しいわ。"
+        },
+        {
+          "speaker": "customer",
+          "text": "配色?んー、あんまりこだわりないなあ。見やすかったらそれでええよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q2q3": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "価格が変わるかって?そらもう、セールのたびにコロコロ変えとるよ。月に2〜3回は改定しとるんちゃうかな。"
+        },
+        {
+          "speaker": "customer",
+          "text": "繁忙期?月末と、あとお中元お歳暮の時期はけっこう来るよ。1日100件は超えるかな。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "価格改定の頻度、大事な情報だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q2q4": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "価格が変わるかって?そらもう、セールのたびにコロコロ変えとるよ。月に2〜3回は改定しとるんちゃうかな。"
+        },
+        {
+          "speaker": "customer",
+          "text": "配色?んー、あんまりこだわりないなあ。見やすかったらそれでええよ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "価格改定の頻度は聞けたね。それが今日一番の収穫かも。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q3q4": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "繁忙期?月末と、あとお中元お歳暮の時期はけっこう来るよ。1日100件は超えるかな。"
+        },
+        {
+          "speaker": "customer",
+          "text": "配色?んー、あんまりこだわりないなあ。見やすかったらそれでええよ。"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……価格が変わるかどうか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "briefing_done": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "打ち合わせの時間切れ。持ち帰って、現行システムのテーブル設計案をアオイ先輩と確認することになった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "今のたたき台がこれ。開発チームが「とりあえず動くように」作った案。戸田さんの要望、これで満たせるかな?"
+        }
+      ],
+      "next": "screen_mockup"
+    },
+    "screen_mockup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "戸田店長から追ってメールが届いた。「あと、去年で仕入れをやめた商品も、過去の注文にはちゃんと出るようにしてな」。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "要件が増えたね。まずは1つ目、注文と商品の関係から見てみよう。"
+        }
+      ],
+      "next": "design_choice_1"
+    },
+    "design_choice_1": {
+      "type": "choice",
+      "prompt": "このER図のままだと、「過去の注文金額をそのまま一覧で見たい」という要望を満たせる?どう対応する?",
+      "image": {
+        "src": "diagrams/s2e1-er.svg",
+        "caption": "現行のたたき台: 注文・注文明細・商品のER図",
+        "alt": "注文・注文明細・商品の3テーブルのER図。注文明細は order_id、product_id、quantity の3列を持ち、商品は id、name、price を持つ"
+      },
+      "options": [
+        {
+          "text": "「今のままでいいと思います。価格が知りたければ商品マスタを見れば十分では」",
+          "effects": {
+            "budget": 8,
+            "quality": -18,
+            "customer": -10
+          },
+          "flags": [
+            "ref_only"
+          ],
+          "feedback": "商品マスタをそのまま参照するだけの設計は、価格が変わらない商品や『現在価格が見えれば十分』な案件なら正解になる。でも今回は価格改定が多く、過去の金額をそのまま見たいという要望と真逆だよ。",
+          "next": "d1_reaction_ref"
+        },
+        {
+          "text": "「商品マスタ側に価格改定の履歴をすべて保持して、注文日付から逆引きする仕組みにしましょう」",
+          "effects": {
+            "quality": 6,
+            "budget": -20,
+            "trust": -5
+          },
+          "flags": [
+            "price_history_table"
+          ],
+          "feedback": "全商品の価格変更を汎用的に追跡する仕組みは、会計監査など『あらゆる価格変更の証跡』が必要な大規模システムなら正解。今回の改修規模と予算だと、明細に金額をコピーするだけで十分なのに作り込みすぎだよ。",
+          "next": "d1_reaction_overeng"
+        },
+        {
+          "text": "「注文明細テーブルに、注文した時点の商品名と単価をコピーして保持しましょう。価格が変わっても過去の注文は変わりません」",
+          "effects": {
+            "quality": 14,
+            "customer": 9,
+            "budget": -8,
+            "trust": 6
+          },
+          "flags": [
+            "snapshot_price"
+          ],
+          "feedback": "正解。ER図を見ると注文明細に単価の列がなく、商品マスタを直接参照する形になっている。価格改定のたびに過去の注文金額まで変わってしまう欠陥に気づけたね。",
+          "next": "d1_reaction_good"
+        },
+        {
+          "text": "「単価は毎回レジ担当に手入力で確認してもらいましょう」",
+          "effects": {
+            "customer": -15,
+            "trust": -8,
+            "quality": -5
+          },
+          "flags": [
+            "manual_entry"
+          ],
+          "feedback": "小さな個人商店で注文が月に数件なら、手作業の確認でしのぐのも手ではある。でも繁忙期に何十件も来るハルカワ商店では、確認漏れと入力ミスの温床になるよ。",
+          "next": "d1_reaction_manual"
+        }
+      ]
+    },
+    "d1_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。『参照する』じゃなくて『その時の値を持つ』。履歴が絡む設計の基本だよ。"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_ref": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "戸田さん、セールのたびに値段変えるって言ってたよね。この設計だと、去年の注文明細を開いたら今の価格が表示されちゃうよ。"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_overeng": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "気持ちは分かるけど、そこまでの仕組み、今回の予算に入ってたっけ?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_manual": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『システムが覚えておくべきこと』を人に押し付けちゃったね。それ、絶対どこかで抜け漏れるよ。"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "design_choice_2": {
+      "type": "choice",
+      "prompt": "「仕入れをやめた商品も、過去の注文には出るようにしてほしい」。商品マスタとの関係、どう設計する?",
+      "image": {
+        "src": "diagrams/s2e1-er.svg",
+        "caption": "同じER図: 商品マスタとの関連に注目",
+        "alt": "注文・注文明細・商品の3テーブルのER図。注文明細は order_id、product_id、quantity の3列を持ち、商品は id、name、price を持つ"
+      },
+      "options": [
+        {
+          "text": "「扱わなくなった商品は商品マスタからきれいに削除しましょう」",
+          "effects": {
+            "budget": 5,
+            "customer": -18,
+            "quality": -10
+          },
+          "flags": [
+            "hard_delete_product"
+          ],
+          "feedback": "過去の注文を見返す必要が一切ない業務なら、使わなくなったデータを消してすっきりさせるのは正しい判断。でも今回は『過去の注文にも出したい』という要望があるから、消すと参照が壊れるよ。",
+          "next": "d2_reaction_hard"
+        },
+        {
+          "text": "「注文明細はすでに商品名・単価をコピーして持つので、商品マスタ側は削除せず『取り扱い終了』フラグを立てるだけにしましょう」",
+          "effects": {
+            "quality": 10,
+            "customer": 10,
+            "budget": -3,
+            "trust": 6
+          },
+          "flags": [
+            "soft_delete_product"
+          ],
+          "feedback": "正解。注文明細が自分の分の情報を持っていれば、商品マスタから消しても過去の注文表示は壊れない。論理削除(取り扱い終了フラグ)で十分。",
+          "next": "d2_reaction_good"
+        },
+        {
+          "text": "「商品ごとにバージョン管理テーブルを新設して、全商品の変更履歴を逐一記録する仕組みを作りましょう」",
+          "effects": {
+            "quality": 8,
+            "budget": -18,
+            "trust": -5
+          },
+          "flags": [
+            "full_versioning"
+          ],
+          "feedback": "商品の変更履歴を細かく残す仕組みは、扱う商品数が多く法令で保存義務があるような業種なら正解。ハルカワ商店の規模でそこまでやると、工数が予算をはみ出すよ。",
+          "next": "d2_reaction_version"
+        },
+        {
+          "text": "「商品は消さずに残しますが、注文明細から商品マスタを都度参照する今の形のままにしましょう」",
+          "effects": {
+            "customer": -8,
+            "quality": -10,
+            "budget": 4
+          },
+          "flags": [
+            "keep_ref_no_snapshot"
+          ],
+          "feedback": "商品を消さないなら参照は切れない。でも今のままだと、さっき指摘したはずの『価格が変わると過去の注文金額まで変わる』問題がまだ残ったままだよ。",
+          "next": "d2_reaction_keepref"
+        }
+      ]
+    },
+    "d2_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "これで『消す』と『残す』が両立するね。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_hard": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "去年の注文明細を開いたら、商品名のところが空欄になっちゃうよ、それで大丈夫?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_version": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "できないことはないけど、それ本当にこの案件に必要な仕組みかな?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_keepref": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "商品が残っても、価格が変わったらやっぱり過去の金額は変わっちゃうよ。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "budget_reveal": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "ほんで、実はうちも年明けの棚卸しまでにこの一覧、使い始めたいんよ。あと2か月しかないんやけどな。"
+        },
+        {
+          "speaker": "customer",
+          "text": "本部から下りてる予算も、そない潤沢やないから、そのつもりでよろしゅう。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……2か月、そして予算も限られてる。さあ、どこまでやる?"
+        }
+      ],
+      "next": "final_choice"
+    },
+    "final_choice": {
+      "type": "choice",
+      "prompt": "残り2か月・限られた予算の中、今回の改修の範囲をどう提案する?",
+      "options": [
+        {
+          "text": "「どうせ手を入れるので、商品カテゴリ別の売上分析やおすすめ表示も一緒に今回作ってしまいましょう」",
+          "effects": {
+            "budget": -25,
+            "trust": -10,
+            "customer": 5
+          },
+          "flags": [
+            "scope_creep"
+          ],
+          "feedback": "『どうせなら』で機能を足すのは、納期に余裕があるプロジェクトなら喜ばれる判断。でも残り2か月・予算限定の今回だと、本来守るべき納期そのものを危険にさらすよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「予算と期間が厳しいので、金額の履歴表示機能自体を今回は見送りましょうと提案します」",
+          "effects": {
+            "customer": -20,
+            "trust": -5,
+            "budget": 10
+          },
+          "flags": [
+            "dropped_core_need"
+          ],
+          "feedback": "本当に難しい制約なら機能を削る判断もありえる。でも今回削ろうとしているのは、戸田さんが最初に挙げた『一番の悩み』そのもの。優先順位が逆だよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「とにかく時間がないので、細かい設計は省いてすぐに着手しましょう」",
+          "effects": {
+            "quality": -15,
+            "budget": 5,
+            "trust": -8
+          },
+          "flags": [
+            "rushed_no_plan"
+          ],
+          "feedback": "本当に単純な作業ならスピード優先も分かる。でもテーブル設計を詰めきらないまま着手すると、この案件ではさっきの『単価コピー』のような肝心な設計が抜け落ちるリスクが高いよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「注文明細への金額コピーと、商品の取り扱い終了フラグ対応を最優先にします。それ以外の分析機能などは次期以降にまわしましょう」",
+          "effects": {
+            "quality": 2,
+            "customer": 10,
+            "budget": 14,
+            "trust": 4
+          },
+          "flags": [
+            "scope_disciplined"
+          ],
+          "feedback": "正解。『過去の金額をそのまま見たい』という本来の要望を死守しつつ、それ以外は次期に回す。2か月という制約の中で、守るべきものを見極めた提案だよ。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": {
+            "flags": [
+              "asked_q2",
+              "snapshot_price",
+              "soft_delete_product",
+              "scope_disciplined"
+            ],
+            "minTotal": 280
+          },
+          "lines": [
+            {
+              "speaker": "customer",
+              "text": "おお、これええな。去年のぶんもちゃんと当時の値段で出とるし、廃番の商品もちゃんと残っとる。よう分かってくれとるわ。"
+            },
+            {
+              "speaker": "narration",
+              "text": "2か月後、棚卸しに無事間に合ってリリース。半年後、恒例のセールで価格を3回改定したが、過去の注文金額は一切崩れなかった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "去年の注文と見比べても数字がズレんし、ほんま助かっとるわ。次の店舗展開の相談もあんたに頼みたいなあ。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 240
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "何とか2か月に間に合わせてリリース。おおむね好評だったが、一部の判断は後になって効いてきた。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "結果オーライ、ではあるけどね。もう少し早く核心の情報に気づけていたら、もっと迷わずに進めたと思うよ。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 200
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "リリースはしたものの、稼働直後に「去年の注文と金額が合わない」という問い合わせが相次いだ。原因調査と急ぎの修正対応に、開発チームは追われることになった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "急いで直してもらえるんはありがたいけど……最初から気づいといてほしかったわ。"
+            }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "リリース直後から、過去の注文金額が変わってしまう不具合や、廃番商品の注文履歴が消える不具合が次々と発覚。信頼回復には数か月を要した。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……悔しいね。でも、ここまでの判断のどこがズレたのか、一緒に振り返ろう。"
+            }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "お疲れさま。今日のテーマは『画面から考えるかデータから考えるか』。戸田さんの言葉は画面の見た目だったけど、その裏には『注文明細がどんな情報を持つべきか』というデータ設計の話が隠れてたね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "『商品マスタを参照するだけ』も『全部バージョン管理する』も、それ自体は間違った考え方じゃない。価格がほぼ変わらない案件なら参照だけで十分だし、法令で証跡が必須な業種ならバージョン管理は正解になる。大事なのは、目の前の案件の前提に合わせて選ぶことだよ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "そしてもう一つ。『過去の金額をそのまま見たい』は最初にヒアリングで出てきた、一番の悩みだった。予算や期間が厳しいときほど、何を削って何を死守するかの優先順位がものを言う。"
+        }
+      ],
+      "points": [
+        "履歴が絡む要望は「参照する」ではなく「その時点の値をコピーして持つ」設計が基本",
+        "ER図で交差エンティティ(注文明細など)が持つ列を見れば、テーブル設計の破綻は本文より先に気づける",
+        "汎用的な履歴管理・バージョニングは正しい場面もあるが、案件の規模に見合わなければ予算を食う過剰設計になる",
+        "予算・期間が厳しいときは、ヒアリングで最初に出てきた「一番の悩み」を死守し、それ以外は次期に回す"
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "term": "ER図",
+      "def": "Entity-Relationship図。テーブル(エンティティ)同士がどんな関係(1対多・多対多など)で結びついているかを表す図。"
+    },
+    {
+      "term": "多対多",
+      "def": "片方のレコードが相手側の複数レコードと結びつく関係。注文と商品のように「1件の注文に複数の商品、1つの商品が複数の注文に登場する」場合など。実装時は間に交差エンティティ(中間テーブル)を挟むのが基本。"
+    },
+    {
+      "term": "交差エンティティ",
+      "def": "多対多の関係を表現するために間に挟む中間テーブル。注文と商品の間の「注文明細」など。ここにどんな列を持たせるかが設計の要になる。"
+    },
+    {
+      "term": "スナップショット",
+      "def": "ある時点の値をそのままコピーして保持しておくこと。注文明細に注文時点の単価を持たせるのはスナップショットの典型例。"
+    },
+    {
+      "term": "論理削除",
+      "def": "レコードを物理的に消さず、「使用終了」などのフラグを立てて見えなくする削除方法。他のテーブルから参照が残っていても壊れない。"
+    },
+    {
+      "term": "マスタデータ",
+      "def": "商品・顧客など、複数の取引記録から共通して参照される基礎データ。マスタの値が変わると、それを参照している全ての記録に影響する点に注意が必要。"
+    }
+  ]
+}

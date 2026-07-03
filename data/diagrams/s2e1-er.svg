@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 244" role="img" aria-label="注文・注文明細・商品の3テーブルのER図。注文明細は order_id、product_id、quantity の3列を持ち、商品は id、name、price を持つ">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#9aa8bf"/>
+    </marker>
+  </defs>
+
+  <rect width="640" height="244" fill="#0f1626"/>
+
+  <!-- title -->
+  <text x="320" y="34" text-anchor="middle" fill="#e9eef6" font-size="21" font-weight="bold">現行たたき台: 受注管理システムのER図</text>
+
+  <!-- 注文 box -->
+  <rect x="24" y="70" width="168" height="128" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="108" y="96" text-anchor="middle" fill="#e9eef6" font-size="19" font-weight="bold">注文 (Order)</text>
+  <line x1="36" y1="106" x2="180" y2="106" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="40" y="128" fill="#9aa8bf" font-size="15">id</text>
+  <text x="40" y="150" fill="#9aa8bf" font-size="15">customer_id</text>
+  <text x="40" y="172" fill="#9aa8bf" font-size="15">ordered_at</text>
+
+  <!-- 注文明細 box (junction) -->
+  <rect x="248" y="70" width="192" height="128" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="344" y="96" text-anchor="middle" fill="#e9eef6" font-size="19" font-weight="bold">注文明細</text>
+  <line x1="260" y1="106" x2="428" y2="106" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="264" y="128" fill="#9aa8bf" font-size="15">order_id</text>
+  <text x="264" y="150" fill="#9aa8bf" font-size="15">product_id</text>
+  <text x="264" y="172" fill="#9aa8bf" font-size="15">quantity</text>
+
+  <!-- 商品 box -->
+  <rect x="488" y="70" width="152" height="128" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="564" y="96" text-anchor="middle" fill="#e9eef6" font-size="19" font-weight="bold">商品 (Product)</text>
+  <line x1="500" y1="106" x2="628" y2="106" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="504" y="128" fill="#9aa8bf" font-size="15">id</text>
+  <text x="504" y="150" fill="#9aa8bf" font-size="15">name</text>
+  <text x="504" y="172" fill="#9aa8bf" font-size="15">price</text>
+
+  <!-- relations -->
+  <line x1="192" y1="134" x2="246" y2="134" stroke="#9aa8bf" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="219" y="122" text-anchor="middle" fill="#67e8f9" font-size="13">1 : 多</text>
+
+  <line x1="440" y1="134" x2="486" y2="134" stroke="#9aa8bf" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="463" y="122" text-anchor="middle" fill="#67e8f9" font-size="13">多 : 1</text>
+</svg>

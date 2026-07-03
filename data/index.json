@@ -4,6 +4,11 @@
       "id": 1,
       "title": "シーズン1: 要件を聞く",
       "description": "曖昧な要望を「要件」に翻訳する力を鍛える。設計は聞くことから始まる。"
+    },
+    {
+      "id": 2,
+      "title": "シーズン2: 形にする",
+      "description": "図を読み、文脈で判断する。アプリ設計・API設計の勘所を、そこそこ頭を使う難易度で。"
     }
   ],
   "episodes": [
@@ -14,7 +19,8 @@
       "order": 1,
       "title": "「絶対に落ちないシステム」の正体",
       "summary": "初めての顧客ヒアリング。「絶対に止まらないシステムにしてほしい」と言われたら、あなたは何と返す?",
-      "estimatedMinutes": 8
+      "estimatedMinutes": 8,
+      "difficulty": 1
     },
     {
       "id": "s1e2",
@@ -23,7 +29,8 @@
       "order": 2,
       "title": "「全部、最優先でお願いします」",
       "summary": "要望リストは50件、納期は3か月。全部は作れない。優先順位をどう付け、どう合意するか。",
-      "estimatedMinutes": 8
+      "estimatedMinutes": 8,
+      "difficulty": 1
     },
     {
       "id": "s1e3",
@@ -32,7 +39,38 @@
       "order": 3,
       "title": "「サクサク動くようにして」",
       "summary": "「とにかく速く」という要望を、測れる性能要件に落とし込めるか。速さの正体を探るエピソード。",
-      "estimatedMinutes": 8
+      "estimatedMinutes": 8,
+      "difficulty": 1
+    },
+    {
+      "id": "s2e1",
+      "file": "episodes/s2e1.json",
+      "season": 2,
+      "order": 1,
+      "title": "その画面、テーブルが泣いてます",
+      "summary": "雑貨チェーン「ハルカワ商店」の受注システム刷新。ER図を読み解き、「過去の注文金額をそのまま見たい」という要望の裏にある落とし穴に気づけるか。",
+      "estimatedMinutes": 10,
+      "difficulty": 2
+    },
+    {
+      "id": "s2e2",
+      "file": "episodes/s2e2.json",
+      "season": 2,
+      "order": 2,
+      "title": "使いにくいAPIはこうして生まれる",
+      "summary": "パートナー企業「コネクタ」への公開API連携。シーケンス図に隠れた「1画面表示に何往復も呼ぶ」チャッティなAPIの正体に気づけるか。",
+      "estimatedMinutes": 10,
+      "difficulty": 2
+    },
+    {
+      "id": "s2e3",
+      "file": "episodes/s2e3.json",
+      "season": 2,
+      "order": 3,
+      "title": "その変更、壊れるのはどこ?",
+      "summary": "トリオ運輸の配送ステータスAPI刷新。依存図を読み解き、旧フィールドに依存するクライアントを見極めて、壊さない移行計画を立てられるか。",
+      "estimatedMinutes": 10,
+      "difficulty": 2
     }
   ]
 }

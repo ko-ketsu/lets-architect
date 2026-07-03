@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="志村課長(トリオ運輸)の立ち絵">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182238"/><stop offset="1" stop-color="#0e1520"/>
+    </linearGradient>
+    <radialGradient id="phalo" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.09"/>
+      <stop offset="0.55" stop-color="#22d3ee" stop-opacity="0.035"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="240" height="320" fill="url(#pbg)"/>
+  <rect width="240" height="320" fill="url(#phalo)"/>
+  <!-- 耳 -->
+  <ellipse cx="81" cy="145" rx="7" ry="11" fill="#d3a276"/>
+  <ellipse cx="159" cy="145" rx="7" ry="11" fill="#d3a276"/>
+  <!-- 首(襟の奥まで) -->
+  <path d="M103,160 L103,226 C103,235 110,241 120,241 C130,241 137,235 137,226 L137,160 Z" fill="#d3a276"/>
+  <path d="M103,168 C108,184 132,184 137,168 L137,188 C129,196 111,196 103,188 Z" fill="#b1815a"/>
+  <!-- 顔(卵型・やや面長) -->
+  <path d="M120,77 C93,77 79,102 81,133 C82,156 90,174 103,182 C111,188 129,188 137,182 C150,174 158,156 159,133 C161,102 147,77 120,77 Z" fill="#d3a276"/>
+  <!-- 額のしわ(控えめ・丸川より薄い) -->
+  <path d="M101,106 Q120,102 139,106" fill="none" stroke="#b1815a" stroke-width="1.4" opacity="0.4"/>
+  <!-- 七三分けの白髪交じりの髪(頭に沿わせ、耳の上で終える) -->
+  <path d="M120,68 C93,68 77,88 76,114 C75,124 77,133 81,140 L90,135 C87,128 86,120 88,112 C92,96 104,87 120,87 C136,87 148,96 152,112 C154,120 153,128 150,135 L159,140 C163,133 165,124 164,114 C163,88 147,68 120,68 Z" fill="#888e96"/>
+  <!-- 分け目(七三) -->
+  <path d="M102,70 C107,79 110,89 108,99" fill="none" stroke="#5f656c" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+  <!-- 白髪の交じり(ハイライト・シェード筋) -->
+  <path d="M96,84 C104,78 113,74 122,73" fill="none" stroke="#b3b8bd" stroke-width="1.8" stroke-linecap="round" opacity="0.65"/>
+  <path d="M128,76 C137,80 144,88 148,98" fill="none" stroke="#6b7178" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+  <path d="M89,112 C87,120 88,128 91,134" fill="none" stroke="#6b7178" stroke-width="1.6" stroke-linecap="round" opacity="0.5"/>
+  <path d="M151,112 C153,120 152,128 149,134" fill="none" stroke="#6b7178" stroke-width="1.6" stroke-linecap="round" opacity="0.45"/>
+  <!-- 眉・目(慎重派、やや寄り眉) -->
+  <path d="M91,130 Q101,124 111,129" fill="none" stroke="#5f656c" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M149,130 Q139,124 129,129" fill="none" stroke="#5f656c" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M93,143 Q101,139 109,143" fill="none" stroke="#2e241d" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M147,143 Q139,139 131,143" fill="none" stroke="#2e241d" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="101" cy="145" r="4" fill="#3a2c20"/>
+  <circle cx="139" cy="145" r="4" fill="#3a2c20"/>
+  <circle cx="99.7" cy="143.5" r="1.2" fill="#ffffff" opacity="0.85"/>
+  <circle cx="137.7" cy="143.5" r="1.2" fill="#ffffff" opacity="0.85"/>
+  <!-- 目の下の落ち着いた陰影 -->
+  <path d="M94,150 Q101,152 108,150" fill="none" stroke="#b1815a" stroke-width="1.4" opacity="0.5"/>
+  <path d="M132,150 Q139,152 146,150" fill="none" stroke="#b1815a" stroke-width="1.4" opacity="0.5"/>
+  <!-- 鼻・ほうれい線 -->
+  <path d="M121,147 C119,156 116,163 112,167 C116,170 122,169 125,166" fill="none" stroke="#b1815a" stroke-width="2.3" stroke-linecap="round"/>
+  <path d="M105,164 Q102,171 104,177" fill="none" stroke="#b1815a" stroke-width="1.5" opacity="0.45"/>
+  <path d="M135,164 Q138,171 136,177" fill="none" stroke="#b1815a" stroke-width="1.5" opacity="0.45"/>
+  <!-- 口(引き締まった一文字、ひげなし) -->
+  <path d="M108,180 Q120,178 132,180" fill="none" stroke="#8a5a42" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- スーツ(濃いグレー、襟の開始を上げて首を詰める) -->
+  <path d="M36,320 C42,236 76,207 104,201 C114,210 126,210 136,201 C164,207 198,236 204,320 Z" fill="#33394a"/>
+  <path d="M104,201 L120,225 L136,201 L131,245 L120,255 L109,245 Z" fill="#e6eaf1"/>
+  <!-- ネクタイ(ネイビー、丸川とは別色) -->
+  <path d="M116,211 L124,211 L128,265 L120,279 L112,265 Z" fill="#25406e"/>
+  <path d="M116,211 L124,211 L122,221 L118,221 Z" fill="#1c3157"/>
+  <path d="M104,201 L88,237 L104,261" fill="none" stroke="#20242f" stroke-width="3"/>
+  <path d="M136,201 L152,237 L136,261" fill="none" stroke="#20242f" stroke-width="3"/>
+  <!-- リムライト -->
+  <path d="M162,118 Q169,150 160,188" fill="none" stroke="#22d3ee" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+</svg>

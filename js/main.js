@@ -91,7 +91,7 @@ function startEpisode(episode) {
       screen.showLines(node.lines, () => {
         state = engine.advance(state, node.next);
         runNode();
-      });
+      }, node.image);
       return;
     }
 

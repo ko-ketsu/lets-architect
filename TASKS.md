@@ -51,16 +51,16 @@
 コンセプトは design/SEASON2.md で**ユーザー承認済み**(レビュー1巡目反映済み: 質問制限の具体化・S1最終問題改稿方針)。SPEC 反映済み(3.1 difficulty / 4.2 ★表示 / 4.4 周回促し / 7 テスト拡張+check-routes / 8・9 実装中に変更 / 10.1 難易度設計)。
 
 - [x] T12: SPEC.md 更新(Fable)
-- [ ] T13: エンジン+UI拡張(Sonnet ①): image表示+拡大モーダル / portrait表示+行上書き / フィードバックカードに aoi-dry / 難易度★ / リザルト周回促し / smoke-test 拡張 / index.json の既存3話に difficulty:1
-  - 担当ファイル: js/*, css/style.css, index.html, scripts/smoke-test.mjs, data/index.json
-- [ ] T14: シーズン2エピソード3本+図解SVG+scripts/check-routes.mjs(Sonnet ②)
-  - s2e1 戸田店長(ハルカワ商店)ER図 / s2e2 五十嵐(コネクタ)シーケンス図 / s2e3 志村課長(トリオ運輸)依存図
-  - 担当ファイル: data/episodes/s2e*.json, data/diagrams/*, scripts/check-routes.mjs
-- [ ] T15: シーズン1最終問題の改稿+s1へのportrait付与(Sonnet ③): 最終choiceを状況理解チェックに(外すとA落ち・Sルート1本維持)
-  - 担当ファイル: data/episodes/s1e*.json
-- [ ] T16: 新キャラ立ち絵3体(Sonnet ④): data/portraits/toda.svg / igarashi.svg / shimura.svg(既存サンプル複製改変、SPEC 9.2 厳守、スクショ自己検証)
-- [ ] T17: 統合(Fable): data/index.json にシーズン2セクション+3話追加(difficulty:2)→ smoke-test / check-routes 全話 → Playwright+スクショで目視検証(立ち絵・図解・★表示)→ コミット
-  - 注意: push は Pages デプロイ状況を確認してから
+- [x] T13: エンジン+UI拡張(Sonnet ①)完了: image表示+拡大モーダル / portrait表示+行上書き / フィードバックカードに aoi-dry / 難易度★ / リザルト周回促し / smoke-test 拡張(アセット存在+difficulty)
+- [x] T14: シーズン2エピソード3本+図解SVG+scripts/check-routes.mjs(Sonnet ②)完了
+  - エージェントがセッション上限で中断 → 成果物は完成していたため Fable が検証・仕上げを引き取り
+  - **Fable の統合修正(教訓)**: (1) 出題図に答えが書いてあった(ER図の警告注釈・シーケンス図の「41往復」結論・依存図の色分け凡例)→ 中立な事実だけの図に修正。**出題図には結論・警告・色分けの答えを入れない**。alt テキストも同様に中立化。(2) 正解が全部 options[0] にあり「常に最初を選ぶだけで S」だった → 各話・各問で正解位置をシャッフル。**check-routes だけでなく smoke-test の [first]/[last] プレイが S にならないことも確認する**
+- [x] T15: シーズン1最終問題の改稿+s1へのportrait付与(Sonnet ③)完了
+  - 3話とも Sルート1本(合計285)維持、最終問題を外すと250〜265(A落ち)を総当たりで確認済み。罠は「別の文脈なら正解の正論」型(例: s1e1 は月13万円の常時冗長化 vs 予算10万円+月末だけ臨時待機系)
+- [x] T16: 新キャラ立ち絵3体(Sonnet ④)完了(Fable レビュー2巡で確定)
+  - data/portraits/toda.svg / igarashi.svg / shimura.svg。指摘→修正済み: 五十嵐の胸元(よだれかけ状Tシャツ)と生え際、志村の側髪(耳隠れ・おかっぱ状)と首の露出
+- [x] T17: 統合(Fable)完了: index.json にシーズン2追加 / smoke-test 全パス / check-routes 全6話 OK(S各1本・最善 s1=285, s2=281)/ Playwright 実プレイで目視検証(★表示・ヒアリング制限・図解出題・立ち絵・フィードバックカード)
+- [ ] T18: push → GitHub Pages デプロイ(push すると本番公開されるためユーザー確認後)
 
 ### 将来(シーズン2リリース後)
 - [ ] **シーズン2: 図解出題+立ち絵の実装**(ユーザー決定済み 2026-07-02)

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="五十嵐リーダー(コネクタ)の立ち絵">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182238"/><stop offset="1" stop-color="#0e1520"/>
+    </linearGradient>
+    <radialGradient id="phalo" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.09"/>
+      <stop offset="0.55" stop-color="#22d3ee" stop-opacity="0.035"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="240" height="320" fill="url(#pbg)"/>
+  <rect width="240" height="320" fill="url(#phalo)"/>
+  <!-- 耳 -->
+  <ellipse cx="81" cy="145" rx="7" ry="11" fill="#d9a878"/>
+  <ellipse cx="159" cy="145" rx="7" ry="11" fill="#d9a878"/>
+  <!-- 首(襟の奥まで) -->
+  <path d="M103,160 L103,226 C103,235 110,241 120,241 C130,241 137,235 137,226 L137,160 Z" fill="#d9a878"/>
+  <path d="M103,168 C108,184 132,184 137,168 L137,188 C129,196 111,196 103,188 Z" fill="#b8865c"/>
+  <!-- 顔(卵型) -->
+  <path d="M120,78 C92,78 78,103 80,134 C81,157 90,175 104,183 C112,189 128,189 136,183 C150,175 159,157 160,134 C162,103 148,78 120,78 Z" fill="#d9a878"/>
+  <!-- 短髪(生え際低め・トップにボリューム、もみあげは耳の高さで止める) -->
+  <path d="M120,62 C92,62 76,84 76,112 C75,124 77,136 81,146 L90,142 C88,134 87,124 88,114 C92,98 104,90 120,90 C136,90 148,98 152,114 C153,124 152,134 150,142 L159,146 C163,136 165,124 164,112 C164,84 148,62 120,62 Z" fill="#2b2320"/>
+  <path d="M96,76 Q120,66 144,76" fill="none" stroke="#3a322d" stroke-width="2.2" stroke-linecap="round" opacity="0.65"/>
+  <path d="M92,96 C98,91 106,88 114,87" fill="none" stroke="#171310" stroke-width="1.6" stroke-linecap="round" opacity="0.5"/>
+  <path d="M148,96 C142,91 134,88 126,87" fill="none" stroke="#171310" stroke-width="1.6" stroke-linecap="round" opacity="0.5"/>
+  <!-- 眉・目(キリッとした若手) -->
+  <path d="M89,126 Q100,120 113,125" fill="none" stroke="#2b2320" stroke-width="3" stroke-linecap="round"/>
+  <path d="M151,126 Q140,120 127,125" fill="none" stroke="#2b2320" stroke-width="3" stroke-linecap="round"/>
+  <path d="M91,140 Q100,134 111,140" fill="none" stroke="#2a1d16" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M149,140 Q140,134 129,140" fill="none" stroke="#2a1d16" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="101" cy="142" r="4.2" fill="#2f2419"/>
+  <circle cx="139" cy="142" r="4.2" fill="#2f2419"/>
+  <circle cx="99.6" cy="140.4" r="1.3" fill="#ffffff" opacity="0.9"/>
+  <circle cx="137.6" cy="140.4" r="1.3" fill="#ffffff" opacity="0.9"/>
+  <!-- 細フレームの眼鏡 -->
+  <rect x="87" y="134" width="27" height="17" rx="5" fill="none" stroke="#8a97a8" stroke-width="1.6" opacity="0.9"/>
+  <rect x="126" y="134" width="27" height="17" rx="5" fill="none" stroke="#8a97a8" stroke-width="1.6" opacity="0.9"/>
+  <line x1="114" y1="141" x2="126" y2="141" stroke="#8a97a8" stroke-width="1.6" opacity="0.9"/>
+  <line x1="87" y1="140" x2="80" y2="141" stroke="#8a97a8" stroke-width="1.4" opacity="0.9"/>
+  <line x1="153" y1="140" x2="160" y2="141" stroke="#8a97a8" stroke-width="1.4" opacity="0.9"/>
+  <!-- 鼻・口 -->
+  <path d="M121,146 C119,154 116,160 112,163 C116,166 122,165 125,163" fill="none" stroke="#b8865c" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M110,170 Q120,174 130,170" fill="none" stroke="#9a5a44" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- 服: クルーネックTシャツ(胸全体を面で埋める) -->
+  <path d="M58,320 C62,252 82,222 104,212 C110,221 130,221 136,212 C158,222 178,252 182,320 Z" fill="#5c6b78"/>
+  <path d="M104,212 C109,221 131,221 136,212 C133,225 107,225 104,212 Z" fill="#46545f"/>
+  <path d="M104,212 C109,220 131,220 136,212" fill="none" stroke="#7d8fa0" stroke-width="2.2"/>
+  <!-- 前開きジャケット -->
+  <path d="M36,320 C42,244 72,218 98,211 L108,226 L94,320 Z" fill="#2a3040"/>
+  <path d="M204,320 C198,244 168,218 142,211 L132,226 L146,320 Z" fill="#2a3040"/>
+  <path d="M98,211 L108,226 L94,320" fill="none" stroke="#181c26" stroke-width="2.5"/>
+  <path d="M142,211 L132,226 L146,320" fill="none" stroke="#181c26" stroke-width="2.5"/>
+  <!-- リムライト -->
+  <path d="M162,118 Q169,150 160,188" fill="none" stroke="#22d3ee" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+</svg>

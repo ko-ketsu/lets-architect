@@ -11,6 +11,8 @@
 //   2. 全ノードの next / start / ending の参照先が存在すること
 //   3. 「常に最初の選択肢」「常に最後の選択肢」で機械的に通しプレイし、
 //      必ず debrief に到達しランクが算出されること
+//   4. エピソードが参照する image.src / portrait の実ファイルが data/ 配下に存在すること
+//   5. index.json の difficulty が 1〜3 であること
 
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -40,6 +42,49 @@ async function readJson(filePath) {
   return JSON.parse(raw);
 }
 
+/** 4. エピソードが参照する image.src / portrait の実ファイルが data/ 配下に存在することを検証する。 */
+function checkAssetFiles(entry, episode) {
+  const refs = new Set();
+
+  for (const [key, ch] of Object.entries(episode.characters || {})) {
+    if (ch && typeof ch.portrait === 'string') refs.add(`characters.${key}.portrait\t${ch.portrait}`);
+  }
+
+  for (const [id, node] of Object.entries(episode.nodes || {})) {
+    if (node.image && typeof node.image.src === 'string') {
+      refs.add(`node "${id}".image.src\t${node.image.src}`);
+    }
+    if (Array.isArray(node.lines)) {
+      node.lines.forEach((line, i) => {
+        if (line && typeof line.portrait === 'string') {
+          refs.add(`node "${id}".lines[${i}].portrait\t${line.portrait}`);
+        }
+      });
+    }
+    if (Array.isArray(node.variants)) {
+      node.variants.forEach((v, vi) => {
+        if (Array.isArray(v?.lines)) {
+          v.lines.forEach((line, i) => {
+            if (line && typeof line.portrait === 'string') {
+              refs.add(`node "${id}".variants[${vi}].lines[${i}].portrait\t${line.portrait}`);
+            }
+          });
+        }
+      });
+    }
+  }
+
+  for (const ref of refs) {
+    const [where, relPath] = ref.split('\t');
+    const filePath = path.join(dataDir, relPath);
+    if (!existsSync(filePath)) {
+      fail(`${entry.id}: ${where} references missing file "data/${relPath}"`);
+    } else {
+      pass(`${entry.id}: ${where} -> data/${relPath} exists`);
+    }
+  }
+}
+
 async function checkEpisode(entry, episodePath) {
   console.log(`\n--- ${entry.id}: ${entry.title} ---`);
   let episode;
@@ -61,6 +106,9 @@ async function checkEpisode(entry, episodePath) {
   if (episode.id !== entry.id) {
     fail(`${entry.id}: data/index.json id "${entry.id}" does not match episode.id "${episode.id}"`);
   }
+
+  // 4. image.src / portrait の実ファイル存在チェック
+  checkAssetFiles(entry, episode);
 
   // 3. 常に最初 / 常に最後の選択肢で機械的に通しプレイし、debrief到達・ランク算出を確認。
   for (const strategy of ['first', 'last']) {
@@ -124,6 +172,15 @@ async function main() {
     fail('data/index.json: episodes must be a non-empty array');
     printSummaryAndExit();
     return;
+  }
+
+  // 5. index.json の difficulty が 1〜3 であることを検証
+  for (const entry of indexData.episodes) {
+    if (![1, 2, 3].includes(entry.difficulty)) {
+      fail(`data/index.json: episode "${entry.id}" difficulty must be 1, 2, or 3 (got ${JSON.stringify(entry.difficulty)})`);
+    } else {
+      pass(`data/index.json: episode "${entry.id}" difficulty=${entry.difficulty}`);
+    }
   }
 
   for (const entry of indexData.episodes) {

@@ -270,6 +270,11 @@ ul {
 .badge-rank.rank-B { color: var(--rank-b); border-color: var(--rank-b); }
 .badge-rank.rank-C { color: var(--rank-c); border-color: var(--rank-c); }
 
+.episode-card-difficulty {
+  color: var(--accent-strong);
+  letter-spacing: 0.05em;
+}
+
 /* プレイ画面 ----------------------------------------------------------- */
 
 .screen-play {
@@ -366,6 +371,107 @@ ul {
   min-height: calc(100vh - 110px);
 }
 
+/* 立ち絵(portrait) ------------------------------------------------------- */
+
+.message-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.message-row .message-box,
+.message-row .feedback-card {
+  width: 100%;
+  min-width: 0;
+}
+
+.portrait-frame {
+  flex-shrink: 0;
+  width: 72px;
+}
+
+.portrait-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+}
+
+@media (min-width: 720px) {
+  .message-row.has-portrait {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .message-row.has-portrait .portrait-frame {
+    width: 150px;
+  }
+}
+
+/* 図解表示(image) -------------------------------------------------------- */
+
+.node-image {
+  margin: 0 0 16px;
+}
+
+.node-image-scroll {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+}
+
+.node-image-img {
+  display: block;
+  max-width: 100%;
+  cursor: zoom-in;
+}
+
+.node-image-caption {
+  margin: 6px 0 0;
+  color: var(--text-faint);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 14, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 60;
+  cursor: zoom-out;
+}
+
+.image-modal[hidden] {
+  display: none;
+}
+
+.image-modal-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.image-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
 .message-box,
 .feedback-card {
   background: var(--bg-card);
@@ -411,6 +517,10 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.choice-box .node-image {
+  margin: 0;
 }
 
 .choice-prompt {
@@ -611,6 +721,13 @@ ul {
   color: var(--accent-strong);
   font-size: 0.85rem;
   font-weight: 700;
+}
+
+.result-replay-hint {
+  margin: 0;
+  max-width: 420px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
 }
 
 .result-meters {

@@ -6,8 +6,8 @@
   "estimatedMinutes": 8,
   "characters": {
     "player": { "name": "あなた", "role": "player" },
-    "senpai": { "name": "アオイ先輩", "role": "mentor" },
-    "customer": { "name": "丸川部長(マルカワ食品)", "role": "customer" }
+    "senpai": { "name": "アオイ先輩", "role": "mentor", "portrait": "portraits/aoi-normal.svg" },
+    "customer": { "name": "丸川部長(マルカワ食品)", "role": "customer", "portrait": "portraits/marukawa.svg" }
   },
   "params": { "customer": 50, "quality": 50, "budget": 50, "trust": 50 },
   "start": "intro",
@@ -62,7 +62,7 @@
       "type": "scene",
       "lines": [
         { "speaker": "narration", "text": "その後のヒアリングは、要望リストの読み合わせだけで終わってしまった。帰り道、アオイ先輩がぽつりと言う。" },
-        { "speaker": "senpai", "text": "さっきの『絶対に止まらない』って、結局どういう意味だったんだろうね?" },
+        { "speaker": "senpai", "text": "さっきの『絶対に止まらない』って、結局どういう意味だったんだろうね?", "portrait": "portraits/aoi-dry.svg" },
         { "speaker": "narration", "text": "数日後、確認の電話を入れることになった。二度手間だ。" },
         { "speaker": "customer", "text": "ああ、月末の締め……28日から30日の3日間だけは絶対に困ります。夜中や休みの日は誰も使っとらんですよ。それを早く言えって?すみませんな、はっはっは。" }
       ],
@@ -116,24 +116,24 @@
       "prompt": "月額10万円の運用費で「月末の締めを守る」には、どんな構成方針で提案する?",
       "options": [
         {
-          "text": "「通常時はシンプルな構成に抑え、毎日のバックアップと復旧手順を整備します。障害が起きても数時間で戻せる体制にして、締め日の前には点検を入れます」",
-          "effects": { "budget": 15, "quality": 10, "customer": 10 },
+          "text": "「通常時はシンプルな構成で月10万円以内に抑え、毎日のバックアップと復旧手順を整備します。月末28〜30日の締め処理の間だけ、待機系サーバーを一時的に稼働させて手厚くする体制にしましょう」",
+          "effects": { "budget": 10, "quality": 15, "customer": 15 },
           "flags": ["smart_design"],
-          "feedback": "『絶対に止めない』じゃなくて『止まっても締めまでに戻せる』。復旧時間(RTO)で考えられたのは大きいよ。",
+          "feedback": "『いつでも同じ構成』じゃなく、月末3日間だけ手厚くする発想。夜間や休日は誰も使わないという話をちゃんと活かせてるし、10万円の枠にも収まってる。",
           "next": "ending"
         },
         {
-          "text": "「ここは安全第一で、フル冗長構成にしましょう。月額35万円になりますが、安心には代えられません」",
-          "effects": { "budget": -20, "customer": -15 },
-          "flags": ["over_budget"],
-          "feedback": "予算の3.5倍は『安心』じゃなくて『提案の失敗』として返ってくるよ……。制約の中で最善を組むのが設計。",
+          "text": "「常時の冗長構成を一段階強化しましょう。月額は13万円ほどに上がりますが、大きな値上げではありませんし、これで一年中安心です」",
+          "effects": { "budget": -5, "quality": 10, "customer": 10 },
+          "flags": ["always_on_upgrade"],
+          "feedback": "『大きな値上げじゃない』と言っても、部長が示した『月10万円くらい』の線は超えてるよ。しかも夜間・休日は誰も使わないのに、24時間365日ずっと二重化しておく必要は本当にある?",
           "next": "ending"
         },
         {
-          "text": "「クラウドに載せましょう。クラウドなら自動的に落ちなくなります」",
-          "effects": { "quality": -15, "trust": -10 },
-          "flags": ["cloud_magic"],
-          "feedback": "クラウドは魔法じゃない。載せただけで可用性は上がらないし、クラウド自体も障害を起こす。『障害は起きる前提』で設計するものだよ。",
+          "text": "「まずはシンプルな構成でリリースし、様子を見ながら少しずつ冗長化を足していきましょう。立ち上げ時の費用を抑えられます」",
+          "effects": { "budget": 12, "quality": -12, "customer": 8 },
+          "flags": ["grow_later"],
+          "feedback": "様子を見ながら育てる発想自体は間違いじゃない。でも、月末の締め処理は毎月来るんだよ?『冗長化を足していく』のが間に合う前提、来月分も含めて本当に大丈夫?",
           "next": "ending"
         }
       ]
@@ -153,14 +153,14 @@
           "require": { "minTotal": 230 },
           "lines": [
             { "speaker": "narration", "text": "何度かの調整を経て、提案はどうにか合意に至った。かかった時間は当初予定の倍。" },
-            { "speaker": "senpai", "text": "まとまってよかった。でも、最初のヒアリングでもう少し掘れていたら、この往復は要らなかったかもね。" }
+            { "speaker": "senpai", "text": "まとまってよかった。でも、最初のヒアリングでもう少し掘れていたら、この往復は要らなかったかもね。", "portrait": "portraits/aoi-dry.svg" }
           ]
         },
         {
           "default": true,
           "lines": [
             { "speaker": "narration", "text": "提案は「持ち帰って検討します」と言われたきり、返事が来ない。後日、別のシステム会社の営業がマルカワ食品に出入りしていると聞いた。" },
-            { "speaker": "senpai", "text": "……悔しいね。でも、いい教材になった。何がすれ違ったのか、一緒に振り返ろう。" }
+            { "speaker": "senpai", "text": "……悔しいね。でも、いい教材になった。何がすれ違ったのか、一緒に振り返ろう。", "portrait": "portraits/aoi-dry.svg" }
           ]
         }
       ],
@@ -169,7 +169,7 @@
     "debrief": {
       "type": "debrief",
       "lines": [
-        { "speaker": "senpai", "text": "お疲れさま。『絶対に落ちないシステムにして』は、要件じゃなくて不安の表明。それを要件に翻訳するのが、私たちの最初の仕事だよ。" }
+        { "speaker": "senpai", "text": "お疲れさま。『絶対に落ちないシステムにして』は、要件じゃなくて不安の表明。それを要件に翻訳するのが、私たちの最初の仕事だよ。", "portrait": "portraits/aoi-dry.svg" }
       ],
       "points": [
         "「絶対に◯◯」と言われたら、まず「止まると・いつ・何が・どれだけ困るか」という影響から聞く",

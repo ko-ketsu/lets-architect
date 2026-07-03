@@ -1,0 +1,819 @@
+{
+  "id": "s2e3",
+  "season": 2,
+  "title": "その変更、壊れるのはどこ?",
+  "summary": "トリオ運輸の配送ステータスAPI刷新。依存図を読み解き、旧フィールドに依存するクライアントを見極めて、壊さない移行計画を立てられるか。",
+  "estimatedMinutes": 10,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    },
+    "customer": {
+      "name": "志村課長(トリオ運輸)",
+      "role": "customer",
+      "portrait": "portraits/shimura.svg"
+    }
+  },
+  "params": {
+    "customer": 50,
+    "quality": 50,
+    "budget": 50,
+    "trust": 50
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "トリオ運輸 情報システム部。慎重派で知られる志村課長が、配送管理システムの相談に来た。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "配送ステータスを配信しているAPI、現場から『もっと細かい状態を返してほしい』と要望が出てるみたいだね。志村さんは既存システムへの影響をかなり気にするタイプだから、そのつもりで。"
+        },
+        {
+          "speaker": "customer",
+          "text": "現場からは『配送中』としか分からないのが不満だそうで……『集荷済み』『積込中』『輸送中』『配達中』くらいには分けたいんです。ただ、うちのAPI、今もいくつかのシステムが使ってましてね。下手に変えて壊すのだけは、絶対に避けたいんですよ。"
+        },
+        {
+          "speaker": "narration",
+          "text": "打ち合わせは残り15分。聞けるのはあと2つだけだ。"
+        }
+      ],
+      "next": "hearing1"
+    },
+    "hearing1": {
+      "type": "choice",
+      "prompt": "時間は限られている。まず何を聞く?(このあと、もう1問だけ聞ける)",
+      "options": [
+        {
+          "text": "「今このAPIを呼んでいるシステムを、すべて把握されていますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "把握状況を確認するのは大事。悪くない質問。",
+          "next": "hearing2_q1"
+        },
+        {
+          "text": "「呼び出し元のシステムは、一斉に新しい仕様へ切り替えられそうですか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "地味だけど鋭い質問。一斉切替か段階移行かを決める分かれ道だよ。",
+          "next": "hearing2_q2"
+        },
+        {
+          "text": "「この変更、いつまでにリリースしたいというご希望はありますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "スケジュール感は大事だけど、今日の一番の悩みどころとは少しずれてるかな。",
+          "next": "hearing2_q3"
+        },
+        {
+          "text": "「志村さんが個人的に好きな運送会社ってあります?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "雑談は大事だけど、今日の15分でそれを聞く?先に確認すべきことがあるよね。",
+          "next": "hearing2_q4"
+        }
+      ]
+    },
+    "hearing2_q1": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「呼び出し元のシステムは、一斉に新しい仕様へ切り替えられそうですか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "この2問目が効いてくる。よく選んだ。",
+          "next": "answer_q1q2"
+        },
+        {
+          "text": "「この変更、いつまでにリリースしたいというご希望はありますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "スケジュール感は把握できた。ただ今日の悩みの核心には触れずじまい。",
+          "next": "answer_q1q3"
+        },
+        {
+          "text": "「志村さんが個人的に好きな運送会社ってあります?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "残り1問をこれに使うのはもったいない。",
+          "next": "answer_q1q4"
+        }
+      ]
+    },
+    "hearing2_q2": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今このAPIを呼んでいるシステムを、すべて把握されていますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "把握状況も確認できた。良い組み合わせ。",
+          "next": "answer_q1q2"
+        },
+        {
+          "text": "「この変更、いつまでにリリースしたいというご希望はありますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "スケジュール感は把握できた。",
+          "next": "answer_q2q3"
+        },
+        {
+          "text": "「志村さんが個人的に好きな運送会社ってあります?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "せっかくの2問目をこれに使うのはもったいない。",
+          "next": "answer_q2q4"
+        }
+      ]
+    },
+    "hearing2_q3": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今このAPIを呼んでいるシステムを、すべて把握されていますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "把握状況は確認できたね。",
+          "next": "answer_q1q3"
+        },
+        {
+          "text": "「呼び出し元のシステムは、一斉に新しい仕様へ切り替えられそうですか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "この質問、実はさっき聞いておきたかったやつ。今からでも聞けてよかった。",
+          "next": "answer_q2q3"
+        },
+        {
+          "text": "「志村さんが個人的に好きな運送会社ってあります?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_q4"
+          ],
+          "feedback": "うーん、この2問目はもったいない。",
+          "next": "answer_q3q4"
+        }
+      ]
+    },
+    "hearing2_q4": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今このAPIを呼んでいるシステムを、すべて把握されていますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 2
+          },
+          "flags": [
+            "asked_q1"
+          ],
+          "feedback": "せめてこれは聞けた。",
+          "next": "answer_q1q4"
+        },
+        {
+          "text": "「呼び出し元のシステムは、一斉に新しい仕様へ切り替えられそうですか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 10
+          },
+          "flags": [
+            "asked_q2"
+          ],
+          "feedback": "ぎりぎりで核心の質問を拾えた。",
+          "next": "answer_q2q4"
+        },
+        {
+          "text": "「この変更、いつまでにリリースしたいというご希望はありますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": 0
+          },
+          "flags": [
+            "asked_q3"
+          ],
+          "feedback": "スケジュール感は把握できた。",
+          "next": "answer_q3q4"
+        }
+      ]
+    },
+    "answer_q1q2": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "把握しているのは3つですね。倉庫システムと、請求書システムと、あと配送アプリ。……ただ正直、委託先が独自に叩いてないかまでは自信ないです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "一斉切替は……社内の2つはできると思いますが、委託先の配送業者さんのシステムは、向こうの改修に3か月はかかると聞いています。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……社内は動けるけど委託先は3か月。この差、大事な情報だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q1q3": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "把握しているのは3つですね。倉庫システムと、請求書システムと、あと配送アプリ。……ただ正直、委託先が独自に叩いてないかまでは自信ないです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "リリース希望は……来月には社内で新しいステータスを使い始めたいですね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q1q4": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "把握しているのは3つですね。倉庫システムと、請求書システムと、あと配送アプリ。……ただ正直、委託先が独自に叩いてないかまでは自信ないです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "好きな運送会社ですか。うーん、特にこだわりはないですねえ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q2q3": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "一斉切替は……社内の2つはできると思いますが、委託先の配送業者さんのシステムは、向こうの改修に3か月はかかると聞いています。"
+        },
+        {
+          "speaker": "customer",
+          "text": "リリース希望は……来月には社内で新しいステータスを使い始めたいですね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "委託先だけ3か月かかる、大事な情報だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q2q4": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "一斉切替は……社内の2つはできると思いますが、委託先の配送業者さんのシステムは、向こうの改修に3か月はかかると聞いています。"
+        },
+        {
+          "speaker": "customer",
+          "text": "好きな運送会社ですか。うーん、特にこだわりはないですねえ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "委託先だけ3か月かかるって聞けたね。それが今日一番の収穫かも。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_q3q4": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "リリース希望は……来月には社内で新しいステータスを使い始めたいですね。"
+        },
+        {
+          "speaker": "customer",
+          "text": "好きな運送会社ですか。うーん、特にこだわりはないですねえ。"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……呼び出し元が一斉に切り替えられるかどうか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "briefing_done": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "打ち合わせの時間切れ。持ち帰って、現在このAPIを呼んでいるシステムの依存関係を洗い出した図をアオイ先輩と確認することになった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "調べてもらった依存図がこれ。まずは、どこが何を参照しているか見てみよう。"
+        }
+      ],
+      "next": "screen_mockup"
+    },
+    "screen_mockup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "調査の結果、想定外の呼び出し元も見つかった。「委託先の配送業者システムも、実は直接このAPIを叩いていました」。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "志村さんの『壊したくない』、具体的にどこが危ないか、図で確認しよう。"
+        }
+      ],
+      "next": "design_choice_1"
+    },
+    "design_choice_1": {
+      "type": "choice",
+      "prompt": "この依存図を見ると、`status`フィールドを変更した場合、どのクライアントが壊れる?どう対応する?",
+      "image": {
+        "src": "diagrams/s2e3-dep.svg",
+        "caption": "現状の依存関係: 配送ステータスAPIを呼ぶクライアント一覧",
+        "alt": "配送ステータスAPIの呼び出し元4システム(倉庫・請求書・委託先配送業者・モバイル配送アプリ)と、それぞれが参照しているフィールドを示す依存図"
+      },
+      "options": [
+        {
+          "text": "「スケジュールを優先して、旧statusフィールドは今回のリリースで一斉に廃止しましょう」",
+          "effects": {
+            "budget": 8,
+            "quality": -18,
+            "customer": -10
+          },
+          "flags": [
+            "big_bang_cutover"
+          ],
+          "feedback": "呼び出し元が社内システムだけで、しかもすぐに追従できるなら一斉切替はむしろ潔くて正しい判断になる。でも図の通り委託先も直接参照していて、しかも改修に3か月かかると分かっている。今すぐの一斉廃止は委託先のシステムを止めてしまうよ。",
+          "next": "d1_reaction_bigbang"
+        },
+        {
+          "text": "「影響が心配なので、詳細ステータスへの変更自体を見送り、現状のまま据え置きましょう」",
+          "effects": {
+            "quality": 6,
+            "budget": -20,
+            "trust": -5
+          },
+          "flags": [
+            "froze_change"
+          ],
+          "feedback": "本当にリスクが釣り合わない変更なら見送る判断もある。でも今回諦めようとしているのは、現場から出た『状態が粗すぎて分からない』という本来の要望そのもの。慎重すぎて価値を届けられなくなっているよ。",
+          "next": "d1_reaction_frozen"
+        },
+        {
+          "text": "「影響範囲が心配なので、全クライアントのソースコードを1行ずつ手作業で確認してから、全システムを作り直しましょう」",
+          "effects": {
+            "customer": -15,
+            "trust": -8,
+            "quality": -5
+          },
+          "flags": [
+            "manual_fullaudit"
+          ],
+          "feedback": "呼び出し元がごく少数で、ソースの確認が容易な小規模プロジェクトなら手作業の全数確認も現実的。でも複数システム・委託先まで含めて全部作り直すのは、この案件の規模に対してやりすぎで、時間もかかりすぎるよ。",
+          "next": "d1_reaction_fullaudit"
+        },
+        {
+          "text": "「新しい詳細ステータス用のフィールドを追加し、旧statusフィールドは当面残します。影響するクライアントの移行が終わってから旧フィールドを廃止しましょう」",
+          "effects": {
+            "quality": 14,
+            "customer": 9,
+            "budget": -8,
+            "trust": 6
+          },
+          "flags": [
+            "versioned_addition"
+          ],
+          "feedback": "正解。図を見ると倉庫・請求書・委託先の3システムが旧statusフィールドを直接参照している。新旧を並行運用すれば、移行が終わっていないクライアントを壊さずに済む。",
+          "next": "d1_reaction_good"
+        }
+      ]
+    },
+    "d1_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。『壊さない』と『前に進める』が両立できる形だよ。"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_bigbang": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "委託先さん、改修に3か月かかるって言ってたよね。今すぐ旧フィールド消したらどうなる?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_frozen": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "現場の『状態が分からなくて困ってる』って声、そのままにしていいのかな?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_fullaudit": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "気持ちは分かるけど、それ全部やってたら詳細ステータス、いつリリースできるの?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "design_choice_2": {
+      "type": "choice",
+      "prompt": "新旧フィールドの並行運用、具体的にどう進める?",
+      "image": {
+        "src": "diagrams/s2e3-dep.svg",
+        "caption": "同じ依存図: 委託先システムの参照経路に注目",
+        "alt": "配送ステータスAPIの呼び出し元4システム(倉庫・請求書・委託先配送業者・モバイル配送アプリ)と、それぞれが参照しているフィールドを示す依存図"
+      },
+      "options": [
+        {
+          "text": "「新旧フィールドは両方サポートし続けます。廃止時期は特に決めず、様子を見て判断しましょう」",
+          "effects": {
+            "budget": 5,
+            "customer": -18,
+            "quality": -10
+          },
+          "flags": [
+            "indefinite_dual_support"
+          ],
+          "feedback": "移行の見通しが立たない相手が多く、期限を切ること自体が難しい状況なら『様子見』もやむを得ない選択になる。でも今回は委託先の改修期間(3か月)が分かっている。期限を決めないと旧フィールドが一生消せなくなるよ。",
+          "next": "d2_reaction_indefinite"
+        },
+        {
+          "text": "「バージョンを分けず、同じ`status`フィールドのまま、返す値の意味だけをこっそり詳細ステータスに変えましょう」",
+          "effects": {
+            "quality": 8,
+            "budget": -18,
+            "trust": -5
+          },
+          "flags": [
+            "silent_semantic_change"
+          ],
+          "feedback": "フィールドの意味を変えずに済む小さな修正であれば、値だけ調整するのも簡単でよい場合はある。でも今回は既存クライアントが古い意味で`status`を解釈し続けているので、値の意味をこっそり変えると気づかれないまま誤動作するよ。",
+          "next": "d2_reaction_silent"
+        },
+        {
+          "text": "「新フィールドを追加してすぐ使えるようにしつつ、委託先の改修完了(3か月後)を待って旧フィールドを廃止する期限をあらかじめ合意しておきましょう」",
+          "effects": {
+            "quality": 10,
+            "customer": 10,
+            "budget": -3,
+            "trust": 6
+          },
+          "flags": [
+            "scheduled_deprecation"
+          ],
+          "feedback": "正解。委託先の改修に3か月かかると分かっている以上、廃止のタイミングをその期間に合わせてあらかじめ合意しておけば、なし崩しにもならず、いつまでも両対応を続ける必要もない。",
+          "next": "d2_reaction_good"
+        },
+        {
+          "text": "「委託先には個別に電話で『早めに対応してください』とお願いするだけにして、システム側の移行期間は特に設けません」",
+          "effects": {
+            "customer": -8,
+            "quality": -10,
+            "budget": 4
+          },
+          "flags": [
+            "ask_partner_only"
+          ],
+          "feedback": "呼び出し元がすぐ対応できる小さな相手なら口頭のお願いだけでも間に合うことはある。でも委託先は改修に3か月かかると分かっている。システム側で並行運用を用意しないと、口約束だけでは間に合わないよ。",
+          "next": "d2_reaction_askonly"
+        }
+      ]
+    },
+    "d2_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "これで『いつまでに何をする』が全員にはっきりするね。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_indefinite": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『様子見』のフィールド、5年後もきっと残ってるよ。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_silent": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "既存のクライアントは、`status`の意味が変わったことに気づけないよ。それ、静かに壊れるパターンだよ。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_askonly": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "お願いだけで3か月、本当に間に合うと思う?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "budget_reveal": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "実はうち、来月には社内(倉庫・請求書)で新しい詳細ステータスを使い始めたいんです。現場が首を長くして待ってましてね。"
+        },
+        {
+          "speaker": "customer",
+          "text": "ただ、委託先さんの改修が終わるのは3か月後。予算もそんなに潤沢ではないので、その前提でお願いしますね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……社内は来月使いたい、でも委託先は3か月後。さあ、どう進める?"
+        }
+      ],
+      "next": "final_choice"
+    },
+    "final_choice": {
+      "type": "choice",
+      "prompt": "社内は来月から使いたい、でも委託先の改修は3か月後。このリリース、どう進める?",
+      "options": [
+        {
+          "text": "「委託先の改修が終わるまでは安全のため、社内での新フィールド利用も含めて全部3か月後まで待ちましょう」",
+          "effects": {
+            "budget": -25,
+            "trust": -10,
+            "customer": 5
+          },
+          "flags": [
+            "scope_creep"
+          ],
+          "feedback": "全員の準備が整うまで待つのは、リリースに強い足並みの制約がある案件なら妥当な判断になる。でも新フィールドの追加は旧フィールドに影響しない変更。社内が先に使い始めない理由はないのに、待たせてしまっているよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「新フィールドの追加自体は来月にもリリースし、社内は先に使い始めてもらいます。旧フィールドは委託先の改修が終わる3か月後まで残します」",
+          "effects": {
+            "quality": 2,
+            "customer": 10,
+            "budget": 14,
+            "trust": 4
+          },
+          "flags": [
+            "scope_disciplined"
+          ],
+          "feedback": "正解。新フィールドの追加は既存クライアントを壊さない変更なので、社内は来月からすぐ使える。旧フィールドは合意した期限まで残せば、委託先も困らない。",
+          "next": "ending"
+        },
+        {
+          "text": "「委託先の対応が読めないので、詳細ステータスの提供自体を今回は見送りましょうと提案します」",
+          "effects": {
+            "customer": -20,
+            "trust": -5,
+            "budget": 10
+          },
+          "flags": [
+            "dropped_core_need"
+          ],
+          "feedback": "本当に見通しが立たないなら見送る判断もある。でも今見送ろうとしているのは、現場が首を長くして待っている詳細ステータスそのもの。しかも新旧並行運用は準備済み。優先順位が逆だよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「とにかく現場を待たせたくないので、委託先への案内は後回しにして、まず社内向けだけ急いでリリースしましょう」",
+          "effects": {
+            "quality": -15,
+            "budget": 5,
+            "trust": -8
+          },
+          "flags": [
+            "rushed_no_plan"
+          ],
+          "feedback": "社内を先に進めること自体は正しい。でも委託先への案内を後回しにすると、廃止期限の合意が曖昧なまま進んでしまう。せっかく決めた移行計画が骨抜きになるよ。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": {
+            "flags": [
+              "asked_q2",
+              "versioned_addition",
+              "scheduled_deprecation",
+              "scope_disciplined"
+            ],
+            "minTotal": 280
+          },
+          "lines": [
+            {
+              "speaker": "customer",
+              "text": "おお、来月から現場が詳細ステータスを使えるんですね。委託先さんの方も期限がはっきりしてるから、こちらも安心して待てます。"
+            },
+            {
+              "speaker": "narration",
+              "text": "翌月、社内システムは予定通り新フィールドの利用を開始。3か月後、委託先の改修も完了し、合意していた期限通りに旧フィールドを廃止できた。障害は一件も起きなかった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "壊れるかもって、正直ずっと怖かったんですけどね。ここまで見通しよく進めてもらえて、本当に助かりました。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 240
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "何とか大きな障害もなく移行できた。ただ、一部の判断は後になって効いてきた。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "結果オーライ、ではあるけどね。もう少し早く核心の情報に気づけていたら、もっと迷わずに進めたと思うよ。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 200
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "リリース直後、委託先のシステムからエラーが多発。原因調査と急ぎの切り戻し対応に、開発チームは追われることになった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "急いで直してもらえるのはありがたいですが……最初から気づいといてほしかったですね。"
+            }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "リリース直後、委託先の配送業務が止まり、荷物の追跡ができなくなる大きな障害が発生。信頼回復には数か月を要した。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……悔しいね。でも、ここまでの判断のどこがズレたのか、一緒に振り返ろう。"
+            }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "お疲れさま。今日のテーマは『既存APIの変更影響』。本文のやり取りだけだと、影響範囲は志村さんの記憶頼みになってしまう。依存図で誰が何を参照しているか可視化すると、勘に頼らず判断できるね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "『一斉切替』も『現状維持』も、それ自体は間違った考え方じゃない。呼び出し元が全員すぐ追従できるなら一斉切替が一番シンプルだし、リスクに見合わない変更なら見送るのも正しい判断になる。今回は委託先の改修に3か月かかるという制約があったから、並行運用が答えだったんだよ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "そしてもう一つ。新フィールドの追加だけなら既存クライアントを壊さない。『全員が揃うまで何も進めない』のではなく、『壊れない部分から先に進める』という発想も覚えておいて。"
+        }
+      ],
+      "points": [
+        "既存APIへの変更は、本文の説明だけでなく依存図で「誰が何を参照しているか」を可視化してから判断する",
+        "呼び出し元が一斉に追従できない場合は、新旧フィールドを並行運用し、廃止期限をあらかじめ合意しておく",
+        "一斉切替・現状維持もそれ自体は正しい選択肢になりうる。呼び出し元の移行できるスピードに合わせて選ぶ",
+        "新規追加のような後方互換性のある変更は、全体の移行完了を待たずに先に進めてよい"
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "term": "依存図",
+      "def": "あるシステムやAPIを、他のどのシステムが呼び出し・参照しているかを可視化した図。変更の影響範囲を洗い出すのに使う。"
+    },
+    {
+      "term": "後方互換性",
+      "def": "新しいバージョンが、古いバージョンの呼び出し方でも問題なく動作すること。フィールドの追加のみなら保たれやすいが、削除や意味変更は壊れやすい。"
+    },
+    {
+      "term": "バージョニング",
+      "def": "APIの仕様変更を、旧バージョンを残したまま新バージョンとして提供する手法。呼び出し元は準備が整うまで旧バージョンを使い続けられる。"
+    },
+    {
+      "term": "並行運用",
+      "def": "新旧2つの仕組み(フィールドやAPI)を同時に稼働させておくこと。移行期間中に呼び出し元がまちまちのタイミングで切り替えられるようにする。"
+    },
+    {
+      "term": "非推奨(Deprecated)",
+      "def": "将来的に廃止予定であることを示す状態。廃止の期限をあらかじめ周知しておくことで、呼び出し元に移行の猶予を与える。"
+    },
+    {
+      "term": "破壊的変更",
+      "def": "既存の呼び出し元の動作を壊してしまうような変更。フィールドの削除や、既存フィールドの意味変更などが該当する。"
+    }
+  ]
+}
