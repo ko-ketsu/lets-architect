@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="栗原誠課長(ツバキ文具)の立ち絵">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182238"/><stop offset="1" stop-color="#0e1520"/>
+    </linearGradient>
+    <radialGradient id="phalo" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.09"/>
+      <stop offset="0.55" stop-color="#22d3ee" stop-opacity="0.035"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="240" height="320" fill="url(#pbg)"/>
+  <rect width="240" height="320" fill="url(#phalo)"/>
+  <!-- 耳 -->
+  <ellipse cx="81" cy="145" rx="7" ry="11" fill="#d3a276"/>
+  <ellipse cx="159" cy="145" rx="7" ry="11" fill="#d3a276"/>
+  <!-- 首(襟の奥まで) -->
+  <path d="M103,160 L103,226 C103,235 110,241 120,241 C130,241 137,235 137,226 L137,160 Z" fill="#d3a276"/>
+  <path d="M103,168 C108,184 132,184 137,168 L137,188 C129,196 111,196 103,188 Z" fill="#b1815a"/>
+  <!-- 顔(卵型・やや面長) -->
+  <path d="M120,77 C93,77 79,102 81,133 C82,156 90,174 103,182 C111,188 129,188 137,182 C150,174 158,156 159,133 C161,102 147,77 120,77 Z" fill="#d3a276"/>
+  <!-- 額のしわ(控えめ、疲れをうっすら) -->
+  <path d="M101,105 Q120,101 139,105" fill="none" stroke="#b1815a" stroke-width="1.4" opacity="0.35"/>
+  <!-- 短めの七三、白髪交じり(耳の上で終える。生え際は丸みを保ちM字にしない) -->
+  <path d="M120,66 C93,66 76,87 75,114 C74,125 76,134 80,142 L89,137 C86,129 85,120 87,111 C91,95 104,87 120,87 C136,87 149,95 153,111 C155,120 154,129 151,137 L160,142 C164,134 166,125 165,114 C164,87 147,66 120,66 Z" fill="#7c766c"/>
+  <!-- 分け目 -->
+  <path d="M103,68 C107,74 109,80 108,85" fill="none" stroke="#544f47" stroke-width="1.7" stroke-linecap="round" opacity="0.6"/>
+  <!-- 白髪の筋(ハイライト・シェード) -->
+  <path d="M96,82 C104,76 113,72 122,71" fill="none" stroke="#a89f92" stroke-width="1.7" stroke-linecap="round" opacity="0.6"/>
+  <path d="M128,74 C137,78 143,86 147,96" fill="none" stroke="#544f47" stroke-width="1.7" stroke-linecap="round" opacity="0.5"/>
+  <path d="M88,110 C86,118 87,126 90,132" fill="none" stroke="#544f47" stroke-width="1.5" stroke-linecap="round" opacity="0.45"/>
+  <path d="M150,110 C152,118 151,126 148,132" fill="none" stroke="#544f47" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <!-- 眉(実直・水平気味で疲れが少し出る角度、卑屈にならない程度) -->
+  <path d="M90,129 Q101,125 112,128" fill="none" stroke="#4a4038" stroke-width="4" stroke-linecap="round"/>
+  <path d="M150,129 Q139,125 128,128" fill="none" stroke="#4a4038" stroke-width="4" stroke-linecap="round"/>
+  <!-- 目(まぶたラインは瞳に接する細ラインのみ) -->
+  <path d="M92,142 Q101,138 110,142" fill="none" stroke="#2e241d" stroke-width="2.3" stroke-linecap="round"/>
+  <path d="M148,142 Q139,138 130,142" fill="none" stroke="#2e241d" stroke-width="2.3" stroke-linecap="round"/>
+  <circle cx="101" cy="144" r="3.9" fill="#3a2c20"/>
+  <circle cx="139" cy="144" r="3.9" fill="#3a2c20"/>
+  <circle cx="99.7" cy="142.6" r="1.2" fill="#ffffff" opacity="0.85"/>
+  <circle cx="137.7" cy="142.6" r="1.2" fill="#ffffff" opacity="0.85"/>
+  <!-- 目の下のうっすらとした疲れ(申し訳なさ・疲れ。控えめに) -->
+  <path d="M93,150 Q101,152 109,150" fill="none" stroke="#b1815a" stroke-width="1.3" opacity="0.4"/>
+  <path d="M131,150 Q139,152 147,150" fill="none" stroke="#b1815a" stroke-width="1.3" opacity="0.4"/>
+  <!-- 鼻・ほうれい線 -->
+  <path d="M121,147 C119,156 116,163 112,167 C116,170 122,169 125,166" fill="none" stroke="#b1815a" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M105,164 Q102,171 104,177" fill="none" stroke="#b1815a" stroke-width="1.4" opacity="0.4"/>
+  <path d="M135,164 Q138,171 136,177" fill="none" stroke="#b1815a" stroke-width="1.4" opacity="0.4"/>
+  <!-- 口(引き締まった一文字、卑屈にならない程度にわずかに落ち着いた角度) -->
+  <path d="M108,180 Q120,179 132,180" fill="none" stroke="#7a5642" stroke-width="2.3" stroke-linecap="round"/>
+  <!-- スーツ(地味めのグレー系ジャケット) -->
+  <path d="M36,320 C42,236 76,207 104,201 C114,210 126,210 136,201 C164,207 198,236 204,320 Z" fill="#3a382f"/>
+  <path d="M104,201 L120,225 L136,201 L131,245 L120,255 L109,245 Z" fill="#e7e2d8"/>
+  <!-- ネクタイ(落ち着いた茶系) -->
+  <path d="M116,211 L124,211 L128,265 L120,279 L112,265 Z" fill="#5c4a3a"/>
+  <path d="M116,211 L124,211 L122,221 L118,221 Z" fill="#463629"/>
+  <path d="M104,201 L88,237 L104,261" fill="none" stroke="#211f1a" stroke-width="3"/>
+  <path d="M136,201 L152,237 L136,261" fill="none" stroke="#211f1a" stroke-width="3"/>
+  <!-- リムライト -->
+  <path d="M162,118 Q169,150 160,188" fill="none" stroke="#22d3ee" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+</svg>
