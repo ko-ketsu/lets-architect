@@ -1,0 +1,685 @@
+{
+  "id": "s3e3",
+  "season": 3,
+  "title": "そのデータ、失えますか",
+  "summary": "サブスク型学習サービスのCTO・氷室悟からの相談。SLAから可用性を逆算し、単一障害点を見つけ、整合性の要求が違うデータをどう扱うか。複数の制約が同時に問われる総合問題。",
+  "estimatedMinutes": 10,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    },
+    "customer": {
+      "name": "氷室悟(学習サービス)",
+      "role": "customer",
+      "portrait": "portraits/himuro.svg"
+    }
+  },
+  "params": {
+    "customer": 50,
+    "quality": 50,
+    "budget": 50,
+    "trust": 50
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "サブスク型学習サービスを運営する氷室CTOが、システムの冗長構成について相談にやってきた。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "氷室さんは理詰めで慎重なタイプ。数字や根拠を求められるから、曖昧なまま進めないようにしよう。"
+        },
+        {
+          "speaker": "customer",
+          "text": "単刀直入に聞きますが、今のインフラ構成、本当にSLAを守れる作りになっていますか?正直、根拠を持って説明できる自信がなくて。"
+        },
+        {
+          "speaker": "customer",
+          "text": "課金と受講権限の管理だけは、絶対に止めるわけにいきません。ここだけは譲れないんです。"
+        },
+        {
+          "speaker": "narration",
+          "text": "打ち合わせは残り15分。聞けるのはあと2つだけだ。"
+        }
+      ],
+      "next": "hearing1"
+    },
+    "hearing1": {
+      "type": "choice",
+      "prompt": "時間は限られている。まず何を聞く?(このあと、もう1問だけ聞ける)",
+      "options": [
+        {
+          "text": "「このサービス全体で、SLAとして約束したい稼働率はどれくらいですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_sla_target"],
+          "feedback": "目標値を数字で聞けたのは良い。判断の物差しになる。",
+          "next": "hearing2_sla"
+        },
+        {
+          "text": "「学習の進捗データが一瞬でも整合性が崩れたら、業務にどんな影響がありますか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_consistency_impact"],
+          "feedback": "地味だけど鋭い質問。どこまで厳密な整合性が要るかを決める分かれ道だよ。",
+          "next": "hearing2_consistency"
+        },
+        {
+          "text": "「今のインフラで、過去に障害が起きたことはありますか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_incident_history"],
+          "feedback": "過去の実績を聞くのは大事だけど、今日の一番の悩みどころとは少しずれてるかな。",
+          "next": "hearing2_incident"
+        },
+        {
+          "text": "「氷室さんが個人的に受けてみたい講座ってあります?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_hobby"],
+          "feedback": "雑談は大事だけど、今日の15分でそれを聞く?先に確認すべきことがあるよね。",
+          "next": "hearing2_hobby"
+        }
+      ]
+    },
+    "hearing2_sla": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「学習の進捗データが一瞬でも整合性が崩れたら、業務にどんな影響がありますか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_consistency_impact"],
+          "feedback": "この2問目が効いてくる。よく選んだ。",
+          "next": "answer_sla_consistency"
+        },
+        {
+          "text": "「今のインフラで、過去に障害が起きたことはありますか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_incident_history"],
+          "feedback": "過去の実績は把握できた。ただ今日の悩みの核心には触れずじまい。",
+          "next": "answer_sla_incident"
+        },
+        {
+          "text": "「氷室さんが個人的に受けてみたい講座ってあります?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_hobby"],
+          "feedback": "残り1問をこれに使うのはもったいない。",
+          "next": "answer_sla_hobby"
+        }
+      ]
+    },
+    "hearing2_consistency": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「このサービス全体で、SLAとして約束したい稼働率はどれくらいですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_sla_target"],
+          "feedback": "目標値も掴めた。良い組み合わせ。",
+          "next": "answer_sla_consistency"
+        },
+        {
+          "text": "「今のインフラで、過去に障害が起きたことはありますか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_incident_history"],
+          "feedback": "過去の実績も把握できた。",
+          "next": "answer_consistency_incident"
+        },
+        {
+          "text": "「氷室さんが個人的に受けてみたい講座ってあります?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_hobby"],
+          "feedback": "せっかくの2問目をこれに使うのはもったいない。",
+          "next": "answer_consistency_hobby"
+        }
+      ]
+    },
+    "hearing2_incident": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「このサービス全体で、SLAとして約束したい稼働率はどれくらいですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_sla_target"],
+          "feedback": "目標値は掴めたね。",
+          "next": "answer_sla_incident"
+        },
+        {
+          "text": "「学習の進捗データが一瞬でも整合性が崩れたら、業務にどんな影響がありますか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_consistency_impact"],
+          "feedback": "この質問、実はさっき聞いておきたかったやつ。今からでも聞けてよかった。",
+          "next": "answer_consistency_incident"
+        },
+        {
+          "text": "「氷室さんが個人的に受けてみたい講座ってあります?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_hobby"],
+          "feedback": "うーん、この2問目はもったいない。",
+          "next": "answer_incident_hobby"
+        }
+      ]
+    },
+    "hearing2_hobby": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「このサービス全体で、SLAとして約束したい稼働率はどれくらいですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_sla_target"],
+          "feedback": "せめてこれは聞けた。",
+          "next": "answer_sla_hobby"
+        },
+        {
+          "text": "「学習の進捗データが一瞬でも整合性が崩れたら、業務にどんな影響がありますか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_consistency_impact"],
+          "feedback": "ぎりぎりで核心の質問を拾えた。",
+          "next": "answer_consistency_hobby"
+        },
+        {
+          "text": "「今のインフラで、過去に障害が起きたことはありますか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_incident_history"],
+          "feedback": "過去の実績は把握できた。",
+          "next": "answer_incident_hobby"
+        }
+      ]
+    },
+    "answer_sla_consistency": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "SLAとしては99.9%を契約でお約束したいと考えています。月あたりにすると、止まっていい時間は1時間もないくらいですね。"
+        },
+        {
+          "speaker": "customer",
+          "text": "課金や受講権限が一瞬でも整合性を崩すと、二重請求や、お金を払ったのに講座が見られないという事故につながります。これは絶対に避けたい。逆に学習の進捗ログは、多少反映が遅れても業務上は問題ありません。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……両方とも大事な情報だね。覚えておいて。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_sla_incident": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "SLAとしては99.9%を契約でお約束したいと考えています。月あたりにすると、止まっていい時間は1時間もないくらいですね。"
+        },
+        {
+          "speaker": "customer",
+          "text": "過去にですか?去年、DBの再起動でサービスが数十分止まったことがありますね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_sla_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "SLAとしては99.9%を契約でお約束したいと考えています。月あたりにすると、止まっていい時間は1時間もないくらいですね。"
+        },
+        {
+          "speaker": "customer",
+          "text": "個人的に受けてみたい講座ですか?語学系は前から気になってますね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_consistency_incident": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "課金や受講権限が一瞬でも整合性を崩すと、二重請求や、お金を払ったのに講座が見られないという事故につながります。これは絶対に避けたい。逆に学習の進捗ログは、多少反映が遅れても業務上は問題ありません。"
+        },
+        {
+          "speaker": "customer",
+          "text": "過去にですか?去年、DBの再起動でサービスが数十分止まったことがありますね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "整合性が崩れた時の影響、大事な情報だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_consistency_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "課金や受講権限が一瞬でも整合性を崩すと、二重請求や、お金を払ったのに講座が見られないという事故につながります。これは絶対に避けたい。逆に学習の進捗ログは、多少反映が遅れても業務上は問題ありません。"
+        },
+        {
+          "speaker": "customer",
+          "text": "個人的に受けてみたい講座ですか?語学系は前から気になってますね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "整合性の話を聞けたね。それが今日一番の収穫かも。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_incident_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "過去にですか?去年、DBの再起動でサービスが数十分止まったことがありますね。"
+        },
+        {
+          "speaker": "customer",
+          "text": "個人的に受けてみたい講座ですか?語学系は前から気になってますね。"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……整合性が崩れた時にどうなるか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "briefing_done": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "打ち合わせの時間切れ。持ち帰って、現在の構成と各コンポーネントの稼働率実績をアオイ先輩と確認することになった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "これが今の構成と、直近1年の稼働率実績。まずは、どこにどんな数字が出てるか見てみよう。"
+        }
+      ],
+      "next": "screen_mockup"
+    },
+    "screen_mockup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "氷室さんから追ってメールが届いた。「念のためですが、課金・受講権限のデータと、学習進捗のログは、扱いを分けて考えていただいて構いません」"
+        },
+        {
+          "speaker": "senpai",
+          "text": "課金・受講権限はシビア、学習進捗は多少のズレが許容範囲。まずは構成図の数字を追ってみよう。"
+        }
+      ],
+      "next": "sla_estimate"
+    },
+    "sla_estimate": {
+      "type": "choice",
+      "prompt": "図の実測値を見ると、この3つのコンポーネントを直列につないだ場合、全体としての稼働率はどうなる?",
+      "image": {
+        "src": "diagrams/s3e3-arch.svg",
+        "caption": "現状の構成と各コンポーネントの稼働率実績(直近1年)",
+        "alt": "ロードバランサー(冗長2台)・アプリサーバー(冗長構成)・DB(単一構成)を直列につないだ構成図。直近1年の稼働率実績はロードバランサーが99.95%、アプリサーバーが99.99%、DBが99.9%と記載されている"
+      },
+      "options": [
+        {
+          "text": "「一番低いDBの99.9%と同じになります」",
+          "effects": { "quality": -3 },
+          "feedback": "直列につないだ場合、実は一番低い部分と同じにはならないんだ。それぞれの数字を掛け合わせてみて。",
+          "next": "design_choice_1"
+        },
+        {
+          "text": "「掛け算になるので、一番低いDBの99.9%よりわずかに低い、99.8%程度になります」",
+          "flags": ["computed_sla_multiplication"],
+          "feedback": "正解。可用性は掛け算で下がる。0.9995 × 0.9999 × 0.999 ≒ 0.998。一番低い部分より、全体はさらに低くなるんだ。",
+          "next": "design_choice_1"
+        },
+        {
+          "text": "「3つの平均くらい、99.95%程度になります」",
+          "effects": { "quality": -3 },
+          "feedback": "直列につないだ場合は平均にはならないよ。1つでも欠けたら全体が止まる、という関係を思い出してみて。",
+          "next": "design_choice_1"
+        },
+        {
+          "text": "「一番高いアプリサーバーの99.99%に近づきます」",
+          "effects": { "quality": -4 },
+          "feedback": "直列につないだ場合、一番良い数字には引っ張られないよ。全部が揃って初めて全体が動く、という関係だから。",
+          "next": "design_choice_1"
+        }
+      ]
+    },
+    "design_choice_1": {
+      "type": "choice",
+      "prompt": "この構成の中で、単一障害点(そこが壊れると全体が止まる箇所)はどこ?どう備える?",
+      "image": {
+        "src": "diagrams/s3e3-arch.svg",
+        "caption": "同じ構成図: 冗長化の有無に注目",
+        "alt": "ロードバランサー(冗長2台)・アプリサーバー(冗長構成)・DB(単一構成)を直列につないだ構成図。直近1年の稼働率実績はロードバランサーが99.95%、アプリサーバーが99.99%、DBが99.9%と記載されている"
+      },
+      "options": [
+        {
+          "text": "「ロードバランサーが単一障害点なので、そこを冗長化しましょう」",
+          "effects": { "budget": 6, "quality": -16, "customer": -8 },
+          "flags": ["misidentified_lb"],
+          "feedback": "ロードバランサーが1台しかない構成なら、それは正しい指摘になる。でも図を見ると、ロードバランサーはすでに2台構成になっている。単一障害点は別のところにあるよ。",
+          "next": "d1_reaction_misidentified"
+        },
+        {
+          "text": "「念のため全コンポーネントを3重化する、全面的な冗長構成に作り直しましょう」",
+          "effects": { "quality": 6, "budget": -20, "trust": -5 },
+          "flags": ["triple_everything"],
+          "feedback": "全コンポーネントの3重化は、極めて高いSLAを求められる基幹インフラなら正解になりうる。でも今回のSLA目標(99.9%)を考えると、単一障害点だけ手当てすれば足りるところまで作り込むのはやりすぎだよ。",
+          "next": "d1_reaction_tripleeverything"
+        },
+        {
+          "text": "「DBが単一障害点です。読み取りレプリカと自動フェイルオーバーを用意する構成にしましょう」",
+          "effects": { "quality": 14, "customer": 10, "budget": -8, "trust": 6 },
+          "flags": ["db_redundancy_correct"],
+          "feedback": "正解。図を見るとロードバランサーもアプリサーバーも冗長化されているのに、DBだけが単一構成。読み取りレプリカと自動フェイルオーバーを用意すれば、DBが単一障害点である状態を解消できる。",
+          "next": "d1_reaction_good"
+        },
+        {
+          "text": "「DBはこれまで大きな障害が起きていないので、このままで問題ありません」",
+          "effects": { "customer": -15, "trust": -8, "quality": -5 },
+          "flags": ["db_denial"],
+          "feedback": "去年、DBの再起動でサービスが数十分止まったという話、覚えてる?『大きな障害が起きていない』とは言えないよ。壊れる前提で考えないと、同じことがまた起きるだけだよ。",
+          "next": "d1_reaction_denial"
+        }
+      ]
+    },
+    "d1_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。冗長化されている箇所とされていない箇所、図から見分けられたね。"
+        }
+      ],
+      "next": "consistency_choice"
+    },
+    "d1_reaction_misidentified": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "図、もう一度見てみて。ロードバランサーの箱、いくつ並んでる?"
+        }
+      ],
+      "next": "consistency_choice"
+    },
+    "d1_reaction_tripleeverything": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "気持ちは分かるけど、それ、99.9%という目標に対してやりすぎじゃない?"
+        }
+      ],
+      "next": "consistency_choice"
+    },
+    "d1_reaction_denial": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『壊れたことがない』は、これから壊れない理由にはならないよ。"
+        }
+      ],
+      "next": "consistency_choice"
+    },
+    "consistency_choice": {
+      "type": "choice",
+      "prompt": "氷室さんの話では、課金・受講権限は一瞬の整合性崩れも許されない一方、学習進捗ログは多少の遅延なら業務に支障はないとのこと。データストアの使い分け、どうする?",
+      "options": [
+        {
+          "text": "「課金・受講権限は強整合性を保証するデータストアに、学習進捗のような遅延が許容されるデータは書き込み性能を優先した別のデータストアに分けましょう」",
+          "effects": { "quality": 14, "customer": 9, "budget": -8, "trust": 6 },
+          "flags": ["data_store_split"],
+          "feedback": "正解。課金・受講権限は一瞬のズレも許されないと聞けている。厳密さが要る部分と、多少の遅延が許容される部分でデータストアを使い分ければ、両方の要求を無理なく満たせる。",
+          "next": "d2_reaction_good"
+        },
+        {
+          "text": "「処理を簡潔にするため、課金・受講権限も学習進捗も同じ結果整合性型のデータストアにまとめましょう」",
+          "effects": { "customer": -15, "trust": -8, "quality": -5 },
+          "flags": ["unify_eventual_consistency"],
+          "feedback": "結果整合性型のデータストアへの統一は、扱うデータがすべて多少の遅延を許容できる場合には正解になりうる。でも課金・受講権限は一瞬のズレも許されないと聞いている。ここに結果整合性を持ち込むのは危険だよ。",
+          "next": "d2_reaction_unify"
+        },
+        {
+          "text": "「今まで通り、区別せず1つのデータベースに全部まとめて保存しておきましょう」",
+          "effects": { "budget": 8, "quality": -18, "customer": -10 },
+          "flags": ["keep_single_db"],
+          "feedback": "データの性質がほとんど同じなら、1つにまとめておくのはシンプルで良い判断になる。でも今回は書き込み頻度の高い進捗ログと、厳密さが要る課金処理が同居してしまい、進捗ログの大量書き込みが課金処理の足を引っ張りかねないよ。",
+          "next": "d2_reaction_keepsingle"
+        },
+        {
+          "text": "「整合性が命なので、学習進捗も含めてすべて強整合性を保証する高コストな構成に統一しましょう」",
+          "effects": { "quality": 6, "budget": -20, "trust": -5 },
+          "flags": ["overcorrect_strict_everywhere"],
+          "feedback": "全データを強整合性で統一するのは、扱うデータがすべて課金並みにシビアな場合には正解になりうる。でも学習進捗ログは多少の遅延が許容されると聞けている。そこまで厳密にする必要はなく、コストに見合わないよ。",
+          "next": "d2_reaction_overcorrect"
+        }
+      ]
+    },
+    "d2_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。『全部同じ扱い』にしないで、データの性質で線引きできたね。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_unify": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "課金の二重請求、洒落にならないよ。整合性の要求が違うデータを同じ扱いにしていいの?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_keepsingle": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "進捗ログの書き込みが増えるほど、同じDBにいる課金処理も巻き込まれるよ。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_overcorrect": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "進捗ログにまで課金並みの厳密さを求めるコスト、本当に見合ってる?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "budget_reveal": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "ちなみに、この移行は3か月以内に終えたいと思っています。予算も青天井というわけにはいきませんし、運用チームも今のままの人数で回せる範囲でお願いしたいです。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……3か月、予算も限られてる、しかも運用チームは今のまま。さあ、どう進める?"
+        }
+      ],
+      "next": "final_choice"
+    },
+    "final_choice": {
+      "type": "choice",
+      "prompt": "3か月・限られた予算・今の運用チームのまま、という制約の中、この改修をどう提案する?",
+      "options": [
+        {
+          "text": "「せっかくの機会なので、可用性を極めましょう。全コンポーネントの多重化と遠隔地バックアップまで、フル構成で一気に整備します」",
+          "effects": { "budget": -25, "trust": -10, "customer": 5 },
+          "flags": ["scope_creep"],
+          "feedback": "可用性を高く積む方向は、SLA要求が桁違いに厳しい基幹インフラなら喜ばれる判断。でも99.9%という目標と、今の人数のまま運用できる範囲という条件を思い出して。フル構成は3か月にも運用体制にも収まらないよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「運用チームを増やせないなら安全側に倒して、DBの冗長化は次の増員まで見送りましょうと提案します」",
+          "effects": { "customer": -20, "trust": -5, "budget": 10 },
+          "flags": ["dropped_core_need"],
+          "feedback": "運用できないものを持ち込まない、という考え方自体は正しい。でもレプリカと自動フェイルオーバーは、導入後の手間がむしろ減る類の仕組み。見送ろうとしているのは氷室さんが一番気にしていた単一障害点の問題そのものだよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「DBの読み取りレプリカ・フェイルオーバーの整備と、課金・進捗データストアの分離を最優先にします。それ以外の機能追加は次期以降にまわしましょう」",
+          "effects": { "quality": 2, "customer": 10, "budget": 14, "trust": 4 },
+          "flags": ["scope_disciplined"],
+          "feedback": "正解。3つの制約(3か月・予算・運用体制)をすべて見た上で、単一障害点の解消と課金の整合性という『失えないもの』から順に確保する。1つの軸だけ最適化しない、総合問題の答えだね。",
+          "next": "ending"
+        },
+        {
+          "text": "「3か月しかないので、移行の設計レビューは省略して、まず手を動かし始めましょう」",
+          "effects": { "quality": -15, "budget": 5, "trust": -8 },
+          "flags": ["rushed_no_plan"],
+          "feedback": "単純な作業ならスピード優先も分かる。でもデータ層の移行は、失敗すると課金データそのものを失いかねない作業。さっき決めたデータストアの使い分けを設計レビューなしで進めるのは、一番失えないものを危険にさらすよ。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": {
+            "flags": ["asked_consistency_impact", "db_redundancy_correct", "data_store_split", "scope_disciplined"],
+            "minTotal": 280
+          },
+          "lines": [
+            {
+              "speaker": "customer",
+              "text": "根拠を持ってSLAを説明できる、というのはこういうことなんですね。単一障害点も解消されて、データの扱いも筋が通っている。納得しました。"
+            },
+            {
+              "speaker": "narration",
+              "text": "3か月後、予定通り移行が完了。半年後、DBのメンテナンス作業中にも自動フェイルオーバーが働き、利用者は誰も気づかなかった。課金の整合性トラブルも一件も起きていない。"
+            },
+            {
+              "speaker": "customer",
+              "text": "『気づかれないまま乗り切れた』というのが一番の成果だと思っています。次の監査対応の相談も、あなたにお願いしたいですね。"
+            }
+          ]
+        },
+        {
+          "require": { "minTotal": 240 },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "何とか3か月以内に移行を終えた。大きな問題は起きなかったが、一部の判断は後になって効いてきた。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "結果オーライ、ではあるけどね。もう少し早く核心の情報に気づけていたら、もっと迷わずに進めたと思うよ。"
+            }
+          ]
+        },
+        {
+          "require": { "minTotal": 200 },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "移行後まもなく、DBの障害時にサービスが数十分止まる事態が発生。原因調査と急ぎの対応に、開発チームは追われることになった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "急いで直してもらえるのはありがたいですが……最初から気づいといてほしかったですね。"
+            }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "移行後、DBの障害と同時に課金データの整合性が崩れ、二重請求が多数発生。返金対応と信頼回復に数か月を要した。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……悔しいね。でも、ここまでの判断のどこがズレたのか、一緒に振り返ろう。"
+            }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "お疲れさま。今日のテーマは『壊れる前提でのデータ層設計』。可用性は掛け算で下がる。直列につないだコンポーネントの中で一番低い数値より、全体はさらに低くなるんだ。SLAを約束するなら、この逆算ができないといけない。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "単一障害点は、稼働率の数字だけを見ていても分からない。冗長化されているかどうかという構成の事実を、図から読み取る必要があったね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "そしてもう一つ。整合性の厳しさはデータの種類によって違う。一律に強整合性にするのも、一律に結果整合性にするのも、それ自体は間違いじゃない。今回は課金と進捗で要求が違ったから、使い分けが答えだったんだ。"
+        }
+      ],
+      "points": [
+        "可用性は掛け算で下がる。直列につないだコンポーネントの中で一番低い数値より、全体はさらに低くなる",
+        "単一障害点は、稼働率の数字だけでなく『冗長化されているかどうか』という構成の事実から見つける",
+        "整合性の厳しさはデータの種類によって違う。一律に強整合性・一律に結果整合性、どちらの決め打ちも危険",
+        "複数の制約(予算・期間・運用体制)が同時にかかるときは、1つの軸だけを最適化せず、『失えないもの』から順に確保する"
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "term": "SLA",
+      "def": "Service Level Agreement。稼働率など、サービスの品質について顧客と約束する水準。"
+    },
+    {
+      "term": "可用性",
+      "def": "システムが正常に使える状態を保てる度合い。稼働率(%)で表されることが多い。複数のコンポーネントを直列につなぐと、全体の可用性は各コンポーネントの可用性の掛け算になり、個々の値より低くなる。"
+    },
+    {
+      "term": "単一障害点",
+      "def": "そこが壊れるとシステム全体が止まってしまう箇所。冗長化されていない構成要素は単一障害点になりやすい。"
+    },
+    {
+      "term": "フェイルオーバー",
+      "def": "稼働中の機器やサービスに障害が起きたとき、自動的に予備の系統に切り替える仕組み。"
+    },
+    {
+      "term": "読み取りレプリカ",
+      "def": "DBの複製を用意し、読み取り処理を分散させたり、障害時の切り替え先として使う仕組み。"
+    },
+    {
+      "term": "結果整合性",
+      "def": "更新した直後は一時的に古い値が見えることがあっても、時間が経てば最終的に正しい値に落ち着くという整合性のモデル。厳密な即時整合性より書き込み性能を優先しやすい。"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" role="img" aria-label="24時間の時間帯別アクセス数を示す折れ線グラフ。平常時は約15req/sで推移し、セール開始直後の2時間だけ約1,500req/sまで跳ね上がっている">
+  <rect width="900" height="460" fill="#0f1626"/>
+  <text x="450" y="34" text-anchor="middle" fill="#e9eef6" font-size="20" font-weight="bold">工具レンタルEC: 去年のセール当日のアクセス数記録</text>
+
+  <!-- gridlines -->
+  <line x1="60" y1="336" x2="860" y2="336" stroke="#3a4a63" stroke-width="1.5"/>
+  <line x1="60" y1="256" x2="860" y2="256" stroke="#232f45" stroke-width="1"/>
+  <line x1="60" y1="176" x2="860" y2="176" stroke="#232f45" stroke-width="1"/>
+  <line x1="60" y1="96" x2="860" y2="96" stroke="#232f45" stroke-width="1"/>
+
+  <text x="50" y="341" text-anchor="end" fill="#9aa8bf" font-size="12">0</text>
+  <text x="50" y="261" text-anchor="end" fill="#9aa8bf" font-size="12">400</text>
+  <text x="50" y="181" text-anchor="end" fill="#9aa8bf" font-size="12">800</text>
+  <text x="50" y="101" text-anchor="end" fill="#9aa8bf" font-size="12">1,200</text>
+  <text x="450" y="70" text-anchor="middle" fill="#9aa8bf" font-size="12">req/s</text>
+
+  <!-- x axis -->
+  <line x1="60" y1="336" x2="860" y2="336" stroke="#3a4a63" stroke-width="2"/>
+  <text x="60" y="360" text-anchor="middle" fill="#9aa8bf" font-size="12">0時</text>
+  <text x="269" y="360" text-anchor="middle" fill="#9aa8bf" font-size="12">6時</text>
+  <text x="478" y="360" text-anchor="middle" fill="#9aa8bf" font-size="12">12時</text>
+  <text x="686" y="360" text-anchor="middle" fill="#9aa8bf" font-size="12">18時</text>
+  <text x="860" y="360" text-anchor="middle" fill="#9aa8bf" font-size="12">23時</text>
+
+  <!-- traffic line (step shape: flat baseline, sharp 2-hour spike, back to baseline) -->
+  <path d="M60,336 L478,336 L478,80 L548,80 L548,336 L860,336" fill="none" stroke="#22d3ee" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- baseline marker + label -->
+  <circle cx="260" cy="336" r="4" fill="#22d3ee"/>
+  <rect x="150" y="386" width="240" height="46" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="270" y="405" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">平常時 実測</text>
+  <text x="270" y="423" text-anchor="middle" fill="#9aa8bf" font-size="12">約15 req/s</text>
+
+  <!-- peak marker + label -->
+  <circle cx="513" cy="80" r="4" fill="#22d3ee"/>
+  <rect x="393" y="386" width="260" height="46" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="523" y="405" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">セール時ピーク実測</text>
+  <text x="523" y="423" text-anchor="middle" fill="#9aa8bf" font-size="12">約1,500 req/s(継続時間 約2時間)</text>
+</svg>

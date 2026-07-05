@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="熊谷剛(社内新規事業部長)の立ち絵">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182238"/><stop offset="1" stop-color="#0e1520"/>
+    </linearGradient>
+    <radialGradient id="phalo" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.09"/>
+      <stop offset="0.55" stop-color="#22d3ee" stop-opacity="0.035"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="240" height="320" fill="url(#pbg)"/>
+  <rect width="240" height="320" fill="url(#phalo)"/>
+  <!-- 耳(大きめ、がっしり) -->
+  <ellipse cx="76" cy="151" rx="8" ry="12" fill="#d9a878"/>
+  <ellipse cx="164" cy="151" rx="8" ry="12" fill="#d9a878"/>
+  <!-- 首(太め・襟の奥まで伸ばして隙間を作らない) -->
+  <path d="M99,160 L99,225 C99,236 108,244 120,244 C132,244 141,236 141,225 L141,160 Z" fill="#d9a878"/>
+  <path d="M99,170 C106,188 134,188 141,170 L141,192 C132,201 108,201 99,192 Z" fill="#b8865c"/>
+  <!-- 顔(卵型・幅広でがっしり) -->
+  <path d="M120,76 C86,76 70,103 73,136 C75,160 85,179 101,188 C110,194 130,194 139,188 C155,179 165,160 167,136 C170,103 154,76 120,76 Z" fill="#d9a878"/>
+  <!-- 短髪(がっしり、こめかみに白髪交じり) -->
+  <path d="M120,58 C86,58 68,82 68,113 C67,127 69,140 75,151 L89,147 C87,139 86,127 87,115 C93,105 105,101 120,101 C135,101 147,105 153,115 C154,127 153,139 151,147 L165,151 C171,140 173,127 172,113 C172,82 154,58 120,58 Z" fill="#2b2320"/>
+  <path d="M96,72 Q120,60 144,72" fill="none" stroke="#3a322d" stroke-width="2.4" stroke-linecap="round" opacity="0.6"/>
+  <path d="M78,120 C77,128 78,136 81,144" fill="none" stroke="#8a8580" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/>
+  <path d="M162,120 C163,128 162,136 159,144" fill="none" stroke="#8a8580" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/>
+  <!-- 眉(太く、豪快な印象) -->
+  <path d="M85,132 Q100,124 116,131" fill="none" stroke="#2b2320" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M155,132 Q140,124 124,131" fill="none" stroke="#2b2320" stroke-width="5.5" stroke-linecap="round"/>
+  <!-- 目(人なつっこく大きめの笑い目、まぶたは瞳に接する細ライン) -->
+  <path d="M90,147 Q100,142 112,146" fill="none" stroke="#2a1d16" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M150,147 Q140,142 128,146" fill="none" stroke="#2a1d16" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="101" cy="148" r="4.6" fill="#2a1d16"/>
+  <circle cx="139" cy="148" r="4.6" fill="#2a1d16"/>
+  <circle cx="99.4" cy="146.2" r="1.4" fill="#ffffff" opacity="0.9"/>
+  <circle cx="137.4" cy="146.2" r="1.4" fill="#ffffff" opacity="0.9"/>
+  <!-- 頬・目尻の笑いじわ -->
+  <path d="M84,152 Q80,148 78,142" fill="none" stroke="#b8865c" stroke-width="1.6" opacity="0.5" stroke-linecap="round"/>
+  <path d="M156,152 Q160,148 162,142" fill="none" stroke="#b8865c" stroke-width="1.6" opacity="0.5" stroke-linecap="round"/>
+  <ellipse cx="88" cy="167" rx="9" ry="5" fill="#e07a5a" opacity="0.18"/>
+  <ellipse cx="152" cy="167" rx="9" ry="5" fill="#e07a5a" opacity="0.18"/>
+  <!-- 鼻(丸めで大きめ) -->
+  <path d="M120,152 C119,160 116,166 112,169 C116,172 125,172 129,169" fill="none" stroke="#b8865c" stroke-width="2.6" stroke-linecap="round"/>
+  <!-- 口(大きく開けた豪快な笑顔) -->
+  <path d="M100,183 Q120,200 140,183 Q120,196 100,183 Z" fill="#7a3226"/>
+  <path d="M104,185 Q120,193 136,185" fill="none" stroke="#f2e6dc" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <path d="M100,183 Q120,199 140,183" fill="none" stroke="#8a4a34" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>
+  <!-- 服: シャツ(ノーネクタイ、第一ボタンを開けた前開き) -->
+  <path d="M28,320 C34,236 70,207 100,209 C110,220 130,220 140,209 C170,207 206,236 212,320 Z" fill="#3f5468"/>
+  <path d="M100,209 L120,234 L140,209 L132,250 L120,262 L108,250 Z" fill="#8b97a0"/>
+  <path d="M100,209 L112,226 L100,236" fill="none" stroke="#2b3946" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M140,209 L128,226 L140,236" fill="none" stroke="#2b3946" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="120" cy="252" r="2.6" fill="#2b3946" opacity="0.8"/>
+  <!-- リムライト -->
+  <path d="M168,118 Q176,152 166,192" fill="none" stroke="#22d3ee" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+</svg>

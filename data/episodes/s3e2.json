@@ -1,0 +1,694 @@
+{
+  "id": "s3e2",
+  "season": 3,
+  "title": "VM でいいじゃん、は本当か",
+  "summary": "社内新規事業「工具レンタルEC」。セール時だけ普段の100倍跳ね上がるアクセス、運用チームはわずか2人。VM・コンテナ・サーバーレス、この前提で裏目に出ない実行基盤はどれか。",
+  "estimatedMinutes": 9,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    },
+    "customer": {
+      "name": "熊谷剛(工具レンタルEC)",
+      "role": "customer",
+      "portrait": "portraits/kumagai.svg"
+    }
+  },
+  "params": {
+    "customer": 50,
+    "quality": 50,
+    "budget": 50,
+    "trust": 50
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "社内新規事業「工具レンタルEC」。倉庫に眠る工具をレンタルできるサービスとして、立ち上げの準備が進んでいる。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "今日のお客様、熊谷部長は新規事業の責任者。勢いのある人だから、雰囲気に流されず前提を確認しよう。"
+        },
+        {
+          "speaker": "customer",
+          "text": "いやー、今どきのシステムってやつをね、モダンにガッと作りたいんですよ!流行りの仕組みでバーンと立ち上げたい!"
+        },
+        {
+          "speaker": "customer",
+          "text": "セールの時にアクセスが集中するのは分かってるんで、そこは何とかしてほしいんですけどね。"
+        },
+        {
+          "speaker": "narration",
+          "text": "打ち合わせは残り15分。聞けるのはあと2つだけだ。"
+        }
+      ],
+      "next": "hearing1"
+    },
+    "hearing1": {
+      "type": "choice",
+      "prompt": "時間は限られている。まず何を聞く?(このあと、もう1問だけ聞ける)",
+      "options": [
+        {
+          "text": "「セールの時って、普段の何倍くらいアクセスが跳ね上がるんですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_peak"],
+          "feedback": "規模感を数字で聞けたのは良い。裏取りの基本だね。",
+          "next": "hearing2_peak"
+        },
+        {
+          "text": "「運用チームは何人で、どんな運用経験をお持ちですか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_ops_capacity"],
+          "feedback": "地味だけど鋭い質問。技術選定は運用できる体制があってこそだよ。",
+          "next": "hearing2_ops"
+        },
+        {
+          "text": "「セールの開催日程って、何日前に決まるんですか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_schedule"],
+          "feedback": "準備期間の把握は大事だけど、今日の一番の悩みどころとは少しずれてるかな。",
+          "next": "hearing2_schedule"
+        },
+        {
+          "text": "「熊谷さんが最近ハマってる工具のジャンルって何ですか?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_hobby"],
+          "feedback": "雑談は大事だけど、今日の15分でそれを聞く?先にもっと詰めるべきことがあるよね。",
+          "next": "hearing2_hobby"
+        }
+      ]
+    },
+    "hearing2_peak": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「運用チームは何人で、どんな運用経験をお持ちですか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_ops_capacity"],
+          "feedback": "この2問目が効いてくる。よく選んだ。",
+          "next": "answer_peak_ops"
+        },
+        {
+          "text": "「セールの開催日程って、何日前に決まるんですか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_schedule"],
+          "feedback": "規模感の裏取りができた。ただ今日の悩みの核心には触れずじまい。",
+          "next": "answer_peak_schedule"
+        },
+        {
+          "text": "「熊谷さんが最近ハマってる工具のジャンルって何ですか?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_hobby"],
+          "feedback": "残り1問をこれに使うのはもったいない。",
+          "next": "answer_peak_hobby"
+        }
+      ]
+    },
+    "hearing2_ops": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「セールの時って、普段の何倍くらいアクセスが跳ね上がるんですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_peak"],
+          "feedback": "ピークの規模感も掴めた。良い組み合わせ。",
+          "next": "answer_peak_ops"
+        },
+        {
+          "text": "「セールの開催日程って、何日前に決まるんですか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_schedule"],
+          "feedback": "準備期間も把握できた。",
+          "next": "answer_ops_schedule"
+        },
+        {
+          "text": "「熊谷さんが最近ハマってる工具のジャンルって何ですか?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_hobby"],
+          "feedback": "せっかくの2問目をこれに使うのはもったいない。",
+          "next": "answer_ops_hobby"
+        }
+      ]
+    },
+    "hearing2_schedule": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「セールの時って、普段の何倍くらいアクセスが跳ね上がるんですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_peak"],
+          "feedback": "ピークの規模感は掴めたね。",
+          "next": "answer_peak_schedule"
+        },
+        {
+          "text": "「運用チームは何人で、どんな運用経験をお持ちですか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_ops_capacity"],
+          "feedback": "この質問、実はさっき聞いておきたかったやつ。今からでも聞けてよかった。",
+          "next": "answer_ops_schedule"
+        },
+        {
+          "text": "「熊谷さんが最近ハマってる工具のジャンルって何ですか?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_hobby"],
+          "feedback": "うーん、この2問目はもったいない。",
+          "next": "answer_schedule_hobby"
+        }
+      ]
+    },
+    "hearing2_hobby": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「セールの時って、普段の何倍くらいアクセスが跳ね上がるんですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_peak"],
+          "feedback": "せめてこれは聞けた。",
+          "next": "answer_peak_hobby"
+        },
+        {
+          "text": "「運用チームは何人で、どんな運用経験をお持ちですか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_ops_capacity"],
+          "feedback": "ぎりぎりで核心の質問を拾えた。",
+          "next": "answer_ops_hobby"
+        },
+        {
+          "text": "「セールの開催日程って、何日前に決まるんですか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_schedule"],
+          "feedback": "準備期間は把握できた。",
+          "next": "answer_schedule_hobby"
+        }
+      ]
+    },
+    "answer_peak_ops": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "セールの時は、普段の100倍くらいアクセスが跳ね上がりますね。ただ激しいのはセール開始から2時間くらいです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "運用チームは自分含めて2人ですね。しかも二人ともインフラ専任じゃなくて、開発と兼務なんですよ。本格的な運用経験もそんなにないです。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……両方とも大事な情報だね。覚えておいて。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_peak_schedule": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "セールの時は、普段の100倍くらいアクセスが跳ね上がりますね。ただ激しいのはセール開始から2時間くらいです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "セールの日程は、大体1か月前には社内で確定してますね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_peak_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "セールの時は、普段の100倍くらいアクセスが跳ね上がりますね。ただ激しいのはセール開始から2時間くらいです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "最近ハマってる工具ですか?電動ドライバーですかね(笑)"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_ops_schedule": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "運用チームは自分含めて2人ですね。しかも二人ともインフラ専任じゃなくて、開発と兼務なんですよ。本格的な運用経験もそんなにないです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "セールの日程は、大体1か月前には社内で確定してますね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "運用体制の話、大事な情報だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_ops_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "運用チームは自分含めて2人ですね。しかも二人ともインフラ専任じゃなくて、開発と兼務なんですよ。本格的な運用経験もそんなにないです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "最近ハマってる工具ですか?電動ドライバーですかね(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "text": "運用体制を聞けたね。それが今日一番の収穫かも。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_schedule_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "セールの日程は、大体1か月前には社内で確定してますね。"
+        },
+        {
+          "speaker": "customer",
+          "text": "最近ハマってる工具ですか?電動ドライバーですかね(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……運用チームの体制、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "briefing_done": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "打ち合わせの時間切れ。持ち帰って、直近のセール時のアクセス数の記録をアオイ先輩と確認することになった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "これが去年のセール当日のアクセス数の記録。まずは、どれくらい跳ね上がってるか数字で見てみよう。"
+        }
+      ],
+      "next": "screen_mockup"
+    },
+    "screen_mockup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "熊谷部長から追ってメールが届いた。「あ、言い忘れてたんですけど、うちの運用チーム、そんなに手厚くないんで、あんまり複雑な運用が必要な仕組みは正直きついかもです」"
+        },
+        {
+          "speaker": "senpai",
+          "text": "運用チームは兼任2人。まずは実測のアクセス数から数字を追ってみよう。"
+        }
+      ],
+      "next": "estimate_choice"
+    },
+    "estimate_choice": {
+      "type": "choice",
+      "prompt": "図の実測値を見ると、セール時のピークは普段の何倍くらいになる?",
+      "image": {
+        "src": "diagrams/s3e2-traffic.svg",
+        "caption": "去年のセール当日、時間帯別のアクセス数記録",
+        "alt": "24時間の時間帯別アクセス数を示す折れ線グラフ。平常時は約15req/sで推移し、セール開始直後の2時間だけ約1,500req/sまで跳ね上がっている"
+      },
+      "options": [
+        {
+          "text": "「10倍くらいですね」",
+          "effects": { "quality": -3 },
+          "feedback": "平常時が約15req/s、ピークが約1,500req/s。もう一度割り算してみて。",
+          "next": "design_choice_1"
+        },
+        {
+          "text": "「100倍くらいですね」",
+          "flags": ["counted_100x"],
+          "feedback": "正解。平常時は約15req/s、セールのピークは約1,500req/s。1,500 ÷ 15 = 100倍だね。",
+          "next": "design_choice_1"
+        },
+        {
+          "text": "「50倍くらいですね」",
+          "effects": { "quality": -3 },
+          "feedback": "惜しい。半分の桁で見積もっちゃったかな。1,500 ÷ 15をもう一度計算してみて。",
+          "next": "design_choice_1"
+        },
+        {
+          "text": "「1,000倍くらいですね」",
+          "effects": { "quality": -4 },
+          "feedback": "跳ね上がり方は激しいけど、そこまでではないよ。1,500 ÷ 15を計算してみて。",
+          "next": "design_choice_1"
+        }
+      ]
+    },
+    "design_choice_1": {
+      "type": "choice",
+      "prompt": "セールの時だけアクセスが跳ね上がるこのワークロード、実行基盤をどうする?",
+      "image": {
+        "src": "diagrams/s3e2-traffic.svg",
+        "caption": "同じ記録: アクセス数の波形に注目",
+        "alt": "24時間の時間帯別アクセス数を示す折れ線グラフ。平常時は約15req/sで推移し、セール開始直後の2時間だけ約1,500req/sまで跳ね上がっている"
+      },
+      "options": [
+        {
+          "text": "「普段使っているVMのスペックを上げて、セールの時だけ手動でVMを増やす運用にしましょう」",
+          "effects": { "customer": -15, "trust": -8, "quality": -5 },
+          "flags": ["manual_vm_scaling"],
+          "feedback": "セールの日程が数か月前から固定で、運用チームに余裕があるなら手動増設も現実的な手段になる。でも今回は運用チームが兼任2人。開始直後の急激な立ち上がりに、手作業のVM増設が間に合う保証はないよ。",
+          "next": "d1_reaction_manual"
+        },
+        {
+          "text": "「サーバーレス(リクエストに応じて自動でスケールする実行環境)を使い、平常時もセールの瞬間的なピークも自動でスケールする構成にしましょう」",
+          "effects": { "quality": 14, "customer": 9, "budget": -8, "trust": 6 },
+          "flags": ["serverless_choice"],
+          "feedback": "正解。普段は低いアクセスがセールの2時間だけ100倍に跳ねるという波形と、運用チームが兼任2人という体制、どちらにもよく合う。呼び出された分だけ動く実行環境なら、自動でスケールしてくれて運用の負担も小さい。",
+          "next": "d1_reaction_good"
+        },
+        {
+          "text": "「話題のコンテナオーケストレーション基盤を導入して、自動スケールさせましょう」",
+          "effects": { "quality": 6, "budget": -20, "trust": -5 },
+          "flags": ["k8s_overkill"],
+          "feedback": "コンテナオーケストレーション基盤は、専任のインフラチームがいて複数サービスを横断的に運用する規模なら正解になりうる。でも今回は兼任2人の運用チーム。基盤自体の学習・運用コストが重荷になるよ。",
+          "next": "d1_reaction_k8s"
+        },
+        {
+          "text": "「セールの有無にかかわらず、常にピーク相当のインスタンス数を常時稼働させておきましょう」",
+          "effects": { "budget": -18, "quality": 4, "trust": -6 },
+          "flags": ["always_on_overprovision"],
+          "feedback": "取りこぼしを絶対に避けたい極めて重要な基幹システムなら、常時ピーク相当を維持する判断もありえる。でも今回はセールの2時間以外はほぼ使わない余剰インスタンス。予算をずっと無駄に食い続けるよ。",
+          "next": "d1_reaction_overprovision"
+        }
+      ]
+    },
+    "d1_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。跳ねる時だけ跳ねる、この波形にはうまく合ってる。"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_manual": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "手動でVMを増やす作業、2人の運用チームでセール開始直後の数分に間に合う?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_k8s": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "気持ちは分かるけど、それ、2人の運用チームで面倒見きれる?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_overprovision": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "普段の99%以上の時間、100倍分のインスタンスが遊んでることになるよ。予算、その使い方でいいの?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "design_choice_2": {
+      "type": "choice",
+      "prompt": "サーバーレスを選んだ場合、セール開始直後の急激なアクセス増にどう備える?",
+      "image": {
+        "src": "diagrams/s3e2-compare.svg",
+        "caption": "VM・コンテナ・サーバーレスの実測比較",
+        "alt": "VM・コンテナ・サーバーレスの3つの実行基盤について、起動までの時間・課金の単位・スケール方法の実測値を並べた比較表"
+      },
+      "options": [
+        {
+          "text": "「サーバーレスにしたので、セール前に何も準備しなくても自動でスケールしてくれます」",
+          "effects": { "customer": -18, "quality": -10, "budget": 5 },
+          "flags": ["assumed_zero_ops"],
+          "feedback": "自動でスケールするのは本当。でも同時に処理できる件数には上限があるし、久しぶりに呼ばれた処理は起動に一瞬時間がかかる(コールドスタート)。『何もしなくていい』ではなく『何を備えるかが変わる』が正しいよ。",
+          "next": "d2_reaction_assumedzero"
+        },
+        {
+          "text": "「念のため裏で今までのVMも並行稼働させておいて、両方運用しましょう」",
+          "effects": { "budget": -18, "trust": -5, "quality": 8 },
+          "flags": ["dual_run_overkill"],
+          "feedback": "移行期間中の保険としてVMを一時的に残すのは分かる。でも両方をずっと運用し続けると、サーバーレスを選んで運用負担を減らしたはずが、逆に2人の運用チームの負担を増やしてしまうよ。",
+          "next": "d2_reaction_dualrun"
+        },
+        {
+          "text": "「同時実行数の上限は据え置きのままにして、セール直前に軽くテストだけしておきましょう」",
+          "effects": { "customer": -8, "quality": -10, "budget": 4 },
+          "flags": ["light_test_only"],
+          "feedback": "軽いテストをすること自体は良い。でも普段の同時実行数の上限のままだと、100倍のアクセスが来た瞬間に上限に達し、あふれた分のリクエストが失敗してしまうよ。",
+          "next": "d2_reaction_lighttest"
+        },
+        {
+          "text": "「セール前に同時実行数の上限引き上げをあらかじめ申請・設定しておき、上限に達した場合の待機やリトライの処理も実装しておきましょう」",
+          "effects": { "quality": 10, "customer": 10, "budget": -3, "trust": 6 },
+          "flags": ["preflight_concurrency_prep"],
+          "feedback": "正解。サーバーレスの自動スケールにも同時実行数の上限という制約がある。セール前に上限を引き上げ、あふれた分の待機・リトライまで用意しておけば、100倍のアクセスにも耐えられる。",
+          "next": "d2_reaction_good"
+        }
+      ]
+    },
+    "d2_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "『自動でスケールする』と『何もしなくていい』は違う。この違い、覚えておいて。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_assumedzero": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『サーバーレスなら運用不要』、それ結構あるある信仰だよ。同時実行数の上限、確認した?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_dualrun": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "運用の手間を減らすためにサーバーレスを選んだのに、2つとも運用したら本末転倒だよ。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_lighttest": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "テストだけして上限を上げなかったら、本番のセールでその上限に引っかかるよ。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "budget_reveal": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "来月頭のセール、これでいけそうですね!いやー、それにしてもサーバーレスってすごいじゃないですか。この際、決済処理も全部サーバーレスに書き換えちゃいましょうよ!"
+        },
+        {
+          "speaker": "customer",
+          "text": "決済なんて24時間ずーっと一定のペースで休みなく動いてるんですから、あれも全部自動になったら最高でしょ!モダンに統一!"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……熊谷さん、すっかり気に入ったみたいだね。さあ、どう応える?"
+        }
+      ],
+      "next": "final_choice"
+    },
+    "final_choice": {
+      "type": "choice",
+      "prompt": "「決済も全部サーバーレスに!」と盛り上がる熊谷部長。どう応える?",
+      "options": [
+        {
+          "text": "「いいですね、技術スタックが揃うと管理も楽になります。決済も含めて全部サーバーレスに統一しましょう」",
+          "effects": { "budget": -25, "trust": -10, "customer": 5 },
+          "flags": ["unify_all_serverless"],
+          "feedback": "技術スタックの統一は、扱うワークロードが同じ形ばかりなら管理が楽になる正しい判断。でも比較表を思い出して。サーバーレスは呼び出された分だけ課金される仕組みだから、24時間一定ペースで動き続ける決済処理だと、常時稼働の基盤よりかえって割高になりうるよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「決済のような重要な処理をサーバーレスに載せるのは危険です。今後もサーバーレスは今回のセール対応限りにしましょう」",
+          "effects": { "customer": -20, "trust": -5, "budget": 10 },
+          "flags": ["blanket_refusal"],
+          "feedback": "実績のない技術を基幹処理から遠ざける慎重さが正しい場面もある。でも『重要だから危険』は理由になっていない。『モダンだから正解』と同じで、イメージで一律に決めてしまっているよ。判断の物差しはあくまでワークロードの形との相性だよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「その勢いを逃さないように、まず全部書き換える前提で移行スケジュールを引いてしまいましょう」",
+          "effects": { "quality": -15, "budget": 5, "trust": -8 },
+          "flags": ["commit_before_analysis"],
+          "feedback": "顧客の熱があるうちに計画を進めたい気持ちは分かる。でも各処理のワークロードの形を確かめる前に『全部書き換える』と約束してしまうと、後から向いていない処理が見つかったとき、覆すコストを払うのは自分だよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「決済のように24時間ほぼ一定のペースで動く処理は、呼び出し回数に応じた課金だとかえって割高になることがあります。処理ごとにワークロードの形を確かめて、合うものから移しましょう」",
+          "effects": { "quality": 2, "customer": 10, "budget": 14, "trust": 4 },
+          "flags": ["fit_per_workload"],
+          "feedback": "正解。セール対応でサーバーレスが正解だったのは、バースト型という波形に合っていたから。常時一定ペースの決済処理は形が違うので、同じ答えをそのまま当てはめない。比較表の『課金の単位』が判断の根拠になったね。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": {
+            "flags": ["asked_ops_capacity", "serverless_choice", "preflight_concurrency_prep", "fit_per_workload"],
+            "minTotal": 280
+          },
+          "lines": [
+            {
+              "speaker": "customer",
+              "text": "おお、セール開始した瞬間もサクサク動いてますね!これなら安心して宣伝を打てます。"
+            },
+            {
+              "speaker": "narration",
+              "text": "来月頭、セール当日。普段の100倍のアクセスが押し寄せたが、システムは自動でスケールし、一件のエラーも出さずに乗り切った。2人の運用チームは、当日はほとんど何もすることがなかった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "うち、運用にそんなに人数割けないんで、これは本当に助かります。決済の件も、あのとき『形を確かめてから』って止めてもらってよかったですよ。試算したら、たしかに割高になるとこでした(笑)"
+            }
+          ]
+        },
+        {
+          "require": { "minTotal": 240 },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "何とかセール当日を乗り切った。おおむね好評だったが、一部の判断は後になって効いてきた。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "結果オーライ、ではあるけどね。もう少し早く核心の情報に気づけていたら、もっと迷わずに進めたと思うよ。"
+            }
+          ]
+        },
+        {
+          "require": { "minTotal": 200 },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "セール開始直後、一部のリクエストがエラーになる問い合わせが相次いだ。原因調査と急ぎの対応に、2人の運用チームは終日追われることになった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "急いで直してもらえるのはありがたいですけど……最初から気づいといてほしかったですね。"
+            }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "セール開始直後、システムが処理しきれずダウン。宣伝した割引が受けられないという苦情が殺到し、信頼回復には数か月を要した。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……悔しいね。でも、ここまでの判断のどこがズレたのか、一緒に振り返ろう。"
+            }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "お疲れさま。今日のテーマは『実行基盤の選び方』。『モダンだから』『流行ってるから』で選ぶと、この案件の前提とはズレることがある。ワークロードの波形とチームの運用力、この2つが判断材料だったね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "サーバーレスも、コンテナオーケストレーション基盤も、それ自体は間違った考え方じゃない。専任の運用チームがいる大規模システムなら、コンテナオーケストレーション基盤が正解になることも多いよ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "そしてもう一つ。『自動でスケールする』と『何も準備しなくていい』は別の話。同時実行数の上限やコールドスタートのような制約は、選んだ後も向き合う必要があるんだ。"
+        }
+      ],
+      "points": [
+        "実行基盤は『モダンかどうか』ではなく、ワークロードの形(バースト型か常時型か)とチームの運用力で選ぶ",
+        "サーバーレスは自動でスケールするが『何もしなくていい』わけではない。同時実行数の上限やコールドスタートには事前に備える",
+        "コンテナオーケストレーション基盤は強力だが、運用にそれなりの体制が要る。小さな運用チームには過剰装備になりうる",
+        "一度うまくいった技術でも、形の違うワークロードにそのまま横展開しない。処理ごとに相性を確かめてから移す"
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "term": "VM(仮想マシン)",
+      "def": "1台の物理サーバーの中に、独立したOS環境を複数作り出す技術。起動や増設に数分単位の時間がかかることが多い。"
+    },
+    {
+      "term": "コンテナ",
+      "def": "アプリケーションと実行に必要な環境をひとまとめにして動かす技術。VMより起動が速いが、複数台をまとめて運用するには別の仕組みが要る。"
+    },
+    {
+      "term": "コンテナオーケストレーション",
+      "def": "多数のコンテナの配置・スケール・障害時の再起動などを自動化する基盤。強力だが設定・運用にそれなりの知識と体制が必要。"
+    },
+    {
+      "term": "サーバーレス",
+      "def": "リクエストなどのイベントが来たときだけ処理が実行される実行環境。呼び出された分だけ課金され、自動でスケールする。"
+    },
+    {
+      "term": "コールドスタート",
+      "def": "しばらく呼び出されていなかった処理が、久しぶりに呼ばれたときに実行環境の準備で余分な時間がかかる現象。サーバーレスやコンテナで起こりうる。"
+    },
+    {
+      "term": "同時実行数上限",
+      "def": "ある時点で同時に処理できるリクエスト数の上限。サーバーレスの自動スケールにもこの上限があり、超えた分は待機やエラーになる。"
+    }
+  ]
+}

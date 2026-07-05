@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" role="img" aria-label="VM・コンテナ・サーバーレスの3つの実行基盤について、起動までの時間・課金の単位・スケール方法の実測値を並べた比較表">
+  <rect width="960" height="400" fill="#0f1626"/>
+  <text x="480" y="30" text-anchor="middle" fill="#e9eef6" font-size="18" font-weight="bold">実行基盤の実測比較</text>
+
+  <!-- header row -->
+  <rect x="210" y="46" width="230" height="46" rx="8" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="325" y="74" text-anchor="middle" fill="#e9eef6" font-size="15" font-weight="bold">VM</text>
+
+  <rect x="455" y="46" width="230" height="46" rx="8" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="570" y="74" text-anchor="middle" fill="#e9eef6" font-size="15" font-weight="bold">コンテナ</text>
+
+  <rect x="700" y="46" width="230" height="46" rx="8" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="815" y="74" text-anchor="middle" fill="#e9eef6" font-size="15" font-weight="bold">サーバーレス</text>
+
+  <!-- row 1: startup time -->
+  <text x="15" y="120" fill="#9aa8bf" font-size="13" font-weight="bold">起動までの</text>
+  <text x="15" y="138" fill="#9aa8bf" font-size="13" font-weight="bold">時間実測</text>
+
+  <rect x="210" y="100" width="230" height="66" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="325" y="138" text-anchor="middle" fill="#e9eef6" font-size="13">数分程度</text>
+
+  <rect x="455" y="100" width="230" height="66" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="570" y="138" text-anchor="middle" fill="#e9eef6" font-size="13">数十秒程度</text>
+
+  <rect x="700" y="100" width="230" height="66" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="815" y="130" text-anchor="middle" fill="#e9eef6" font-size="13">数百ms〜数秒</text>
+  <text x="815" y="150" text-anchor="middle" fill="#9aa8bf" font-size="11">(久しぶりの呼び出し時)</text>
+
+  <!-- row 2: billing unit -->
+  <text x="15" y="212" fill="#9aa8bf" font-size="13" font-weight="bold">課金の単位</text>
+  <text x="15" y="230" fill="#9aa8bf" font-size="13" font-weight="bold">実績</text>
+
+  <rect x="210" y="192" width="230" height="66" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="325" y="222" text-anchor="middle" fill="#e9eef6" font-size="13">起動している間</text>
+  <text x="325" y="240" text-anchor="middle" fill="#9aa8bf" font-size="11">常時課金</text>
+
+  <rect x="455" y="192" width="230" height="66" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="570" y="222" text-anchor="middle" fill="#e9eef6" font-size="13">基盤が稼働している間</text>
+  <text x="570" y="240" text-anchor="middle" fill="#9aa8bf" font-size="11">常時課金</text>
+
+  <rect x="700" y="192" width="230" height="66" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="815" y="222" text-anchor="middle" fill="#e9eef6" font-size="13">呼び出された回数・</text>
+  <text x="815" y="240" text-anchor="middle" fill="#9aa8bf" font-size="11">時間に応じて課金</text>
+
+  <!-- row 3: scaling -->
+  <text x="15" y="304" fill="#9aa8bf" font-size="13" font-weight="bold">スケール方法</text>
+  <text x="15" y="322" fill="#9aa8bf" font-size="13" font-weight="bold">実績</text>
+
+  <rect x="210" y="284" width="230" height="80" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="325" y="320" text-anchor="middle" fill="#e9eef6" font-size="13">台数の増減は</text>
+  <text x="325" y="338" text-anchor="middle" fill="#9aa8bf" font-size="11">基本手動</text>
+
+  <rect x="455" y="284" width="230" height="80" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="570" y="312" text-anchor="middle" fill="#e9eef6" font-size="13">オーケストレーション</text>
+  <text x="570" y="330" text-anchor="middle" fill="#e9eef6" font-size="13">基盤の設定次第で自動</text>
+
+  <rect x="700" y="284" width="230" height="80" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="815" y="312" text-anchor="middle" fill="#e9eef6" font-size="13">リクエストに応じて自動</text>
+  <text x="815" y="332" text-anchor="middle" fill="#9aa8bf" font-size="11">(同時実行数に上限あり)</text>
+</svg>

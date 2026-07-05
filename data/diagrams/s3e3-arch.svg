@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" role="img" aria-label="ロードバランサー(冗長2台)・アプリサーバー(冗長構成)・DB(単一構成)を直列につないだ構成図。直近1年の稼働率実績はロードバランサーが99.95%、アプリサーバーが99.99%、DBが99.9%と記載されている">
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#9aa8bf"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="380" fill="#0f1626"/>
+  <text x="450" y="34" text-anchor="middle" fill="#e9eef6" font-size="20" font-weight="bold">学習サービス: 現状の構成</text>
+
+  <!-- Load balancer -->
+  <rect x="40" y="90" width="220" height="110" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="150" y="128" text-anchor="middle" fill="#e9eef6" font-size="16" font-weight="bold">ロードバランサー</text>
+  <text x="150" y="154" text-anchor="middle" fill="#9aa8bf" font-size="13">冗長構成(2台)</text>
+
+  <!-- App servers -->
+  <rect x="340" y="90" width="220" height="110" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="450" y="128" text-anchor="middle" fill="#e9eef6" font-size="16" font-weight="bold">アプリサーバー</text>
+  <text x="450" y="154" text-anchor="middle" fill="#9aa8bf" font-size="13">冗長構成(複数台)</text>
+
+  <!-- DB -->
+  <rect x="640" y="90" width="220" height="110" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="750" y="128" text-anchor="middle" fill="#e9eef6" font-size="16" font-weight="bold">DB</text>
+  <text x="750" y="154" text-anchor="middle" fill="#9aa8bf" font-size="13">単一構成(レプリカなし)</text>
+
+  <!-- arrows -->
+  <line x1="260" y1="145" x2="338" y2="145" stroke="#9aa8bf" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="560" y1="145" x2="638" y2="145" stroke="#9aa8bf" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- availability facts -->
+  <rect x="40" y="230" width="220" height="80" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="150" y="258" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">稼働率実績</text>
+  <text x="150" y="278" text-anchor="middle" fill="#9aa8bf" font-size="12">(直近1年)</text>
+  <text x="150" y="298" text-anchor="middle" fill="#9aa8bf" font-size="14">99.95%</text>
+
+  <rect x="340" y="230" width="220" height="80" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="450" y="258" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">稼働率実績</text>
+  <text x="450" y="278" text-anchor="middle" fill="#9aa8bf" font-size="12">(直近1年)</text>
+  <text x="450" y="298" text-anchor="middle" fill="#9aa8bf" font-size="14">99.99%</text>
+
+  <rect x="640" y="230" width="220" height="80" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="750" y="258" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">稼働率実績</text>
+  <text x="750" y="278" text-anchor="middle" fill="#9aa8bf" font-size="12">(直近1年)</text>
+  <text x="750" y="298" text-anchor="middle" fill="#9aa8bf" font-size="14">99.9%</text>
+</svg>

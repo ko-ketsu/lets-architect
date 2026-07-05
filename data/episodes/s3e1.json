@@ -1,0 +1,694 @@
+{
+  "id": "s3e1",
+  "season": 3,
+  "title": "その入口、守りはあるか",
+  "summary": "チケット販売サービス「シートピア」。人気公演の先行販売のたびにサイトが落ちる。構成図とアクセスログを読み解き、キャッシュ・CDN・APIゲートウェイをどこにどう置くか選び抜けるか。",
+  "estimatedMinutes": 10,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    },
+    "customer": {
+      "name": "綾瀬玲(シートピア)",
+      "role": "customer",
+      "portrait": "portraits/ayase.svg"
+    }
+  },
+  "params": {
+    "customer": 50,
+    "quality": 50,
+    "budget": 50,
+    "trust": 50
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "チケット販売サービス「シートピア」。人気アーティストの先行販売のたびに、サイトが重くなる、時には落ちるという相談が寄せられていた。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "今日のお客様、綾瀬さんはシートピアの事業責任者。テンポよく話す人だから、要点を絞って聞こう。"
+        },
+        {
+          "speaker": "customer",
+          "text": "単刀直入に言いますね。人気公演の先行販売が始まった瞬間、サイトが固まるんです。お客様からの苦情の電話が鳴りやみません。"
+        },
+        {
+          "speaker": "customer",
+          "text": "原因を見てもらって、二度と落ちない構成にしてほしいんです。ただ、変な大改造は困ります。予算もスケジュールも限られてるので。"
+        },
+        {
+          "speaker": "narration",
+          "text": "打ち合わせは残り15分。聞けるのはあと2つだけだ。"
+        }
+      ],
+      "next": "hearing1"
+    },
+    "hearing1": {
+      "type": "choice",
+      "prompt": "時間は限られている。まず何を聞く?(このあと、もう1問だけ聞ける)",
+      "options": [
+        {
+          "text": "「先行販売開始直後のピークって、普段の何倍くらいのアクセスになるんですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_peak"],
+          "feedback": "規模感を数字で聞けたのは良い。裏取りの基本だね。",
+          "next": "hearing2_peak"
+        },
+        {
+          "text": "「座席の空き状況の表示って、多少古くても大丈夫ですか?それとも常に最新である必要がありますか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_consistency"],
+          "feedback": "地味だけど鋭い質問。キャッシュを使っていいかどうかを決める分かれ道だよ。",
+          "next": "hearing2_consistency"
+        },
+        {
+          "text": "「先行販売の日程って、どれくらい前から決まってるんですか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_schedule"],
+          "feedback": "準備期間の把握は大事だけど、今日の一番の悩みどころとは少しずれてるかな。",
+          "next": "hearing2_schedule"
+        },
+        {
+          "text": "「サイトのロゴ、公演ごとに変えたりします?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_logo"],
+          "feedback": "見た目の話は大事だけど、今日の15分でそれを聞く?先にもっと詰めるべきことがあるよね。",
+          "next": "hearing2_logo"
+        }
+      ]
+    },
+    "hearing2_peak": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「座席の空き状況の表示って、多少古くても大丈夫ですか?それとも常に最新である必要がありますか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_consistency"],
+          "feedback": "この2問目が効いてくる。よく選んだ。",
+          "next": "answer_peak_consistency"
+        },
+        {
+          "text": "「先行販売の日程って、どれくらい前から決まってるんですか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_schedule"],
+          "feedback": "規模感の裏取りができた。ただ今日の悩みの核心には触れずじまい。",
+          "next": "answer_peak_schedule"
+        },
+        {
+          "text": "「サイトのロゴ、公演ごとに変えたりします?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_logo"],
+          "feedback": "残り1問をこれに使うのはもったいない。",
+          "next": "answer_peak_logo"
+        }
+      ]
+    },
+    "hearing2_consistency": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「先行販売開始直後のピークって、普段の何倍くらいのアクセスになるんですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_peak"],
+          "feedback": "ピークの規模感も掴めた。良い組み合わせ。",
+          "next": "answer_peak_consistency"
+        },
+        {
+          "text": "「先行販売の日程って、どれくらい前から決まってるんですか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_schedule"],
+          "feedback": "準備期間も把握できた。",
+          "next": "answer_consistency_schedule"
+        },
+        {
+          "text": "「サイトのロゴ、公演ごとに変えたりします?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_logo"],
+          "feedback": "せっかくの2問目をこれに使うのはもったいない。",
+          "next": "answer_consistency_logo"
+        }
+      ]
+    },
+    "hearing2_schedule": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「先行販売開始直後のピークって、普段の何倍くらいのアクセスになるんですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_peak"],
+          "feedback": "ピークの規模感は掴めたね。",
+          "next": "answer_peak_schedule"
+        },
+        {
+          "text": "「座席の空き状況の表示って、多少古くても大丈夫ですか?それとも常に最新である必要がありますか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_consistency"],
+          "feedback": "この質問、実はさっき聞いておきたかったやつ。今からでも聞けてよかった。",
+          "next": "answer_consistency_schedule"
+        },
+        {
+          "text": "「サイトのロゴ、公演ごとに変えたりします?」",
+          "effects": { "budget": -5, "trust": -8 },
+          "flags": ["asked_logo"],
+          "feedback": "うーん、この2問目はもったいない。",
+          "next": "answer_schedule_logo"
+        }
+      ]
+    },
+    "hearing2_logo": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「先行販売開始直後のピークって、普段の何倍くらいのアクセスになるんですか?」",
+          "effects": { "budget": -3, "trust": 2 },
+          "flags": ["asked_peak"],
+          "feedback": "せめてこれは聞けた。",
+          "next": "answer_peak_logo"
+        },
+        {
+          "text": "「座席の空き状況の表示って、多少古くても大丈夫ですか?それとも常に最新である必要がありますか?」",
+          "effects": { "budget": -2, "trust": 10 },
+          "flags": ["asked_consistency"],
+          "feedback": "ぎりぎりで核心の質問を拾えた。",
+          "next": "answer_consistency_logo"
+        },
+        {
+          "text": "「先行販売の日程って、どれくらい前から決まってるんですか?」",
+          "effects": { "budget": -4, "trust": 0 },
+          "flags": ["asked_schedule"],
+          "feedback": "準備期間は把握できた。",
+          "next": "answer_schedule_logo"
+        }
+      ]
+    },
+    "answer_peak_consistency": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "先行販売開始直後は、普段の50倍くらいのアクセスが来ますね。しかも激しいのは最初の数分だけなんですけど。"
+        },
+        {
+          "speaker": "customer",
+          "text": "座席の空き状況ですか?うーん、1〜2秒のズレなら全然構いません。ただ、決済や会員情報は絶対にズレたら困りますけど。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……両方とも大事な情報だね。覚えておいて。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_peak_schedule": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "先行販売開始直後は、普段の50倍くらいのアクセスが来ますね。しかも激しいのは最初の数分だけなんですけど。"
+        },
+        {
+          "speaker": "customer",
+          "text": "先行販売の日程は、大体2週間前にはアーティスト側と合意して発表してますね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_peak_logo": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "先行販売開始直後は、普段の50倍くらいのアクセスが来ますね。しかも激しいのは最初の数分だけなんですけど。"
+        },
+        {
+          "speaker": "customer",
+          "text": "ロゴですか、公演ごとに変えたことはないですね。特にこだわりはないです。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_consistency_schedule": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "座席の空き状況ですか?うーん、1〜2秒のズレなら全然構いません。ただ、決済や会員情報は絶対にズレたら困りますけど。"
+        },
+        {
+          "speaker": "customer",
+          "text": "先行販売の日程は、大体2週間前にはアーティスト側と合意して発表してますね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "座席情報の鮮度、大事な情報だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_consistency_logo": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "座席の空き状況ですか?うーん、1〜2秒のズレなら全然構いません。ただ、決済や会員情報は絶対にズレたら困りますけど。"
+        },
+        {
+          "speaker": "customer",
+          "text": "ロゴですか、公演ごとに変えたことはないですね。特にこだわりはないです。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "座席情報の鮮度を聞けたね。それが今日一番の収穫かも。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_schedule_logo": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "先行販売の日程は、大体2週間前にはアーティスト側と合意して発表してますね。"
+        },
+        {
+          "speaker": "customer",
+          "text": "ロゴですか、公演ごとに変えたことはないですね。特にこだわりはないです。"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……座席情報の鮮度、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "briefing_done": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "打ち合わせの時間切れ。持ち帰って、開発チームが組んだたたき台の構成と、直近の先行販売時のアクセスログをアオイ先輩と確認することになった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "これが今の構成と、実測のトラフィック。まずは、何が起きてるか数字で見てみよう。"
+        }
+      ],
+      "next": "screen_mockup"
+    },
+    "screen_mockup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "綾瀬さんから追ってメールが届いた。「これは大前提なんですが、決済や会員登録の画面が不安定になるのは本当に困ります。座席の空き表示くらいなら、多少見た目が古くても大丈夫です」"
+        },
+        {
+          "speaker": "senpai",
+          "text": "座席情報は鮮度に余裕がある、でも決済や会員情報はシビア。まずは実測のトラフィックから数字を追ってみよう。"
+        }
+      ],
+      "next": "estimate_choice"
+    },
+    "estimate_choice": {
+      "type": "choice",
+      "prompt": "図の実測値を見ると、キャッシュより後ろ(DB側)に届くリクエストはおおよそ何req/sになる?",
+      "image": {
+        "src": "diagrams/s3e1-arch.svg",
+        "caption": "現状のたたき台構成と直近の先行販売時のアクセスログ",
+        "alt": "クライアントからCDN・APIゲートウェイ・アプリサーバー(3台)・キャッシュ(1台)・DBへと至る構成図。エッジ通過後のピーク実測が2,000req/s、キャッシュのヒット率実測が90%と記載されている"
+      },
+      "options": [
+        {
+          "text": "「だいたい2,000req/sのままです。キャッシュがあってもリクエスト数そのものは変わりません」",
+          "effects": { "quality": -3 },
+          "feedback": "キャッシュはヒットした分をそこで肩代わりするよ。ヒット率90%の意味、もう一度考えてみて。",
+          "next": "design_choice_1"
+        },
+        {
+          "text": "「だいたい1,800req/sくらいです。ヒットした分だけ少し減ります」",
+          "effects": { "quality": -3 },
+          "feedback": "おしい。ヒット率90%は『10回に9回はキャッシュで返せる』という意味だよ。もう一度計算してみて。",
+          "next": "design_choice_1"
+        },
+        {
+          "text": "「だいたい200req/sくらいです。ヒットしなかった10%分だけがDBまで届きます」",
+          "flags": ["counted_hit_rate"],
+          "feedback": "正解。2,000 × (1 − 0.9) = 200。ヒット率が高いほど、DBに届く量はぐっと減る。",
+          "next": "design_choice_1"
+        },
+        {
+          "text": "「だいたい20req/sくらいです。ヒット率90%だから、さらにその10分の1くらいかと」",
+          "effects": { "quality": -4 },
+          "feedback": "ヒットしない側の割合を、もう一段掛けすぎちゃったかな。90%ヒットするなら、残り10%がそのままDBに届く計算だよ。",
+          "next": "design_choice_1"
+        }
+      ]
+    },
+    "design_choice_1": {
+      "type": "choice",
+      "prompt": "座席の空き状況のような、鮮度に多少余裕があるデータのキャッシュ、どこに置く?",
+      "image": {
+        "src": "diagrams/s3e1-arch.svg",
+        "caption": "同じ構成図: キャッシュの置き場所に注目",
+        "alt": "クライアントからCDN・APIゲートウェイ・アプリサーバー(3台)・キャッシュ(1台)・DBへと至る構成図。エッジ通過後のピーク実測が2,000req/s、キャッシュのヒット率実測が90%と記載されている"
+      },
+      "options": [
+        {
+          "text": "「座席情報だけでなく全データを対象に、独自の分散キャッシュ基盤を一から構築しましょう」",
+          "effects": { "quality": 6, "budget": -20, "trust": -5 },
+          "flags": ["custom_cache_cluster"],
+          "feedback": "全データを見据えた独自の分散キャッシュ基盤は、扱うデータ種別が非常に多い大規模サービスなら正解になりうる。でも今回は座席情報という限られたデータの話。一から作り込むのはこの規模にはやりすぎだよ。",
+          "next": "d1_reaction_overeng"
+        },
+        {
+          "text": "「アプリサーバーの手前に共有のキャッシュ層を置いて、座席の空き状況のように鮮度に余裕があるデータだけをそこで返します。決済や会員情報はキャッシュを使わず都度確認します」",
+          "effects": { "quality": 14, "customer": 9, "budget": -8, "trust": 6 },
+          "flags": ["shared_cache_placement"],
+          "feedback": "正解。ヒアリングで座席情報は多少ズレてもいい、決済や会員情報はズレたら困ると聞けている。データの性質で線引きして、共有キャッシュはアプリの手前に置くのが理にかなっている。",
+          "next": "d1_reaction_good"
+        },
+        {
+          "text": "「決済や会員ページも含めて、動的なページはすべてCDNでキャッシュしてしまいましょう」",
+          "effects": { "budget": 8, "quality": -18, "customer": -10 },
+          "flags": ["cdn_everything"],
+          "feedback": "CDNでのキャッシュは、公演ごとに同じ内容を大勢に配る静的なアセットには向く。でも決済や会員ページのような一人ひとり違う情報まで一律にキャッシュすると、他人の情報が混ざって見えるような重大な事故になりかねないよ。",
+          "next": "d1_reaction_cdn"
+        },
+        {
+          "text": "「キャッシュは使わず、DBのスペックを上げて先行販売のピークに耐えられるようにしましょう」",
+          "effects": { "customer": -15, "trust": -8, "quality": -5 },
+          "flags": ["dbscale_only"],
+          "feedback": "アクセスが恒常的にじわじわ増えていくだけなら、DBのスペック増強だけで済むこともある。でも先行販売のたびに瞬間的に50倍という繰り返すバースト。スペックを上げ続けるだけでは、コストも際限なく膨らむよ。",
+          "next": "d1_reaction_dbscale"
+        }
+      ]
+    },
+    "d1_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。『どこに何を置くか』を、鮮度の許容度で線引きできたね。"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_overeng": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "気持ちは分かるけど、それ一から作り込む必要、今回の規模にあった?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_cdn": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "決済や会員ページまでCDNで一律にキャッシュしたら、他のお客さんの画面が混ざって見えることもありえるよ?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "d1_reaction_dbscale": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "スペックを上げても、次の先行販売でまた同じピークが来るよ。キャッシュ無しでずっと耐えられる?"
+        }
+      ],
+      "next": "design_choice_2"
+    },
+    "design_choice_2": {
+      "type": "choice",
+      "prompt": "このキャッシュ(1台構成)が丸ごと落ちたら、何が起きる?どう備える?",
+      "image": {
+        "src": "diagrams/s3e1-arch.svg",
+        "caption": "同じ構成図: キャッシュの構成に注目",
+        "alt": "クライアントからCDN・APIゲートウェイ・アプリサーバー(3台)・キャッシュ(1台)・DBへと至る構成図。エッジ通過後のピーク実測が2,000req/s、キャッシュのヒット率実測が90%と記載されている"
+      },
+      "options": [
+        {
+          "text": "「キャッシュは滅多に落ちないので、特に対策しなくて大丈夫です」",
+          "effects": { "budget": 5, "customer": -18, "quality": -10 },
+          "flags": ["cache_denial"],
+          "feedback": "過去に落ちた実績がなく、落ちても影響が軽微な用途なら『様子見』もありえる。でも今回はDBへの直撃が先行販売という一番のピーク中に起きる。備えないままにするのはリスクが大きすぎるよ。",
+          "next": "d2_reaction_denial"
+        },
+        {
+          "text": "「キャッシュが落ちたら、DBへの問い合わせをすべて止めて『しばらくお待ちください』の画面にしましょう」",
+          "effects": { "quality": 8, "budget": -18, "trust": -5 },
+          "flags": ["halt_all_on_failure"],
+          "feedback": "DBを守る発想自体は正しい。でも決済や会員情報のようにキャッシュを使っていない処理まで一律に止めてしまうと、キャッシュに関係ない機能まで巻き込んで止めることになるよ。",
+          "next": "d2_reaction_haltall"
+        },
+        {
+          "text": "「キャッシュが落ちたら自動でDBに直接つなぎ直すだけにして、DB側は特に対策しません」",
+          "effects": { "customer": -8, "quality": -10, "budget": 4 },
+          "flags": ["failover_no_db_protection"],
+          "feedback": "自動でDBに繋ぎ直す仕組み自体はあっていい。でもそれだけだと、普段キャッシュが肩代わりしていた分のリクエストがそのままDBに直撃してしまうよ。",
+          "next": "d2_reaction_failovernoprotect"
+        },
+        {
+          "text": "「キャッシュを複数台構成にして片方が落ちても他方が肩代わりできるようにしつつ、ゲートウェイにもレートリミットをかけてDBを守りましょう」",
+          "effects": { "quality": 10, "customer": 10, "budget": -3, "trust": 6 },
+          "flags": ["cache_redundancy_and_ratelimit"],
+          "feedback": "正解。キャッシュを複数台にしておけば1台落ちても肩代わりできるし、万一全滅してもゲートウェイのレートリミットがDBへの直撃(キャッシュ雪崩)を抑えてくれる。二段構えの備えだね。",
+          "next": "d2_reaction_good"
+        }
+      ]
+    },
+    "d2_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "『壊れない』じゃなくて『壊れても致命傷にならない』。この発想、覚えておいて。"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_denial": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『滅多に落ちない』と『絶対に落ちない』は違うよ。落ちた瞬間、この2,000req/sは全部どこに行く?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_haltall": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "決済処理までキャッシュのせいで止まったら、お客さんはもっと困らない?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "d2_reaction_failovernoprotect": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "つなぎ直した先のDB、普段の10倍のリクエストをいきなり受け止められる?"
+        }
+      ],
+      "next": "budget_reveal"
+    },
+    "budget_reveal": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "方向性は分かりました。次の先行販売は3週間後です。それと、最後に一つだけ。人気公演って、開始から数分で売り切れるんですよ。売り切れてるのに『まだ買えそう』に見え続けるのだけは、絶対に避けたいんです。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……売り切れの反映スピードと、キャッシュの効き。最後の詰めどころだね。座席の空き状況のキャッシュ、どれくらいの時間有効にしておく?"
+        }
+      ],
+      "next": "final_choice"
+    },
+    "final_choice": {
+      "type": "choice",
+      "prompt": "座席の空き状況を返す共有キャッシュ。その有効期限(TTL)、どう設定する?",
+      "options": [
+        {
+          "text": "「TTLは数秒に設定しましょう。売り切れ直後でも数秒で表示が追いつきますし、その間のDBへの問い合わせは大幅に減らせます」",
+          "effects": { "quality": 2, "customer": 10, "budget": 14, "trust": 4 },
+          "flags": ["short_ttl_seats"],
+          "feedback": "正解。綾瀬さんから『1〜2秒のズレなら構わない』『売り切れ後に買えそうに見えるのは絶対に避けたい』の両方を聞けている。数秒のTTLなら、その両方を満たしつつキャッシュの効きも保てる。",
+          "next": "ending"
+        },
+        {
+          "text": "「ヒット率を最大化するため、TTLは1時間に設定しましょう。DBへの負荷はほぼゼロにできます」",
+          "effects": { "customer": -20, "trust": -5, "budget": 10 },
+          "flags": ["long_ttl_hitrate"],
+          "feedback": "長いTTLでヒット率を稼ぐのは、公演の紹介文のような更新がまれなデータなら正解になる。でも座席の空きは数分で売り切れる動きの速いデータ。1時間キャッシュしたら、売り切れた公演が最大1時間『買えそう』に見え続けてしまうよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「売り切れの誤表示が怖いので、座席の空き状況はキャッシュ対象から外して、毎回DBに問い合わせる形に戻しましょう」",
+          "effects": { "budget": -25, "trust": -10, "customer": 5 },
+          "flags": ["no_cache_seats"],
+          "feedback": "一瞬の誤表示も許されないデータなら都度問い合わせが正解になる。でも綾瀬さんは1〜2秒のズレは許容と明言していたよね。ここでキャッシュを外すと、先行販売のピークがまたDBを直撃して、『落ちる』問題が振り出しに戻るよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「TTLは長めに取っておいて、公演が売り切れたら運用担当が手動でキャッシュを消す運用にしましょう」",
+          "effects": { "quality": -15, "budget": 5, "trust": -8 },
+          "flags": ["manual_cache_purge"],
+          "feedback": "更新が月に数回で予測できるデータなら、手動での削除運用もありえる。でも先行販売では数分のうちに次々と売り切れが発生する。人手の削除は追いつかず、消し忘れがそのまま誤表示になるよ。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": {
+            "flags": ["asked_consistency", "shared_cache_placement", "cache_redundancy_and_ratelimit", "short_ttl_seats"],
+            "minTotal": 280
+          },
+          "lines": [
+            {
+              "speaker": "customer",
+              "text": "おお、先行販売中も座席の表示、全然重くならないですね。決済も安定してるし、これなら安心してお客様にご案内できます。"
+            },
+            {
+              "speaker": "narration",
+              "text": "3週間後、先行販売当日。過去最大のアクセスが押し寄せたが、サイトは一度も落ちなかった。売り切れの表示も数秒で切り替わり、『買えそうに見えたのに買えない』という苦情はゼロ。半年後、複数回の先行販売を経ても、キャッシュ由来の障害は一件も起きていない。"
+            },
+            {
+              "speaker": "customer",
+              "text": "苦情の電話、あれから一本もかかってきてないんです。次の新規公演の相談も、あんたに頼みたいなあ。"
+            }
+          ]
+        },
+        {
+          "require": { "minTotal": 240 },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "何とか先行販売当日を乗り切った。おおむね好評だったが、一部の判断は後になって効いてきた。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "結果オーライ、ではあるけどね。もう少し早く核心の情報に気づけていたら、もっと迷わずに進めたと思うよ。"
+            }
+          ]
+        },
+        {
+          "require": { "minTotal": 200 },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "先行販売当日、一時的にサイトが重くなる場面があり、問い合わせが相次いだ。原因調査と急ぎの対応に、開発チームは追われることになった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "急いで直してもらえるのはありがたいですけど……最初から気づいといてほしかったですね。"
+            }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "先行販売開始直後、サイトが完全に落ちる大規模障害が発生。SNSで炎上し、信頼回復には数か月を要した。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……悔しいね。でも、ここまでの判断のどこがズレたのか、一緒に振り返ろう。"
+            }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "お疲れさま。今日のテーマは『入口の守り方』。CDN・APIゲートウェイ・キャッシュ、どれも『とりあえず全部使う』ものじゃない。データごとの鮮度の許容度で、置き場所を選び分けるのが基本だよ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "そしてもう一つ。キャッシュは『壊れないもの』として設計しちゃいけない。壊れる前提で、落ちた瞬間に何が起きるかまで考えておく。これがシーズン3を通しての合言葉になるよ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "『CDNで全部キャッシュ』も『独自の分散キャッシュ基盤を一から作る』も、それ自体は間違った考え方じゃない。案件の規模とデータの性質に合わせて選ぶことが大事なんだ。"
+        }
+      ],
+      "points": [
+        "キャッシュは置き場所(CDN/アプリ手前/アプリ内)を、データの鮮度要件に合わせて使い分ける",
+        "キャッシュは壊れる前提で設計する。単一構成のまま落ちると、本来ヒットするはずだったリクエストがまるごとDBに直撃する(キャッシュ雪崩)",
+        "APIゲートウェイは認証・レートリミットの集約に向き、キャッシュが落ちたときにDBを守る最後の砦にもなる",
+        "キャッシュのTTLは、業務が許容できる鮮度(何秒古くてよいか)から逆算して決める。ヒット率だけを見て決めない"
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "term": "APIゲートウェイ",
+      "def": "複数のAPIへのアクセスを1か所に集約する窓口。認証・レートリミットなど共通処理をここでまとめて行える。"
+    },
+    {
+      "term": "CDN",
+      "def": "Content Delivery Network。利用者に近い場所に置かれたサーバー群から、画像やCSSなどの静的なコンテンツを配信する仕組み。個人ごとに異なる動的な内容の配信には不向き。"
+    },
+    {
+      "term": "キャッシュヒット率",
+      "def": "リクエストのうち、キャッシュに答えが既にあって元のデータストアまで問い合わせずに済んだ割合。高いほど元のデータストアへの負荷が減る。"
+    },
+    {
+      "term": "キャッシュ雪崩",
+      "def": "キャッシュが機能しなくなった瞬間、本来キャッシュが肩代わりしていたリクエストがまとめて元のデータストアに押し寄せる現象。単一構成のキャッシュで起きやすい。"
+    },
+    {
+      "term": "レートリミット",
+      "def": "一定時間内に受け付けるリクエスト数の上限を設けること。キャッシュが機能しないときに、後段のデータストアを守る仕組みとしても使える。"
+    },
+    {
+      "term": "単一障害点",
+      "def": "そこが壊れるとシステム全体が止まってしまう箇所。冗長化されていない構成要素は単一障害点になりやすい。"
+    },
+    {
+      "term": "TTL",
+      "def": "Time To Live。キャッシュしたデータを「どれくらいの時間まで有効とみなすか」の設定値。短くすると鮮度は上がるが、元のデータストアへの問い合わせは増える。"
+    }
+  ]
+}

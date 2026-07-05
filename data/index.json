@@ -9,6 +9,11 @@
       "id": 2,
       "title": "シーズン2: 形にする",
       "description": "図を読み、文脈で判断する。アプリ設計・API設計の勘所を、そこそこ頭を使う難易度で。"
+    },
+    {
+      "id": 3,
+      "title": "シーズン3: 支える",
+      "description": "壊れる前提でアーキテクチャを選ぶ力を鍛える。技術に優劣はなく、案件との相性がある。"
     }
   ],
   "episodes": [
@@ -71,6 +76,36 @@
       "summary": "トリオ運輸の配送ステータスAPI刷新。依存図を読み解き、旧フィールドに依存するクライアントを見極めて、壊さない移行計画を立てられるか。",
       "estimatedMinutes": 10,
       "difficulty": 2
+    },
+    {
+      "id": "s3e1",
+      "file": "episodes/s3e1.json",
+      "season": 3,
+      "order": 1,
+      "title": "その入口、守りはあるか",
+      "summary": "チケット販売サービス「シートピア」。人気公演の先行販売のたびにサイトが落ちる。構成図とアクセスログを読み解き、キャッシュ・CDN・APIゲートウェイをどこにどう置くか選び抜けるか。",
+      "estimatedMinutes": 10,
+      "difficulty": 3
+    },
+    {
+      "id": "s3e2",
+      "file": "episodes/s3e2.json",
+      "season": 3,
+      "order": 2,
+      "title": "VM でいいじゃん、は本当か",
+      "summary": "社内新規事業「工具レンタルEC」。セール時だけ普段の100倍跳ね上がるアクセス、運用チームはわずか2人。VM・コンテナ・サーバーレス、この前提で裏目に出ない実行基盤はどれか。",
+      "estimatedMinutes": 9,
+      "difficulty": 3
+    },
+    {
+      "id": "s3e3",
+      "file": "episodes/s3e3.json",
+      "season": 3,
+      "order": 3,
+      "title": "そのデータ、失えますか",
+      "summary": "サブスク型学習サービスのCTO・氷室悟からの相談。SLAから可用性を逆算し、単一障害点を見つけ、整合性の要求が違うデータをどう扱うか。複数の制約が同時に問われる総合問題。",
+      "estimatedMinutes": 10,
+      "difficulty": 3
     }
   ]
 }
