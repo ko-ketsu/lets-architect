@@ -9,9 +9,9 @@
 // 検証内容(SPEC.md 第7章):
 //   1. エピソード JSON のスキーマ必須項目
 //   2. 全ノードの next / start / ending の参照先が存在すること
-//   3. 「常に最初の選択肢」「常に最後の選択肢」で機械的に通しプレイし、
-//      必ず debrief に到達しランクが算出されること。かつランクが S にならないこと
-//      (正解が options の先頭/末尾に固まっていると機械的プレイで S が取れてしまうため)
+//   3. 「常に最初の選択肢」「常に最後の選択肢」「常に最長の文の選択肢」で機械的に
+//      通しプレイし、必ず debrief に到達しランクが算出されること。かつランクが S に
+//      ならないこと(正解が位置や文の長さで機械的に当てられる状態を検出する)
 //   4. エピソードが参照する image.src / portrait の実ファイルが data/ 配下に存在すること
 //   5. index.json の difficulty が 1〜3 であること
 
@@ -111,10 +111,12 @@ async function checkEpisode(entry, episodePath) {
   // 4. image.src / portrait の実ファイル存在チェック
   checkAssetFiles(entry, episode);
 
-  // 3. 常に最初 / 常に最後の選択肢で機械的に通しプレイし、debrief到達・ランク算出を確認。
-  for (const strategy of ['first', 'last']) {
+  // 3. 常に最初 / 常に最後 / 常に最長文の選択肢で機械的に通しプレイし、debrief到達・ランク算出を確認。
+  const pickLongest = (node) =>
+    node.options.reduce((best, o, i, arr) => (o.text.length > arr[best].text.length ? i : best), 0);
+  for (const [strategy, picker] of [['first', 'first'], ['last', 'last'], ['longest', pickLongest]]) {
     try {
-      const { result, log } = playThrough(episode, strategy);
+      const { result, log } = playThrough(episode, picker);
       const reachedDebrief = log[log.length - 1]?.type === 'debrief';
       if (!reachedDebrief) {
         fail(`${entry.id} [${strategy}]: playthrough did not end on a debrief node`);
@@ -125,7 +127,7 @@ async function checkEpisode(entry, episodePath) {
         continue;
       }
       if (result.rank === 'S') {
-        fail(`${entry.id} [${strategy}]: mechanical play reached rank S — 正解位置が偏っている(SPEC 10 参照)`);
+        fail(`${entry.id} [${strategy}]: mechanical play reached rank S — 正解が位置または文長で機械的に当てられる(SPEC 10 参照)`);
         continue;
       }
       pass(`${entry.id} [${strategy}]: reached debrief, rank=${result.rank}, total=${result.total}`);
