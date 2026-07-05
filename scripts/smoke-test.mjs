@@ -13,7 +13,7 @@
 //      通しプレイし、必ず debrief に到達しランクが算出されること。かつランクが S に
 //      ならないこと(正解が位置や文の長さで機械的に当てられる状態を検出する)
 //   4. エピソードが参照する image.src / portrait の実ファイルが data/ 配下に存在すること
-//   5. index.json の difficulty が 1〜3 であること
+//   5. index.json の difficulty が 1〜4 であること
 
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -181,10 +181,10 @@ async function main() {
     return;
   }
 
-  // 5. index.json の difficulty が 1〜3 であることを検証
+  // 5. index.json の difficulty が 1〜4 であることを検証
   for (const entry of indexData.episodes) {
-    if (![1, 2, 3].includes(entry.difficulty)) {
-      fail(`data/index.json: episode "${entry.id}" difficulty must be 1, 2, or 3 (got ${JSON.stringify(entry.difficulty)})`);
+    if (![1, 2, 3, 4].includes(entry.difficulty)) {
+      fail(`data/index.json: episode "${entry.id}" difficulty must be 1, 2, 3, or 4 (got ${JSON.stringify(entry.difficulty)})`);
     } else {
       pass(`data/index.json: episode "${entry.id}" difficulty=${entry.difficulty}`);
     }

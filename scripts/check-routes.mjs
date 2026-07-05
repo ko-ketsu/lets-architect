@@ -25,6 +25,8 @@ import {
   getNode,
   applyChoice,
   advance,
+  applySceneEffects,
+  resolveNext,
   resolveEndingVariant,
   computeTotal,
   computeRank,
@@ -72,7 +74,9 @@ function enumerateRoutes(episode) {
     const node = getNode(episode, state.nodeId);
     switch (node.type) {
       case 'scene': {
-        walk(advance(state, node.next), choicePath);
+        // SPEC 3.3 拡張A/B: effects を集計に含めてから条件付き next を state で解決する。
+        const { state: afterEffects } = applySceneEffects(state, node);
+        walk(advance(afterEffects, resolveNext(node.next, afterEffects)), choicePath);
         return;
       }
       case 'choice': {
@@ -84,7 +88,7 @@ function enumerateRoutes(episode) {
       }
       case 'ending': {
         const variant = resolveEndingVariant(node, state);
-        walk(advance(state, node.next), choicePath);
+        walk(advance(state, resolveNext(node.next, state)), choicePath);
         return;
       }
       case 'debrief': {

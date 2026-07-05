@@ -92,11 +92,11 @@ function rankLabel(rank) {
   return rank || '-';
 }
 
-/** difficulty(1〜3)を ★☆☆〜★★★ の文字列にする。範囲外や未指定は空文字。 */
+/** difficulty(1〜4)を ★☆☆☆〜★★★★ の文字列にする。範囲外や未指定は空文字。 */
 function difficultyStars(difficulty) {
   const n = Number(difficulty);
-  if (!Number.isInteger(n) || n < 1 || n > 3) return '';
-  return '★'.repeat(n) + '☆'.repeat(3 - n);
+  if (!Number.isInteger(n) || n < 1 || n > 4) return '';
+  return '★'.repeat(n) + '☆'.repeat(4 - n);
 }
 
 // ---------------------------------------------------------------------------
@@ -400,6 +400,40 @@ export function createPlayScreen(episode, { onQuit }) {
     card.focus({ preventScroll: true });
   }
 
+  /**
+   * SPEC 3.3 拡張A: scene の effects によるパラメータ変動を明示するカード。
+   * choice のフィードバックカードと同じ見た目(deltas)を流用するが、アオイのコメントは出さない。
+   */
+  function showSceneEffects(before, after, onNext) {
+    const deltaItems = PARAM_ORDER
+      .map((key) => ({ key, delta: (after[key] ?? 0) - (before[key] ?? 0) }))
+      .filter((d) => d.delta !== 0)
+      .map((d) => {
+        const sign = d.delta > 0 ? '+' : '';
+        const cls = d.delta > 0 ? 'delta-up' : 'delta-down';
+        return `<span class="delta ${cls}">${sign}${d.delta} ${PARAM_META[d.key].label}</span>`;
+      }).join('');
+
+    main.innerHTML = `
+      <div class="message-row">
+        <div class="feedback-card" tabindex="0" role="button">
+          <div class="feedback-deltas">${deltaItems || '<span class="delta delta-none">変化なし</span>'}</div>
+          <p class="message-advance">▶ タップして続ける</p>
+        </div>
+      </div>
+    `;
+    const card = main.querySelector('.feedback-card');
+    const advance = () => onNext();
+    card.addEventListener('click', advance);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        advance();
+      }
+    });
+    card.focus({ preventScroll: true });
+  }
+
   function showDebrief(node, onFinish) {
     showLines(node.lines, () => {
       const pointsHtml = (node.points || []).map((p) => `<li>${highlightGlossary(p, episode.glossary)}</li>`).join('');
@@ -414,7 +448,7 @@ export function createPlayScreen(episode, { onQuit }) {
     });
   }
 
-  return { updateMeters, showLines, showChoice, showFeedback, showDebrief };
+  return { updateMeters, showLines, showChoice, showFeedback, showSceneEffects, showDebrief };
 }
 
 // ---------------------------------------------------------------------------

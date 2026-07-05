@@ -58,6 +58,59 @@ export function advance(state, nextNodeId) {
 }
 
 /**
+ * scene ノードの effects を state.params に適用した新しい状態を返す(SPEC 3.3 拡張A)。
+ * flags・nodeId は変更しない。choice の effects と同じ規則(applyEffects に委譲)。
+ * 戻り値: { state: 新しいランタイム状態, before: 適用前のparams }
+ */
+export function applySceneEffects(state, node) {
+  const before = { ...state.params };
+  const params = applyEffects(state.params, node.effects);
+  return { state: { ...state, params }, before };
+}
+
+/**
+ * require({ flags?, minTotal? })が state に対して満たされているかを判定する。
+ * flags は全部保持、minTotal は4パラメータ合計の下限。どちらも省略可(省略時は無条件で満たす)。
+ * ending variants・条件付き next(SPEC 3.3)で共用する。
+ */
+export function matchesRequire(require, state) {
+  const req = require || {};
+  if (req.flags && req.flags.length && !req.flags.every((f) => state.flags.includes(f))) {
+    return false;
+  }
+  if (typeof req.minTotal === 'number' && computeTotal(state.params) < req.minTotal) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * 「上から順に評価し、`default: true` か require を満たす最初の要素を返す」評価ロジック。
+ * ending の variants(3.3)と条件付き next の配列(3.3 拡張B)は評価規則が完全に同じなので、
+ * resolveEndingVariant / resolveNext の両方からこの関数を使う。
+ * 仕様上は最後が必ず default だが、データ不備に備えて見つからない場合は最後の要素を返す。
+ */
+export function resolveConditional(items, state) {
+  for (const item of items) {
+    if (item.default) return item;
+    if (matchesRequire(item.require, state)) return item;
+  }
+  return items[items.length - 1];
+}
+
+/**
+ * next フィールド(文字列 or 条件付き配列、SPEC 3.3 拡張B)を解決し、遷移先ノードIDを返す。
+ * 文字列は無条件遷移(従来どおり)。配列は resolveConditional で評価した要素の `to` を返す。
+ */
+export function resolveNext(next, state) {
+  if (typeof next === 'string') return next;
+  if (Array.isArray(next)) {
+    return resolveConditional(next, state).to;
+  }
+  throw new Error(`resolveNext: invalid next value: ${JSON.stringify(next)}`);
+}
+
+/**
  * choice ノードで選択肢を選んだ結果を計算する。
  * 戻り値: { state: 新しいランタイム状態, option: 選ばれた選択肢オブジェクト, before: 選択前のparams }
  */
@@ -73,12 +126,10 @@ export function applyChoice(episode, state, optionIndex) {
   const before = { ...state.params };
   const params = applyEffects(state.params, option.effects);
   const flags = addFlags(state.flags, option.flags);
-  const nextState = {
-    ...state,
-    params,
-    flags,
-    nodeId: option.next,
-  };
+  // 条件付き next(SPEC 3.3 拡張B)はこの選択で更新された flags/params を見て解決する。
+  const stateAfterEffects = { ...state, params, flags };
+  const nodeId = resolveNext(option.next, stateAfterEffects);
+  const nextState = { ...stateAfterEffects, nodeId };
   return { state: nextState, option, before };
 }
 
@@ -95,26 +146,15 @@ export function computeRank(total) {
   return 'C';
 }
 
-/** ending ノードで条件に合う variant を選ぶ。上から順に評価し、最初に一致したものを返す。 */
+/**
+ * ending ノードで条件に合う variant を選ぶ。上から順に評価し、最初に一致したものを返す。
+ * 評価規則は条件付き next(SPEC 3.3 拡張B)と完全に同じなので resolveConditional に委譲する。
+ */
 export function resolveEndingVariant(node, state) {
   if (node.type !== 'ending') {
     throw new Error('resolveEndingVariant called on non-ending node');
   }
-  const total = computeTotal(state.params);
-  for (const variant of node.variants) {
-    if (variant.default) return variant;
-    const req = variant.require || {};
-    let ok = true;
-    if (req.flags && req.flags.length) {
-      ok = req.flags.every((f) => state.flags.includes(f));
-    }
-    if (ok && typeof req.minTotal === 'number') {
-      ok = total >= req.minTotal;
-    }
-    if (ok) return variant;
-  }
-  // 仕様上は最後が必ず default だが、データ不備に備えたフォールバック。
-  return node.variants[node.variants.length - 1];
+  return resolveConditional(node.variants, state);
 }
 
 /** 最終結果(パラメータ・合計・ランク)を計算する。 */
@@ -176,9 +216,62 @@ export function validateEpisode(episode) {
     ...(episode.characters && typeof episode.characters === 'object' ? Object.keys(episode.characters) : []),
   ]);
 
-  const checkNext = (nextId, where) => {
-    if (typeof nextId !== 'string' || !episode.nodes[nextId]) {
-      errors.push(`${where}: next "${nextId}" does not reference an existing node`);
+  // SPEC 3.3 拡張B: next は文字列(無条件遷移)、または条件付き配列
+  // [{ require?: { flags?, minTotal? }, to }, ..., { default: true, to }] を許可する。
+  const checkNext = (next, where) => {
+    if (typeof next === 'string') {
+      if (!episode.nodes[next]) {
+        errors.push(`${where}: next "${next}" does not reference an existing node`);
+      }
+      return;
+    }
+    if (Array.isArray(next)) {
+      if (next.length === 0) {
+        errors.push(`${where}: conditional next must not be empty`);
+        return;
+      }
+      next.forEach((item, i) => {
+        const itemWhere = `${where} next[${i}]`;
+        if (!item || typeof item !== 'object') {
+          errors.push(`${itemWhere}: must be an object`);
+          return;
+        }
+        if (typeof item.to !== 'string' || !episode.nodes[item.to]) {
+          errors.push(`${itemWhere}: to "${item.to}" does not reference an existing node`);
+        }
+        if (item.require !== undefined) {
+          if (!item.require || typeof item.require !== 'object') {
+            errors.push(`${itemWhere}: require must be an object`);
+          } else {
+            if ('flags' in item.require && !Array.isArray(item.require.flags)) {
+              errors.push(`${itemWhere}: require.flags must be an array`);
+            }
+            if ('minTotal' in item.require && typeof item.require.minTotal !== 'number') {
+              errors.push(`${itemWhere}: require.minTotal must be a number`);
+            }
+          }
+        }
+      });
+      const last = next[next.length - 1];
+      if (!last || last.default !== true) {
+        errors.push(`${where}: last element of conditional next must have "default": true`);
+      }
+      return;
+    }
+    errors.push(`${where}: next must be a string or a conditional array`);
+  };
+
+  // SPEC 3.3 拡張A: scene/choice の effects はキーが PARAM_KEYS のみ許可(choice と同じ規則)。
+  const checkEffects = (effects, where) => {
+    if (effects === undefined) return;
+    if (!effects || typeof effects !== 'object') {
+      errors.push(`${where}: effects must be an object`);
+      return;
+    }
+    for (const key of Object.keys(effects)) {
+      if (!PARAM_KEYS.includes(key)) {
+        errors.push(`${where}: unknown effect key "${key}"`);
+      }
     }
   };
 
@@ -228,6 +321,7 @@ export function validateEpisode(episode) {
       case 'scene': {
         checkLines(node.lines, where);
         checkImage(node.image, where);
+        checkEffects(node.effects, where);
         checkNext(node.next, where);
         break;
       }
@@ -244,13 +338,7 @@ export function validateEpisode(episode) {
             if (!opt || typeof opt.text !== 'string' || opt.text.length === 0) {
               errors.push(`${optWhere}: missing text`);
             }
-            if (opt && opt.effects) {
-              for (const key of Object.keys(opt.effects)) {
-                if (!PARAM_KEYS.includes(key)) {
-                  errors.push(`${optWhere}: unknown effect key "${key}"`);
-                }
-              }
-            }
+            checkEffects(opt?.effects, optWhere);
             checkNext(opt?.next, optWhere);
           });
         }
@@ -318,7 +406,9 @@ export function playThrough(episode, strategy = 'first') {
     log.push({ nodeId: state.nodeId, type: node.type });
 
     if (node.type === 'scene') {
-      state = advance(state, node.next);
+      // SPEC 3.3 拡張A: scene の effects を lines 表示後に適用してから next を解決する。
+      const { state: afterEffects } = applySceneEffects(state, node);
+      state = advance(afterEffects, resolveNext(node.next, afterEffects));
     } else if (node.type === 'choice') {
       const idx = pickIndex(node);
       const { state: nextState } = applyChoice(episode, state, idx);
@@ -326,7 +416,7 @@ export function playThrough(episode, strategy = 'first') {
     } else if (node.type === 'ending') {
       const variant = resolveEndingVariant(node, state);
       log.push({ nodeId: state.nodeId, variant: variant.default ? 'default' : 'matched' });
-      state = advance(state, node.next);
+      state = advance(state, resolveNext(node.next, state));
     } else if (node.type === 'debrief') {
       return { state, result: getResult(state), log };
     } else {

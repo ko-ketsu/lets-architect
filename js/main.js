@@ -89,8 +89,19 @@ function startEpisode(episode) {
 
     if (node.type === 'scene') {
       screen.showLines(node.lines, () => {
-        state = engine.advance(state, node.next);
-        runNode();
+        if (node.effects) {
+          // SPEC 3.3 拡張A: lines 表示後に effects を適用し、フィードバックカードと同様の
+          // 形でパラメータ増減を明示してからタップで先へ進む(アオイのコメントはなし)。
+          const { state: afterEffects, before } = engine.applySceneEffects(state, node);
+          screen.updateMeters(afterEffects.params);
+          screen.showSceneEffects(before, afterEffects.params, () => {
+            state = engine.advance(afterEffects, engine.resolveNext(node.next, afterEffects));
+            runNode();
+          });
+        } else {
+          state = engine.advance(state, engine.resolveNext(node.next, state));
+          runNode();
+        }
       }, node.image);
       return;
     }
@@ -110,7 +121,7 @@ function startEpisode(episode) {
     if (node.type === 'ending') {
       const variant = engine.resolveEndingVariant(node, state);
       screen.showLines(variant.lines, () => {
-        state = engine.advance(state, node.next);
+        state = engine.advance(state, engine.resolveNext(node.next, state));
         runNode();
       });
       return;
