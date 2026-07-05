@@ -10,7 +10,8 @@
 //   1. エピソード JSON のスキーマ必須項目
 //   2. 全ノードの next / start / ending の参照先が存在すること
 //   3. 「常に最初の選択肢」「常に最後の選択肢」で機械的に通しプレイし、
-//      必ず debrief に到達しランクが算出されること
+//      必ず debrief に到達しランクが算出されること。かつランクが S にならないこと
+//      (正解が options の先頭/末尾に固まっていると機械的プレイで S が取れてしまうため)
 //   4. エピソードが参照する image.src / portrait の実ファイルが data/ 配下に存在すること
 //   5. index.json の difficulty が 1〜3 であること
 
@@ -121,6 +122,10 @@ async function checkEpisode(entry, episodePath) {
       }
       if (!['S', 'A', 'B', 'C'].includes(result.rank)) {
         fail(`${entry.id} [${strategy}]: invalid rank "${result.rank}"`);
+        continue;
+      }
+      if (result.rank === 'S') {
+        fail(`${entry.id} [${strategy}]: mechanical play reached rank S — 正解位置が偏っている(SPEC 10 参照)`);
         continue;
       }
       pass(`${entry.id} [${strategy}]: reached debrief, rank=${result.rank}, total=${result.total}`);
