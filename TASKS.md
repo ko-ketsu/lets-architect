@@ -62,7 +62,7 @@
 - [x] T16: 新キャラ立ち絵3体(Sonnet ④)完了(Fable レビュー2巡で確定)
   - data/portraits/toda.svg / igarashi.svg / shimura.svg。指摘→修正済み: 五十嵐の胸元(よだれかけ状Tシャツ)と生え際、志村の側髪(耳隠れ・おかっぱ状)と首の露出
 - [x] T17: 統合(Fable)完了: index.json にシーズン2追加 / smoke-test 全パス / check-routes 全6話 OK(S各1本・最善 s1=285, s2=281)/ Playwright 実プレイで目視検証(★表示・ヒアリング制限・図解出題・立ち絵・フィードバックカード)
-- [ ] T18: push → GitHub Pages デプロイ(**ユーザーが実施**。push すると本番公開される)
+- [x] T18: push → GitHub Pages デプロイ(ユーザーが実施、2026-07-05 push 確認)
 
 ### フェーズ5: シーズン3準備(2026-07-05)
 
