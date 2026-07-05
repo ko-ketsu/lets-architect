@@ -96,9 +96,9 @@
 
 対応方針(未着手): 正解文の理由部分を feedback へ移して短文化 or 罠にも同程度の理由を付けて文長を均す / 極端語を罠から間引き正解にも混ぜる / s2 コピペ解消 / smoke-test に「最長文戦略で S 非到達」assert 追加 / SPEC 10 にルール明文化
 
-- [ ] T26: SPEC 追記+smoke-test 拡張(Fable)
-- [ ] T27: 全9話の選択肢リライト(Sonnet、check-routes で S 1本・280〜290 維持)
-- [ ] T28: 再監査・統合検証(Fable)
+- [x] T26: SPEC 10 に文長・極端語ルール追記+smoke-test に longest 戦略 assert 追加(**T27 完了まで smoke-test は意図的に赤**: s1e2/s1e3/s2e3/s3e3)
+- [ ] T27: 全9話の選択肢リライト(Sonnet 実行中 2026-07-05)— テキストのみ変更、effects/flags/構造は不変(check-routes 結果が変わらないことが正しさの証明)。正解文の理由は feedback へ移設
+- [ ] T28: 再監査・統合検証(Fable)— 監査スクリプトは scratchpad/audit-choices.mjs
 
 ### 将来
 - [ ] シーズン4 のエピソード追加
