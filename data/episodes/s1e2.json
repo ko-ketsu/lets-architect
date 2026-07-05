@@ -3,7 +3,7 @@
   "season": 1,
   "title": "「全部、最優先でお願いします」",
   "summary": "要望リストは50件、納期は3か月。全部は作れない。優先順位をどう付け、どう合意するか。",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 5,
   "characters": {
     "player": { "name": "あなた", "role": "player" },
     "senpai": { "name": "アオイ先輩", "role": "mentor", "portrait": "portraits/aoi-normal.svg" },
@@ -145,16 +145,22 @@
         {
           "require": { "minTotal": 230 },
           "lines": [
-            { "speaker": "narration", "text": "何度かの調整を経て、優先順位についてはどうにか合意に至った。ただ、そこに至るまでの説明にはかなりの時間がかかった。" },
-            { "speaker": "senpai", "text": "まとまってよかった。でも、最初にもう少し掘れていたら、この行ったり来たりは要らなかったかもね。", "portrait": "portraits/aoi-dry.svg" }
+            { "speaker": "narration", "text": "優先順位表を出すたび、桜井さんから「やっぱりこれも外せない」「順番、もう一度考え直せますか」と差し戻しが続いた。" },
+            { "speaker": "narration", "text": "同じ資料を作り直すうち、8月のセールまでの準備期間はじりじりと削られていった。" },
+            { "speaker": "customer", "text": "何度も付き合わせてすみません。でも、これでやっと腹落ちしました。この順番でお願いします。" },
+            { "speaker": "senpai", "text": "まとまってよかった。でも『8月のセールに間に合わせたい』って、最初の会議で桜井さんがもう漏らしてたんだよね。あそこで拾えていたら、この行ったり来たりはなかったかもね。", "portrait": "portraits/aoi-dry.svg" }
           ]
         },
         {
           "default": true,
           "lines": [
-            { "speaker": "narration", "text": "『とりあえず全部』のまま開発は進み、3か月後、本当に必要だった機能の一部が中途半端な形でしか間に合わなかった。夏セールの売上は伸び悩んだ。" },
-            { "speaker": "customer", "text": "結局、一番欲しかった機能が間に合ってないですよね……。次は正直、他の会社にも相談してみようと思います。" },
-            { "speaker": "senpai", "text": "……悔しいね。でも、いい教材になった。何がすれ違ったのか、一緒に振り返ろう。", "portrait": "portraits/aoi-dry.svg" }
+            { "speaker": "narration", "text": "『とりあえず全部』を抱えたまま、開発チームは50件のタスクを手当たり次第に消化していった。" },
+            { "speaker": "narration", "text": "8月のセール開始前夜、進捗確認の画面に並ぶチェックボックスは、半分近くが埋まらないままだった。目当ての在庫連携機能はまだ動作確認中の表示のまま。画面をスクロールする手が止まった。" },
+            { "speaker": "narration", "text": "セール当日、肝心のクーポン連携が中途半端な状態でリリースされ、注文数の割に売上が伸びない。桜井さんからの電話が鳴った。" },
+            { "speaker": "customer", "text": "結局、一番欲しかった機能が間に合ってないですよね……。もっと早く『これは無理です』って言ってほしかったです。" },
+            { "speaker": "narration", "text": "受話器の向こうの声は、静かだからこそ重かった。" },
+            { "speaker": "senpai", "text": "……最初に『どれが一番セールに効くか』を一緒に整理できていたら、桜井さんにここまで悔しい思いをさせずに済んだかもね。", "portrait": "portraits/aoi-dry.svg" },
+            { "speaker": "senpai", "text": "でも、ここで終わりにしない。桜井さんが本当に守りたかったものは何だったのか、一緒に振り返ろう。", "portrait": "portraits/aoi-dry.svg" }
           ]
         }
       ],

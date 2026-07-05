@@ -3,7 +3,7 @@
   "season": 1,
   "title": "「サクサク動くようにして」",
   "summary": "「とにかく速く」という要望を、測れる性能要件に落とし込めるか。速さの正体を探るエピソード。",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 5,
   "characters": {
     "player": { "name": "あなた", "role": "player" },
     "senpai": { "name": "アオイ先輩", "role": "mentor", "portrait": "portraits/aoi-normal.svg" },
@@ -144,16 +144,21 @@
         {
           "require": { "minTotal": 230 },
           "lines": [
-            { "speaker": "narration", "text": "何度かの調整を経て、性能目標についてはどうにか合意に至った。テストでもいくつか手直しが発生し、リリースはぎりぎりのスケジュールになった。" },
-            { "speaker": "senpai", "text": "間に合ってよかった。でも、もう少し早く数字にできていたら、この綱渡りは要らなかったかもね。", "portrait": "portraits/aoi-dry.svg" }
+            { "speaker": "narration", "text": "性能目標を決めたあとも、橋本主任から「やっぱり2秒はまだ長い気がする」「他の画面はどうなんですか」と確認が何度も入った。" },
+            { "speaker": "narration", "text": "そのたび負荷試験をやり直し、ゴールデンウィークまでの残り時間はじわじわ減っていった。" },
+            { "speaker": "customer", "text": "何度も確認させてすみません。でも、これで数字として納得できました。この目標でお願いします。" },
+            { "speaker": "senpai", "text": "間に合ってよかった。でも『サクサク』の中身、最初の会議でもう少し具体的に聞けていたら、この綱渡りにはならなかったかもね。", "portrait": "portraits/aoi-dry.svg" }
           ]
         },
         {
           "default": true,
           "lines": [
-            { "speaker": "narration", "text": "『サクサク』の具体像が曖昧なまま開発は進み、リリース直前になって予約検索画面が想定より遅いことが発覚した。修正の時間はほとんど残っていなかった。" },
-            { "speaker": "customer", "text": "結局、一番困っていたところが直っていないじゃないですか……。ゴールデンウィークが不安です。" },
-            { "speaker": "senpai", "text": "……悔しいね。でも、いい教材になった。何がすれ違ったのか、一緒に振り返ろう。", "portrait": "portraits/aoi-dry.svg" }
+            { "speaker": "narration", "text": "『サクサク』の中身が曖昧なまま開発は進み、リリース直前の最終テストで、予約検索画面が想定より重いことが発覚した。" },
+            { "speaker": "narration", "text": "計測結果の画面に表示された「8.2秒」の数字から、目が離せなかった。修正に使える時間は、もうほとんど残っていない。" },
+            { "speaker": "narration", "text": "そして迎えたゴールデンウィークの予約開始日、朝10時。アクセスが集中した瞬間、予約検索画面は固まったまま動かなくなった。フローラルホテルズのフロントには、朝から問い合わせの電話が鳴りやまなかったという。" },
+            { "speaker": "customer", "text": "結局、一番困っていたところが直っていないじゃないですか……。去年と同じ朝が、また来てしまいました。" },
+            { "speaker": "senpai", "text": "……『サクサク』が指してた画面と秒数、もう少し早く具体的に聞けていたら、この朝は迎えずに済んだかもね。", "portrait": "portraits/aoi-dry.svg" },
+            { "speaker": "senpai", "text": "でも、ここで終わりにしない。橋本さんが本当に困っていた場面はどこだったのか、一緒に振り返ろう。", "portrait": "portraits/aoi-dry.svg" }
           ]
         }
       ],

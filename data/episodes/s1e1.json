@@ -3,7 +3,7 @@
   "season": 1,
   "title": "「絶対に落ちないシステム」の正体",
   "summary": "初めての顧客ヒアリング。「絶対に止まらないシステムにしてほしい」と言われたら、あなたは何と返す?",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 5,
   "characters": {
     "player": { "name": "あなた", "role": "player" },
     "senpai": { "name": "アオイ先輩", "role": "mentor", "portrait": "portraits/aoi-normal.svg" },
@@ -152,15 +152,22 @@
         {
           "require": { "minTotal": 230 },
           "lines": [
-            { "speaker": "narration", "text": "何度かの調整を経て、提案はどうにか合意に至った。かかった時間は当初予定の倍。" },
-            { "speaker": "senpai", "text": "まとまってよかった。でも、最初のヒアリングでもう少し掘れていたら、この往復は要らなかったかもね。", "portrait": "portraits/aoi-dry.svg" }
+            { "speaker": "narration", "text": "提案を出すたび、丸川部長から「そこまで費用をかけなくても」「いや、月末はやっぱり譲れません」と条件の出し直しが続いた。" },
+            { "speaker": "narration", "text": "同じ資料を三度作り直すころには、当初の見積もりから納期は一週間押していた。" },
+            { "speaker": "customer", "text": "何度もすみませんね。でも、まあ、これで納得できました。進めてください。" },
+            { "speaker": "senpai", "text": "まとまってよかった。でも『月末さえ守れればいい』って、最初の会議で丸川さんがもう言ってたんだよね。あそこで拾えていたら、この往復はなかったかもね。", "portrait": "portraits/aoi-dry.svg" }
           ]
         },
         {
           "default": true,
           "lines": [
-            { "speaker": "narration", "text": "提案は「持ち帰って検討します」と言われたきり、返事が来ない。後日、別のシステム会社の営業がマルカワ食品に出入りしていると聞いた。" },
-            { "speaker": "senpai", "text": "……悔しいね。でも、いい教材になった。何がすれ違ったのか、一緒に振り返ろう。", "portrait": "portraits/aoi-dry.svg" }
+            { "speaker": "narration", "text": "提案は「社内でもう一度検討します」と言われたきり、丸川部長からの返事が途絶えた。" },
+            { "speaker": "narration", "text": "催促の電話をかけるたび、受話器を持つ手が少し重くなる。何がいけなかったのか、あの日の会話を何度も思い返した。" },
+            { "speaker": "narration", "text": "そして迎えた月末。返事を待つ間も、旧システムは動き続けていた。締め処理3日目の深夜、旧システムがまた止まった。翌朝、出荷は丸ごと止まったままだった。" },
+            { "speaker": "customer", "text": "新しいシステム、まだ決まらないんですか!今のままじゃ、また同じことの繰り返しですよ!" },
+            { "speaker": "narration", "text": "電話越しの声に、胃の奥がきゅっと縮む感覚がした。結局、話はそのまま立ち消えになった。" },
+            { "speaker": "senpai", "text": "……止まると何が・いつ・どれだけ困るか、あそこでもう一歩踏み込めていたら、丸川さんをここまで待たせずに済んだかもね。", "portrait": "portraits/aoi-dry.svg" },
+            { "speaker": "senpai", "text": "でも、ここで終わりにしない。丸川さんが本当に恐れていたものは何だったのか、一緒に振り返ろう。", "portrait": "portraits/aoi-dry.svg" }
           ]
         }
       ],

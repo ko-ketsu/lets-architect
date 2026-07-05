@@ -62,7 +62,7 @@
           "text": "「このサービス全体で、SLAとして約束したい稼働率はどれくらいですか?」",
           "effects": { "budget": -3, "trust": 2 },
           "flags": ["asked_sla_target"],
-          "feedback": "目標値を数字で聞けたのは良い。判断の物差しになる。",
+          "feedback": "約束したい稼働率を先に数字で押さえたね。ここから逆算していける。",
           "next": "hearing2_sla"
         },
         {
@@ -83,7 +83,7 @@
           "text": "「氷室さんが個人的に受けてみたい講座ってあります?」",
           "effects": { "budget": -5, "trust": -8 },
           "flags": ["asked_hobby"],
-          "feedback": "雑談は大事だけど、今日の15分でそれを聞く?先に確認すべきことがあるよね。",
+          "feedback": "雑談自体は悪くないけど、その答えでSLAやデータ設計の判断は変わらないよね。この後の判断に効く質問を先に埋めよう。",
           "next": "hearing2_hobby"
         }
       ]
@@ -96,21 +96,21 @@
           "text": "「学習の進捗データが一瞬でも整合性が崩れたら、業務にどんな影響がありますか?」",
           "effects": { "budget": -2, "trust": 10 },
           "flags": ["asked_consistency_impact"],
-          "feedback": "この2問目が効いてくる。よく選んだ。",
+          "feedback": "整合性が崩れたときの影響——データ設計の芯はここだよ。",
           "next": "answer_sla_consistency"
         },
         {
           "text": "「今のインフラで、過去に障害が起きたことはありますか?」",
           "effects": { "budget": -4, "trust": 0 },
           "flags": ["asked_incident_history"],
-          "feedback": "過去の実績は把握できた。ただ今日の悩みの核心には触れずじまい。",
+          "feedback": "障害の履歴は取れた。ただ整合性の話は残ったままだね。",
           "next": "answer_sla_incident"
         },
         {
           "text": "「氷室さんが個人的に受けてみたい講座ってあります?」",
           "effects": { "budget": -5, "trust": -8 },
           "flags": ["asked_hobby"],
-          "feedback": "残り1問をこれに使うのはもったいない。",
+          "feedback": "受けたい講座が分かっても、構成の判断は一つも進まないよ。",
           "next": "answer_sla_hobby"
         }
       ]
@@ -123,21 +123,21 @@
           "text": "「このサービス全体で、SLAとして約束したい稼働率はどれくらいですか?」",
           "effects": { "budget": -3, "trust": 2 },
           "flags": ["asked_sla_target"],
-          "feedback": "目標値も掴めた。良い組み合わせ。",
+          "feedback": "目標の稼働率も数字で押さえた。堅実な2問。",
           "next": "answer_sla_consistency"
         },
         {
           "text": "「今のインフラで、過去に障害が起きたことはありますか?」",
           "effects": { "budget": -4, "trust": 0 },
           "flags": ["asked_incident_history"],
-          "feedback": "過去の実績も把握できた。",
+          "feedback": "過去の障害も判断の足しにはなるよ。",
           "next": "answer_consistency_incident"
         },
         {
           "text": "「氷室さんが個人的に受けてみたい講座ってあります?」",
           "effects": { "budget": -5, "trust": -8 },
           "flags": ["asked_hobby"],
-          "feedback": "せっかくの2問目をこれに使うのはもったいない。",
+          "feedback": "その答えは、SLAのどの数字にも響かないよ。",
           "next": "answer_consistency_hobby"
         }
       ]
@@ -150,21 +150,21 @@
           "text": "「このサービス全体で、SLAとして約束したい稼働率はどれくらいですか?」",
           "effects": { "budget": -3, "trust": 2 },
           "flags": ["asked_sla_target"],
-          "feedback": "目標値は掴めたね。",
+          "feedback": "約束したい稼働率は数字で取れたね。",
           "next": "answer_sla_incident"
         },
         {
           "text": "「学習の進捗データが一瞬でも整合性が崩れたら、業務にどんな影響がありますか?」",
           "effects": { "budget": -2, "trust": 10 },
           "flags": ["asked_consistency_impact"],
-          "feedback": "この質問、実はさっき聞いておきたかったやつ。今からでも聞けてよかった。",
+          "feedback": "整合性の影響、真っ先に確かめたかったこと。聞けてよかった。",
           "next": "answer_consistency_incident"
         },
         {
           "text": "「氷室さんが個人的に受けてみたい講座ってあります?」",
           "effects": { "budget": -5, "trust": -8 },
           "flags": ["asked_hobby"],
-          "feedback": "うーん、この2問目はもったいない。",
+          "feedback": "講座の好みで冗長構成が決まるなら苦労しないよ。",
           "next": "answer_incident_hobby"
         }
       ]
@@ -177,21 +177,21 @@
           "text": "「このサービス全体で、SLAとして約束したい稼働率はどれくらいですか?」",
           "effects": { "budget": -3, "trust": 2 },
           "flags": ["asked_sla_target"],
-          "feedback": "せめてこれは聞けた。",
+          "feedback": "せめて目標の稼働率だけは数字で取れた。",
           "next": "answer_sla_hobby"
         },
         {
           "text": "「学習の進捗データが一瞬でも整合性が崩れたら、業務にどんな影響がありますか?」",
           "effects": { "budget": -2, "trust": 10 },
           "flags": ["asked_consistency_impact"],
-          "feedback": "ぎりぎりで核心の質問を拾えた。",
+          "feedback": "締めぎわに整合性という核心を確かめられたのは大きい。",
           "next": "answer_consistency_hobby"
         },
         {
           "text": "「今のインフラで、過去に障害が起きたことはありますか?」",
           "effects": { "budget": -4, "trust": 0 },
           "flags": ["asked_incident_history"],
-          "feedback": "過去の実績は把握できた。",
+          "feedback": "過去の障害の話だけは押さえられたね。",
           "next": "answer_incident_hobby"
         }
       ]
@@ -595,11 +595,11 @@
           "lines": [
             {
               "speaker": "narration",
-              "text": "何とか3か月以内に移行を終えた。大きな問題は起きなかったが、一部の判断は後になって効いてきた。"
+              "text": "何とか3か月以内に移行を終えた。氷室さんに大きな問題は起きなかったが、一部の判断は後になって効いてきた。"
             },
             {
               "speaker": "senpai",
-              "text": "結果オーライ、ではあるけどね。もう少し早く核心の情報に気づけていたら、もっと迷わずに進めたと思うよ。"
+              "text": "結果オーライ、ではあるけどね。整合性が崩れたときの影響、もう少し早く確かめられていたら、データストアの使い分けで迷う時間はもっと減らせたと思うよ。"
             }
           ]
         },
@@ -608,11 +608,19 @@
           "lines": [
             {
               "speaker": "narration",
-              "text": "移行後まもなく、DBの障害時にサービスが数十分止まる事態が発生。原因調査と急ぎの対応に、開発チームは追われることになった。"
+              "text": "移行後まもなく、DBの再起動をきっかけにサービスが数十分止まった。監視画面のアラートが鳴り続ける中、復旧までの時間がじりじりと延びていく。"
+            },
+            {
+              "speaker": "narration",
+              "text": "止まっている間、課金処理も受講画面も動かない。氷室さんからのチャットには「SLA、大丈夫ですか」の一文だけが届いた。画面を見る手が止まった。"
             },
             {
               "speaker": "customer",
-              "text": "急いで直してもらえるのはありがたいですが……最初から気づいといてほしかったですね。"
+              "text": "急いで直してもらえるのはありがたいですが……最初から気づいといてほしかったですね。契約上のSLA、今回で割り込んでしまいました。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……整合性が崩れたときの影響、あのとき確かめられていたら、この単一障害点にはもっと早く気づけていたかもしれないね。"
             }
           ]
         },
@@ -621,11 +629,29 @@
           "lines": [
             {
               "speaker": "narration",
-              "text": "移行後、DBの障害と同時に課金データの整合性が崩れ、二重請求が多数発生。返金対応と信頼回復に数か月を要した。"
+              "text": "移行から間もない深夜、単一構成のままだったDBが再起動で一時的に止まった。復旧の裏で、課金処理の一部が二重に走ってしまう。"
+            },
+            {
+              "speaker": "narration",
+              "text": "翌朝、サポート窓口には「同じ講座を二回分請求された」という問い合わせが積み上がっていた。件数が増えるたび、画面をスクロールする手が止まった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "課金と受講権限だけは絶対に止めるなと、最初にお伝えしましたよね……。信頼、正直かなり揺らいでいます。"
+            },
+            {
+              "speaker": "narration",
+              "text": "返金対応に追われる日々が続いた。信頼を取り戻すには、数か月を要した。"
             },
             {
               "speaker": "senpai",
-              "text": "……悔しいね。でも、ここまでの判断のどこがズレたのか、一緒に振り返ろう。"
+              "text": "……整合性が崩れたときの影響、あのとき確かめられていたら、単一障害点にもっと早く気づけていたかもしれないね。",
+              "portrait": "portraits/aoi-dry.svg"
+            },
+            {
+              "speaker": "senpai",
+              "text": "でも、ここで終わりにしない。氷室さんが最初に『絶対に譲れない』と言っていたものは何だったのか、一緒に振り返ろう。",
+              "portrait": "portraits/aoi-dry.svg"
             }
           ]
         }
