@@ -7,7 +7,7 @@
   "characters": {
     "player": { "name": "あなた", "role": "player" },
     "senpai": { "name": "アオイ先輩", "role": "mentor", "portrait": "portraits/aoi-normal.svg" },
-    "customer": { "name": "桜井マネージャー(フルフルマーケット)", "role": "customer" }
+    "customer": { "name": "桜井マネージャー(フルフルマーケット)", "role": "customer", "portrait": "portraits/sakurai.svg" }
   },
   "params": { "customer": 50, "quality": 50, "budget": 50, "trust": 50 },
   "start": "intro",

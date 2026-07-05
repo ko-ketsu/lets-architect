@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="橋本主任(フローラルホテルズ)の立ち絵">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182238"/><stop offset="1" stop-color="#0e1520"/>
+    </linearGradient>
+    <radialGradient id="phalo" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.09"/>
+      <stop offset="0.55" stop-color="#22d3ee" stop-opacity="0.035"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="240" height="320" fill="url(#pbg)"/>
+  <rect width="240" height="320" fill="url(#phalo)"/>
+  <!-- 耳 -->
+  <ellipse cx="81" cy="145" rx="7" ry="11" fill="#d9a878"/>
+  <ellipse cx="159" cy="145" rx="7" ry="11" fill="#d9a878"/>
+  <!-- 首(襟の奥まで) -->
+  <path d="M103,160 L103,226 C103,235 110,241 120,241 C130,241 137,235 137,226 L137,160 Z" fill="#d9a878"/>
+  <path d="M103,168 C108,184 132,184 137,168 L137,188 C129,196 111,196 103,188 Z" fill="#b8865c"/>
+  <!-- 顔(卵型) -->
+  <path d="M120,78 C92,78 78,103 80,134 C81,157 90,175 104,183 C112,189 128,189 136,183 C150,175 159,157 160,134 C162,103 148,78 120,78 Z" fill="#d9a878"/>
+  <!-- 短髪(落ち着いた濃茶、こめかみにわずかな白髪交じり) -->
+  <path d="M120,62 C92,62 76,84 76,112 C75,124 77,136 81,146 L90,142 C88,134 87,124 88,114 C92,98 104,90 120,90 C136,90 148,98 152,114 C153,124 152,134 150,142 L159,146 C163,136 165,124 164,112 C164,84 148,62 120,62 Z" fill="#3b2e22"/>
+  <path d="M96,76 Q120,66 144,76" fill="none" stroke="#4a3c2d" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/>
+  <path d="M79,118 C78,126 79,134 82,142" fill="none" stroke="#8a8580" stroke-width="1.3" stroke-linecap="round" opacity="0.35"/>
+  <path d="M161,118 C162,126 161,134 158,142" fill="none" stroke="#8a8580" stroke-width="1.3" stroke-linecap="round" opacity="0.35"/>
+  <!-- 眉(困り眉:内側が上がった心配げな角度) -->
+  <path d="M89,130 Q100,124 111,119" fill="none" stroke="#3b2e22" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M151,130 Q140,124 129,119" fill="none" stroke="#3b2e22" stroke-width="3.4" stroke-linecap="round"/>
+  <!-- 目(まぶたラインは瞳に接する細ライン、控えめな表情) -->
+  <path d="M91,141 Q100,135 110,140" fill="none" stroke="#241a12" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M149,141 Q140,135 130,140" fill="none" stroke="#241a12" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="101" cy="143" r="4" fill="#241a12"/>
+  <circle cx="139" cy="143" r="4" fill="#241a12"/>
+  <circle cx="99.7" cy="141.5" r="1.2" fill="#ffffff" opacity="0.85"/>
+  <circle cx="137.7" cy="141.5" r="1.2" fill="#ffffff" opacity="0.85"/>
+  <!-- 目の下のうっすらとした疲れ -->
+  <path d="M92,151 Q101,154 110,151" fill="none" stroke="#b8865c" stroke-width="1.4" opacity="0.5"/>
+  <path d="M130,151 Q139,154 148,151" fill="none" stroke="#b8865c" stroke-width="1.4" opacity="0.5"/>
+  <!-- 鼻(短い陰影のみ) -->
+  <path d="M121,148 C119,155 116,161 112,164 C116,167 122,166 125,163" fill="none" stroke="#b8865c" stroke-width="2.3" stroke-linecap="round"/>
+  <path d="M105,164 Q102,170 104,175" fill="none" stroke="#b8865c" stroke-width="1.4" opacity="0.4"/>
+  <path d="M135,164 Q138,170 136,175" fill="none" stroke="#b8865c" stroke-width="1.4" opacity="0.4"/>
+  <!-- 口(困り顔、わずかに下がった口元) -->
+  <path d="M108,178 Q120,182 132,178" fill="none" stroke="#8a5a42" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- 服: ベスト+ネクタイ(ホテルの制服らしいきちんとした身なり) -->
+  <path d="M36,320 C42,242 76,216 104,210 C114,219 126,219 136,210 C164,216 198,242 204,320 Z" fill="#2b3040"/>
+  <path d="M104,210 L120,234 L136,210 L131,254 L120,264 L109,254 Z" fill="#e9edf4"/>
+  <!-- ネクタイ(ボルドー) -->
+  <path d="M116,220 L124,220 L128,274 L120,288 L112,274 Z" fill="#5a2a2e"/>
+  <path d="M116,220 L124,220 L122,230 L118,230 Z" fill="#45191d"/>
+  <!-- ベストの肩の縫い目(袖なしを示す) -->
+  <path d="M104,210 Q96,216 92,226" fill="none" stroke="#1c2030" stroke-width="2" opacity="0.7"/>
+  <path d="M136,210 Q144,216 148,226" fill="none" stroke="#1c2030" stroke-width="2" opacity="0.7"/>
+  <path d="M104,210 L88,246 L104,320" fill="none" stroke="#1c2030" stroke-width="2.5"/>
+  <path d="M136,210 L152,246 L136,320" fill="none" stroke="#1c2030" stroke-width="2.5"/>
+  <!-- ベストのボタン(縦一列) -->
+  <circle cx="120" cy="246" r="2.4" fill="#1c2030"/>
+  <circle cx="120" cy="262" r="2.4" fill="#1c2030"/>
+  <circle cx="120" cy="278" r="2.4" fill="#1c2030"/>
+  <circle cx="120" cy="294" r="2.4" fill="#1c2030"/>
+  <!-- リムライト -->
+  <path d="M162,118 Q169,150 160,188" fill="none" stroke="#22d3ee" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+</svg>

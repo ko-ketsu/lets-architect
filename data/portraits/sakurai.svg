@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="桜井マネージャー(フルフルマーケット)の立ち絵">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#182238"/><stop offset="1" stop-color="#0e1520"/>
+    </linearGradient>
+    <radialGradient id="phalo" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.09"/>
+      <stop offset="0.55" stop-color="#22d3ee" stop-opacity="0.035"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="240" height="320" fill="url(#pbg)"/>
+  <rect width="240" height="320" fill="url(#phalo)"/>
+  <!-- 後ろ髪(セミロング、肩の下まで) -->
+  <path d="M120,60 C78,60 58,96 61,138 C63,168 72,190 86,202 L154,202 C168,190 177,168 179,138 C182,96 162,60 120,60 Z" fill="#7a5030"/>
+  <!-- 首(襟の奥まで伸ばして隙間を作らない) -->
+  <path d="M105,158 L105,226 C105,236 111,242 120,242 C129,242 135,236 135,226 L135,158 Z" fill="#e8b18c"/>
+  <path d="M105,166 C109,182 131,182 135,166 L135,186 C128,194 112,194 105,186 Z" fill="#cf8f6b"/>
+  <!-- 顔(卵型) -->
+  <path d="M120,74 C91,74 77,101 79,131 C80,152 87,169 100,179 C107,185 133,185 140,179 C153,169 160,152 161,131 C163,101 149,74 120,74 Z" fill="#e8b18c"/>
+  <path d="M121,141 C119,149 117,155 114,158 C117,160 121,160 123,158" fill="none" stroke="#c98a66" stroke-width="2.2" stroke-linecap="round"/>
+  <ellipse cx="98" cy="158" rx="8" ry="4.6" fill="#e07a5a" opacity="0.22"/>
+  <ellipse cx="142" cy="158" rx="8" ry="4.6" fill="#e07a5a" opacity="0.22"/>
+  <!-- 前髪(明るいチェスナット、横流しサイドバング) -->
+  <path d="M120,68 C94,68 80,86 78,112 C77,122 78,131 80,139 C83,116 91,101 103,95 C99,107 98,119 101,129 C107,111 119,101 133,100 C145,99 154,107 157,120 C159,128 159,135 157,141 C161,132 163,119 161,105 C157,82 141,68 120,68 Z" fill="#93643c"/>
+  <path d="M84,96 C94,89 105,90 112,96 C104,109 100,122 101,137 C92,129 84,111 84,96 Z" fill="#93643c"/>
+  <path d="M100,95 C105,92 111,90 117,90" fill="none" stroke="#a8794f" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <path d="M133,100 C139,100 146,104 151,111" fill="none" stroke="#a8794f" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <path d="M96,82 Q120,70 146,84" fill="none" stroke="#b08557" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+  <!-- サイドの髪(セミロング、毛先はゆるく外に流す) -->
+  <path d="M81,102 C69,132 67,168 75,198 C80,214 91,224 101,220 C93,200 88,166 93,130 C89,120 85,110 81,102 Z" fill="#7a5030"/>
+  <path d="M159,102 C171,132 173,168 165,198 C160,214 149,224 139,220 C147,200 152,166 147,130 C151,120 155,110 159,102 Z" fill="#7a5030"/>
+  <path d="M77,198 C82,210 91,218 100,217" fill="none" stroke="#8f6440" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <path d="M163,198 C158,210 149,218 140,217" fill="none" stroke="#8f6440" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <!-- 服: ブラウスの襟 -->
+  <path d="M40,320 C46,246 76,220 104,214 C114,223 126,223 136,214 C164,220 194,246 200,320 Z" fill="#f6ece0"/>
+  <!-- カーディガン(前開き、コーラルピンク) -->
+  <path d="M40,320 C46,246 76,220 104,214 L114,226 L100,320 Z" fill="#d98a7a"/>
+  <path d="M200,320 C194,246 164,220 136,214 L126,226 L140,320 Z" fill="#d98a7a"/>
+  <path d="M40,320 C46,246 76,220 104,214 L111,226 C86,234 64,262 60,320 Z" fill="#b56a5c"/>
+  <path d="M200,320 C194,246 164,220 136,214 L129,226 C154,234 176,262 180,320 Z" fill="#b56a5c"/>
+  <path d="M104,214 C110,222 130,222 136,214" fill="none" stroke="#f6ece0" stroke-width="2"/>
+  <!-- カーディガンの前立てボタン -->
+  <circle cx="107" cy="248" r="2.6" fill="#8a4a3e"/>
+  <circle cx="103" cy="278" r="2.6" fill="#8a4a3e"/>
+  <circle cx="133" cy="248" r="2.6" fill="#8a4a3e"/>
+  <circle cx="137" cy="278" r="2.6" fill="#8a4a3e"/>
+  <!-- リムライト -->
+  <path d="M165,114 Q173,150 164,190" fill="none" stroke="#22d3ee" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <!-- 表情: 前のめりで張り切った笑顔(眉が少し上がった張り切り顔) -->
+  <path d="M88,121 Q100,113 113,119" fill="none" stroke="#4a3324" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M152,121 Q140,113 127,119" fill="none" stroke="#4a3324" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M90,138 Q100,131 111,138" fill="none" stroke="#2a1d16" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M149,138 Q139,131 129,138" fill="none" stroke="#2a1d16" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="101" cy="140" r="4.6" fill="#463225"/>
+  <circle cx="139" cy="140" r="4.6" fill="#463225"/>
+  <circle cx="99.4" cy="138.2" r="1.4" fill="#ffffff" opacity="0.9"/>
+  <circle cx="137.4" cy="138.2" r="1.4" fill="#ffffff" opacity="0.9"/>
+  <path d="M103,165 Q120,180 137,165 Q120,176 103,165 Z" fill="#b0654e"/>
+  <path d="M103,165 Q120,179 137,165" fill="none" stroke="#8a4636" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+</svg>
