@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 600" role="img" aria-label="旧ECシステム(稼働中)の会員DB・商品DB・注文DB・レビューDBと、新ECシステム(開発中)の決済コア・セキュリティ監査対象・商品検索・カート・レビューの各コンポーネントを示す依存図。決済コアは会員DBのみ、セキュリティ監査対象は注文DBのみに接続している一方、商品検索・カート・レビューは商品DBやレビューDBなど複数の旧システムのデータに接続している">
+  <defs>
+    <marker id="s4e2arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#9aa8bf"/>
+    </marker>
+  </defs>
+
+  <rect width="1020" height="600" fill="#0f1626"/>
+  <text x="510" y="34" text-anchor="middle" fill="#e9eef6" font-size="20" font-weight="bold">メゾン・エルデ: 新旧システムの構成と依存関係</text>
+
+  <!-- new system group -->
+  <rect x="30" y="70" width="960" height="180" rx="12" fill="none" stroke="#3a4a63" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="50" y="94" fill="#9aa8bf" font-size="13">新ECシステム(開発中)</text>
+
+  <rect x="50" y="108" width="160" height="100" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="130" y="142" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">決済コア</text>
+
+  <rect x="230" y="108" width="160" height="100" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="310" y="140" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">セキュリティ</text>
+  <text x="310" y="158" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">監査対象</text>
+
+  <rect x="410" y="108" width="160" height="100" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="490" y="150" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">商品検索</text>
+
+  <rect x="590" y="108" width="160" height="100" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="670" y="150" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">カート</text>
+
+  <rect x="770" y="108" width="160" height="100" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="850" y="150" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">レビュー</text>
+
+  <!-- old system group -->
+  <rect x="30" y="400" width="960" height="150" rx="12" fill="none" stroke="#3a4a63" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="50" y="392" fill="#9aa8bf" font-size="13">旧ECシステム(稼働中)</text>
+
+  <rect x="60" y="438" width="180" height="88" rx="10" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="150" y="470" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">会員DB</text>
+
+  <rect x="290" y="438" width="180" height="88" rx="10" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="380" y="470" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">商品DB</text>
+
+  <rect x="520" y="438" width="180" height="88" rx="10" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="610" y="470" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">注文DB</text>
+
+  <rect x="750" y="438" width="180" height="88" rx="10" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="840" y="470" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">レビューDB</text>
+
+  <!-- dependency arrows: new -> old -->
+  <!-- 決済コア -> 会員DB -->
+  <line x1="130" y1="208" x2="150" y2="436" stroke="#9aa8bf" stroke-width="2" marker-end="url(#s4e2arrow)"/>
+  <!-- セキュリティ監査対象 -> 注文DB -->
+  <line x1="310" y1="208" x2="595" y2="436" stroke="#9aa8bf" stroke-width="2" marker-end="url(#s4e2arrow)"/>
+  <!-- 商品検索 -> 商品DB -->
+  <line x1="490" y1="208" x2="400" y2="436" stroke="#9aa8bf" stroke-width="2" marker-end="url(#s4e2arrow)"/>
+  <!-- カート -> 商品DB -->
+  <line x1="650" y1="208" x2="420" y2="436" stroke="#9aa8bf" stroke-width="2" marker-end="url(#s4e2arrow)"/>
+  <!-- カート -> 会員DB -->
+  <line x1="640" y1="208" x2="200" y2="436" stroke="#9aa8bf" stroke-width="2" marker-end="url(#s4e2arrow)"/>
+  <!-- レビュー -> 商品DB -->
+  <line x1="830" y1="208" x2="440" y2="436" stroke="#9aa8bf" stroke-width="2" marker-end="url(#s4e2arrow)"/>
+  <!-- レビュー -> レビューDB -->
+  <line x1="850" y1="208" x2="840" y2="436" stroke="#9aa8bf" stroke-width="2" marker-end="url(#s4e2arrow)"/>
+
+  <text x="510" y="580" text-anchor="middle" fill="#9aa8bf" font-size="12">矢印: 新システムのコンポーネントが参照している旧システムのデータ</text>
+</svg>

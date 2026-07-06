@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" role="img" aria-label="クライアントからロードバランサー・AZ-A/AZ-Bにまたがるアプリサーバー2台・プライマリ/スタンバイのDBへと至る受発注コアの冗長構成。別系統として専用検索基盤とリアルタイム分析基盤がDBに接続し、監視・バックアップ・ステージング環境が付随している。コンポーネント別の月額費用として、受発注コア(AZ冗長)14万円、専用検索基盤9万円、リアルタイム分析基盤8万円、監視・バックアップ・ステージング環境4万円と記載されている">
+  <defs>
+    <marker id="s4e1arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#9aa8bf"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="620" fill="#0f1626"/>
+  <text x="500" y="34" text-anchor="middle" fill="#e9eef6" font-size="20" font-weight="bold">ツバキ文具: 現在のシステム構成</text>
+
+  <!-- Client -->
+  <rect x="20" y="130" width="110" height="80" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="75" y="164" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">クライアント</text>
+  <text x="75" y="184" text-anchor="middle" fill="#9aa8bf" font-size="11">(店舗端末)</text>
+
+  <!-- LB -->
+  <rect x="165" y="130" width="110" height="80" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="220" y="164" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">ロード</text>
+  <text x="220" y="182" text-anchor="middle" fill="#e9eef6" font-size="14" font-weight="bold">バランサー</text>
+
+  <!-- AZ box -->
+  <rect x="310" y="90" width="420" height="240" rx="12" fill="none" stroke="#3a4a63" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="330" y="112" fill="#9aa8bf" font-size="12">受発注コア(AZ冗長構成)</text>
+
+  <!-- AZ-A -->
+  <rect x="330" y="130" width="180" height="180" rx="10" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="420" y="150" text-anchor="middle" fill="#9aa8bf" font-size="12">AZ-A</text>
+  <rect x="345" y="160" width="150" height="60" rx="8" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="420" y="184" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">アプリサーバー</text>
+  <text x="420" y="202" text-anchor="middle" fill="#9aa8bf" font-size="11">1台</text>
+  <rect x="345" y="235" width="150" height="60" rx="8" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="420" y="259" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">DB(プライマリ)</text>
+  <text x="420" y="277" text-anchor="middle" fill="#9aa8bf" font-size="11">受発注データ</text>
+
+  <!-- AZ-B -->
+  <rect x="530" y="130" width="180" height="180" rx="10" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="620" y="150" text-anchor="middle" fill="#9aa8bf" font-size="12">AZ-B</text>
+  <rect x="545" y="160" width="150" height="60" rx="8" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="620" y="184" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">アプリサーバー</text>
+  <text x="620" y="202" text-anchor="middle" fill="#9aa8bf" font-size="11">1台</text>
+  <rect x="545" y="235" width="150" height="60" rx="8" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="620" y="259" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">DB(スタンバイ)</text>
+  <text x="620" y="277" text-anchor="middle" fill="#9aa8bf" font-size="11">受発注データ複製</text>
+
+  <!-- Search infra -->
+  <rect x="790" y="100" width="180" height="80" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="880" y="130" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">専用検索基盤</text>
+  <text x="880" y="150" text-anchor="middle" fill="#9aa8bf" font-size="11">商品・得意先の全文検索</text>
+
+  <!-- Analytics infra -->
+  <rect x="790" y="200" width="180" height="80" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="880" y="230" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">リアルタイム分析基盤</text>
+  <text x="880" y="250" text-anchor="middle" fill="#9aa8bf" font-size="11">ストリーミング取り込み</text>
+  <text x="880" y="266" text-anchor="middle" fill="#9aa8bf" font-size="11">+ ダッシュボード</text>
+
+  <!-- Ops box -->
+  <rect x="330" y="350" width="380" height="70" rx="10" fill="#1a2334" stroke="#2a3549" stroke-width="2"/>
+  <text x="520" y="378" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">監視・バックアップ・ステージング環境</text>
+  <text x="520" y="398" text-anchor="middle" fill="#9aa8bf" font-size="11">障害検知・データ保全・リリース前検証</text>
+
+  <!-- arrows -->
+  <line x1="130" y1="170" x2="163" y2="170" stroke="#9aa8bf" stroke-width="2" marker-end="url(#s4e1arrow)"/>
+  <line x1="275" y1="170" x2="328" y2="170" stroke="#9aa8bf" stroke-width="2" marker-end="url(#s4e1arrow)"/>
+  <line x1="420" y1="220" x2="420" y2="233" stroke="#9aa8bf" stroke-width="2"/>
+  <line x1="620" y1="220" x2="620" y2="233" stroke="#9aa8bf" stroke-width="2"/>
+  <line x1="495" y1="265" x2="543" y2="265" stroke="#9aa8bf" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="710" y1="180" x2="788" y2="140" stroke="#9aa8bf" stroke-width="1.5" marker-end="url(#s4e1arrow)"/>
+  <line x1="710" y1="220" x2="788" y2="240" stroke="#9aa8bf" stroke-width="1.5" marker-end="url(#s4e1arrow)"/>
+  <line x1="510" y1="330" x2="510" y2="350" stroke="#9aa8bf" stroke-width="1.5"/>
+
+  <!-- cost table -->
+  <text x="500" y="450" text-anchor="middle" fill="#e9eef6" font-size="16" font-weight="bold">コンポーネント別 月額費用(概算)</text>
+  <rect x="160" y="466" width="680" height="34" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="180" y="489" fill="#9aa8bf" font-size="14" font-weight="bold">項目</text>
+  <text x="600" y="489" fill="#9aa8bf" font-size="14" font-weight="bold">月額(概算)</text>
+
+  <g font-size="14" fill="#e9eef6">
+    <rect x="160" y="500" width="680" height="28" fill="#141c2c" stroke="#232f45" stroke-width="1"/>
+    <text x="180" y="519">受発注コア(AZ冗長構成)</text>
+    <text x="600" y="519">14万円</text>
+
+    <rect x="160" y="528" width="680" height="28" fill="#0f1626" stroke="#232f45" stroke-width="1"/>
+    <text x="180" y="547">専用検索基盤</text>
+    <text x="600" y="547">9万円</text>
+
+    <rect x="160" y="556" width="680" height="28" fill="#141c2c" stroke="#232f45" stroke-width="1"/>
+    <text x="180" y="575">リアルタイム分析基盤</text>
+    <text x="600" y="575">8万円</text>
+
+    <rect x="160" y="584" width="680" height="28" fill="#0f1626" stroke="#232f45" stroke-width="1"/>
+    <text x="180" y="603">監視・バックアップ・ステージング環境</text>
+    <text x="600" y="603">4万円</text>
+  </g>
+</svg>
