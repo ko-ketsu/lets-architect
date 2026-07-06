@@ -1,0 +1,919 @@
+{
+  "id": "s4e1",
+  "season": 4,
+  "title": "予算が半分になりました",
+  "summary": "老舗文具メーカー「ツバキ文具」の販売管理システム刷新。開発中盤、事業縮小で予算がおよそ半分に。動かせない制約を見極め、何を守り何を段階リリースに回すかが問われる。",
+  "estimatedMinutes": 9,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    },
+    "customer": {
+      "name": "栗原誠課長(ツバキ文具)",
+      "role": "customer",
+      "portrait": "portraits/kurihara.svg"
+    }
+  },
+  "params": {
+    "customer": 50,
+    "quality": 50,
+    "budget": 50,
+    "trust": 50
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "老舗文具メーカー「ツバキ文具」の販売管理システム刷新案件は、要件定義を終え、開発も中盤に差し掛かっていた。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "今日は栗原課長との定例。進捗はおおむね順調なはずだけど、事前にもらったメール、何だか歯切れが悪かったね。"
+        },
+        {
+          "speaker": "narration",
+          "text": "会議室に現れた栗原課長は、いつもより深く頭を下げてから切り出した。"
+        },
+        {
+          "speaker": "customer",
+          "text": "折り入ってご相談が……実は来期から、会社全体でIT予算の見直しが決まりまして。このプロジェクトも、予算をおよそ半分にしてほしいと、上から指示が来ているんです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "情けない話で申し訳ないんですが……"
+        },
+        {
+          "speaker": "narration",
+          "text": "打ち合わせは残り15分。聞けるのはあと2つだけだ。"
+        }
+      ],
+      "next": "hearing1"
+    },
+    "hearing1": {
+      "type": "choice",
+      "prompt": "予算がおよそ半分になるという。時間は限られている。まず何を聞く?(このあと、もう1問だけ聞ける)",
+      "options": [
+        {
+          "text": "「予算の見直しは今回限りでしょうか、来期以降も続くものでしょうか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_cut_scope"
+          ],
+          "feedback": "先を見据えた質問だね。一時的な削減か、構造的に続く変化かで対応も変わってくる。",
+          "next": "hearing2_cutscope"
+        },
+        {
+          "text": "「今回の開発の中で、外部要因でどうしても動かせない期限がある機能はありますか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_deadline_fact"
+          ],
+          "feedback": "鋭い質問。『何を守るか』を決める芯になる情報だよ。",
+          "next": "hearing2_deadline"
+        },
+        {
+          "text": "「現在、それぞれの機能の開発はどこまで進んでいますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_progress"
+          ],
+          "feedback": "現状把握として悪くはないけど、資料を見ればわかることより先に確かめたいことがあるんじゃない?",
+          "next": "hearing2_progress"
+        },
+        {
+          "text": "「栗原さんが個人的に、このリニューアルで一番気に入っている機能って何ですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "雑談自体は悪くないけど、その答えで予算の使い道は決まらないよね。この後の判断に効く質問を先に埋めよう。",
+          "next": "hearing2_hobby"
+        }
+      ]
+    },
+    "hearing2_cutscope": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今回の開発の中で、外部要因でどうしても動かせない期限がある機能はありますか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_deadline_fact"
+          ],
+          "feedback": "『何を守るか』を決める芯になる情報、聞けたね。",
+          "next": "answer_cutscope_deadline"
+        },
+        {
+          "text": "「現在、それぞれの機能の開発はどこまで進んでいますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_progress"
+          ],
+          "feedback": "進捗は取れた。ただ、動かせない制約の話は残ったままだね。",
+          "next": "answer_cutscope_progress"
+        },
+        {
+          "text": "「栗原さんが個人的に、このリニューアルで一番気に入っている機能って何ですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "気に入ってる機能が分かっても、予算配分の判断は一つも進まないよ。",
+          "next": "answer_cutscope_hobby"
+        }
+      ]
+    },
+    "hearing2_deadline": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「予算の見直しは今回限りでしょうか、来期以降も続くものでしょうか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_cut_scope"
+          ],
+          "feedback": "見通しも押さえた。堅実な2問だね。",
+          "next": "answer_cutscope_deadline"
+        },
+        {
+          "text": "「現在、それぞれの機能の開発はどこまで進んでいますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_progress"
+          ],
+          "feedback": "進捗も判断の足しになるよ。",
+          "next": "answer_deadline_progress"
+        },
+        {
+          "text": "「栗原さんが個人的に、このリニューアルで一番気に入っている機能って何ですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "動かせない制約の話を先に聞けたのは大きい。",
+          "next": "answer_deadline_hobby"
+        }
+      ]
+    },
+    "hearing2_progress": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「予算の見直しは今回限りでしょうか、来期以降も続くものでしょうか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_cut_scope"
+          ],
+          "feedback": "見通しも取れたね。",
+          "next": "answer_cutscope_progress"
+        },
+        {
+          "text": "「今回の開発の中で、外部要因でどうしても動かせない期限がある機能はありますか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_deadline_fact"
+          ],
+          "feedback": "終わり際に、一番大事な制約を聞けたね。",
+          "next": "answer_deadline_progress"
+        },
+        {
+          "text": "「栗原さんが個人的に、このリニューアルで一番気に入っている機能って何ですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "その答えでは、何を優先すべきかは一つも見えてこないよ。",
+          "next": "answer_hobby_progress"
+        }
+      ]
+    },
+    "hearing2_hobby": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「予算の見直しは今回限りでしょうか、来期以降も続くものでしょうか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_cut_scope"
+          ],
+          "feedback": "せめて見通しだけは確かめられた。",
+          "next": "answer_cutscope_hobby"
+        },
+        {
+          "text": "「今回の開発の中で、外部要因でどうしても動かせない期限がある機能はありますか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_deadline_fact"
+          ],
+          "feedback": "締めぎわに、一番の核心を確かめられたのは大きい。",
+          "next": "answer_deadline_hobby"
+        },
+        {
+          "text": "「現在、それぞれの機能の開発はどこまで進んでいますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_progress"
+          ],
+          "feedback": "進捗の話だけは押さえられたね。",
+          "next": "answer_hobby_progress"
+        }
+      ]
+    },
+    "answer_cutscope_deadline": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "予算の見直しですか……正直、今回限りとは言い切れません。全社的な引き締めの一環なので、来期以降も厳しい状況が続く可能性はあります。"
+        },
+        {
+          "speaker": "customer",
+          "text": "動かせない期限、ということでしたら……実は、今お使いの旧受発注システムの保守契約が今年度末で切れるんです。データ移行だけは、それまでに終わらせないと、旧システムそのものが使えなくなってしまいます。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……両方とも大事な情報だね。覚えておいて。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_cutscope_progress": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "予算の見直しですか……正直、今回限りとは言い切れません。全社的な引き締めの一環なので、来期以降も厳しい状況が続く可能性はあります。"
+        },
+        {
+          "speaker": "customer",
+          "text": "現在の進捗ですか。受注入力画面と在庫連携バッチは着手済みですが、旧データ移行や権限管理はまだこれからですね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "進捗の話も、後の判断の材料になるよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_cutscope_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "予算の見直しですか……正直、今回限りとは言い切れません。全社的な引き締めの一環なので、来期以降も厳しい状況が続く可能性はあります。"
+        },
+        {
+          "speaker": "customer",
+          "text": "個人的に気に入ってる機能ですか?ダッシュボードですかね。毎朝の売上が一目でわかるのが楽しみで(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……動かせない期限があるかどうか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_deadline_progress": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "動かせない期限、ということでしたら……実は、今お使いの旧受発注システムの保守契約が今年度末で切れるんです。データ移行だけは、それまでに終わらせないと、旧システムそのものが使えなくなってしまいます。"
+        },
+        {
+          "speaker": "customer",
+          "text": "現在の進捗ですか。受注入力画面と在庫連携バッチは着手済みですが、旧データ移行や権限管理はまだこれからですね。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "期限も進捗も押さえた。堅実な2問だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_deadline_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "動かせない期限、ということでしたら……実は、今お使いの旧受発注システムの保守契約が今年度末で切れるんです。データ移行だけは、それまでに終わらせないと、旧システムそのものが使えなくなってしまいます。"
+        },
+        {
+          "speaker": "customer",
+          "text": "個人的に気に入ってる機能ですか?ダッシュボードですかね。毎朝の売上が一目でわかるのが楽しみで(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "text": "期限の話を聞けたね。それが今日一番の収穫かも。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_hobby_progress": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "現在の進捗ですか。受注入力画面と在庫連携バッチは着手済みですが、旧データ移行や権限管理はまだこれからですね。"
+        },
+        {
+          "speaker": "customer",
+          "text": "個人的に気に入ってる機能ですか?ダッシュボードですかね。毎朝の売上が一目でわかるのが楽しみで(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……動かせない期限があるかどうか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "briefing_done": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "打ち合わせの時間切れ。栗原さんは重ねて頭を下げ、会議室を後にした。持ち帰って、アオイ先輩と今の開発状況を確認することになった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "これが今の機能一覧と、それぞれの見積工数・進捗状況。まずは全体を見ておこう。"
+        }
+      ],
+      "next": "progress_scene"
+    },
+    "progress_scene": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "翌週から、開発チームはこれまで通りの計画で作業を進めていた。予算削減の話は「正式決定までもう少し待ってほしい」と、まだ現場には伝えていない。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "正式に来たら、すぐ動けるようにしておこう。"
+        }
+      ],
+      "next": "shake"
+    },
+    "shake": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "2週間後。栗原課長から一本の電話が入った。声のトーンが、いつもと違う。"
+        },
+        {
+          "speaker": "customer",
+          "text": "……正式に決まりました。来期のIT予算削減、この案件も対象です。当初の予算のおよそ半分で、何とか収めてほしいと言われています。本当に申し訳ない。"
+        },
+        {
+          "speaker": "narration",
+          "text": "電話を切ったあと、しばらく画面の前で手が止まった。"
+        }
+      ],
+      "effects": {
+        "budget": -35
+      },
+      "next": [
+        {
+          "require": {
+            "flags": [
+              "asked_deadline_fact"
+            ]
+          },
+          "to": "shake_mitigated"
+        },
+        {
+          "default": true,
+          "to": "shake_fulldamage"
+        }
+      ]
+    },
+    "shake_mitigated": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "……予算半減、来たね。でも、動かせない期限があることはもう聞けてる。守るものの芯は、もうはっきりしてるはずだよ。"
+        },
+        {
+          "speaker": "narration",
+          "text": "旧受発注システムの保守切れという事実を思い出す。何を最優先すべきかは、揺れずに見えていた。"
+        }
+      ],
+      "next": "retriage_choice"
+    },
+    "shake_fulldamage": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "……予算半減、来たね。正直、何を最優先にすべきか、まだはっきりしないまま突入することになる。"
+        },
+        {
+          "speaker": "narration",
+          "text": "何を守り、何を諦めるべきか判断する軸がないまま、開発チームへの説明も後手に回った。作業の手戻りが発生し、栗原さんにも「本当に大丈夫なんですか」と不安げに聞かれてしまった。"
+        }
+      ],
+      "effects": {
+        "quality": -10,
+        "trust": -10
+      },
+      "next": "retriage_choice"
+    },
+    "retriage_choice": {
+      "type": "choice",
+      "prompt": "予算はおよそ半分。今ある機能一覧と進捗を見て、この状況にどう向き合う?",
+      "image": {
+        "src": "diagrams/s4e1-scope.svg",
+        "caption": "現在の機能一覧・見積工数・進捗状況",
+        "alt": "7つの機能について見積工数(人日)と現在の進捗を一覧にした表。受注入力画面刷新20人日進行中、在庫連携バッチ15人日進行中、帳票出力10人日未着手、旧受発注データ移行25人日未着手、得意先別価格マスタ12人日完了、権限管理画面8人日未着手、ダッシュボード10人日未着手と記載されている"
+      },
+      "options": [
+        {
+          "text": "「機能はすべてこのまま作り切って、テストと仕様書作成の工数を全機能で一律2割削りましょう」",
+          "effects": {
+            "quality": -15,
+            "customer": 5,
+            "budget": 10,
+            "trust": -5
+          },
+          "flags": [
+            "cut_by_effort"
+          ],
+          "feedback": "手を付けやすいところから削るのは楽だけど、テストや仕様書は機能の重さと関係なく一律に薄くなる。旧データ移行のような重い機能ほど、そこが薄いと危ないよ。",
+          "next": "retriage_reaction_cutwork"
+        },
+        {
+          "text": "「全機能の実装ボリュームを少しずつ圧縮して、予算内に収まるよう全体を薄く仕上げましょう」",
+          "effects": {
+            "quality": -8,
+            "customer": -5,
+            "budget": 5,
+            "trust": -8
+          },
+          "flags": [
+            "shave_everything"
+          ],
+          "feedback": "全部を少しずつ、という発想は公平に見えるけど、絶対に落とせない旧データ移行まで薄くなってしまう。守るものを決めずに全体を削るのは、一番大事なものまで巻き込むリスクがあるよ。",
+          "next": "retriage_reaction_shave"
+        },
+        {
+          "text": "「旧データ移行は必ず期限内に収め、それ以外は優先度をつけ直して段階的にリリースします」",
+          "effects": {
+            "quality": 14,
+            "customer": 12,
+            "budget": 18,
+            "trust": 6
+          },
+          "flags": [
+            "scoped_by_deadline"
+          ],
+          "feedback": "正解。保守切れという動かせない事実がある以上、そこは死守すべき軸になる。残りは『やらない』ではなく『後で』に振り分ければ、予算の枠にも収まる。",
+          "next": "retriage_reaction_good"
+        },
+        {
+          "text": "「予算内に収まる機能だけ実装し、それ以外は今回のリニューアルの対象から外しましょう」",
+          "effects": {
+            "quality": 5,
+            "customer": -10,
+            "budget": 15,
+            "trust": -10
+          },
+          "flags": [
+            "cancel_no_roadmap"
+          ],
+          "feedback": "対象から外す、と決め切ってしまうと戻す道筋が消えてしまう。今回落とすものも、いつか形にする前提を示さないと、栗原さんの手元には『捨てられた要望リスト』しか残らないよ。",
+          "next": "retriage_reaction_cancel"
+        }
+      ]
+    },
+    "retriage_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。守るものを最初に決めてから、残りを仕分けられたね。"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "retriage_reaction_shave": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "全部を少しずつ、その中に旧データ移行も混ざってない?"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "retriage_reaction_cutwork": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "テストと仕様書、機能の重さに関係なく一律に薄くなってるよ。"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "retriage_reaction_cancel": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『対象から外す』、栗原さんにそのまま伝えられる?"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "explanation_setup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "方針は固まった。あとは、この内容を栗原さん、そしてその先の経営陣にどう伝えるかだ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "決めた中身は悪くない。問題は、ここからどう合意を取るか、だね。"
+        }
+      ],
+      "next": "explanation_choice"
+    },
+    "explanation_choice": {
+      "type": "choice",
+      "prompt": "予算半減後の進め方が固まった。栗原さんにどう伝える?",
+      "options": [
+        {
+          "text": "「旧データ移行を守る案と、それ以外の優先順位案をお見せし、栗原さんに選んでいただきます」",
+          "effects": {
+            "trust": 16,
+            "customer": 10,
+            "budget": 6,
+            "quality": 2
+          },
+          "flags": [
+            "presented_tradeoff"
+          ],
+          "feedback": "正解。何が動かせず、何を選べるのかを構造で見せて、決める権利を栗原さんに渡せてる。丸投げじゃなく、選択肢と見立てをセットで渡せてるのがポイントだよ。",
+          "next": "explanation_reaction_good"
+        },
+        {
+          "text": "「もう決めたので、まずはこちらで進めます。詳しい変更点は、リリース後に改めてご報告しますね」",
+          "effects": {
+            "trust": -20,
+            "customer": -5,
+            "budget": 8
+          },
+          "flags": [
+            "silent_cut"
+          ],
+          "feedback": "先に進める判断力はいいけど、決めたのは栗原さんじゃない。事後報告は、後で『聞いてない』という話に必ずなるよ。",
+          "next": "explanation_reaction_silent"
+        },
+        {
+          "text": "「重要な決定なので、こちらでは決めきれません。一度社内に持ち帰って、来週改めてご相談します」",
+          "effects": {
+            "trust": -8,
+            "customer": -10,
+            "budget": -10,
+            "quality": -2
+          },
+          "flags": [
+            "deferred_indecision"
+          ],
+          "feedback": "持ち帰ること自体は悪くないけど、材料はもう揃ってるよね。決められる状態なのに先送りすると、ただでさえ厳しいスケジュールがさらに削られていくよ。",
+          "next": "explanation_reaction_deferred"
+        },
+        {
+          "text": "「開発チームでなんとか吸収します。栗原さんには、見た目上いつも通り全部進めているとお伝えします」",
+          "effects": {
+            "customer": 8,
+            "trust": -10,
+            "budget": -5,
+            "quality": -12
+          },
+          "flags": [
+            "team_absorb"
+          ],
+          "feedback": "現場が無理をして帳尻を合わせても、それは見えない負債になるだけ。栗原さんに本当のことを伝えず『いつも通り』を演じるのは、後でもっと大きな形で表面化するよ。",
+          "next": "explanation_reaction_absorb"
+        }
+      ]
+    },
+    "explanation_reaction_silent": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『後で報告』、栗原さんの立場で聞いたらどう思う?"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "explanation_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。決める材料と決める権利、両方きちんと渡せた。"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "explanation_reaction_deferred": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "材料は揃ってるのに、決めるのを先延ばしにしてない?"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "explanation_reaction_absorb": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『いつも通り』を演じるの、いつまで続けられる?"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "final_setup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "数日後、栗原課長から再び連絡が来た。今度は少し歯切れの悪い声で。"
+        },
+        {
+          "speaker": "customer",
+          "text": "実は……上の者から、『予算を削るなら、せめて権限管理画面だけは今回の分に含めてくれないか』と言われていまして。テストの手を抜いてでも構わないので、と。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……さあ、どう答える?"
+        }
+      ],
+      "next": "final_choice"
+    },
+    "final_choice": {
+      "type": "choice",
+      "prompt": "「権限管理画面もテストを削ってでも今回に含めてほしい」と栗原さん。どう応える?",
+      "options": [
+        {
+          "text": "「承知しました。テストを削ってでも、権限管理画面を含めて今回まとめて進めましょう」",
+          "effects": {
+            "customer": 10,
+            "quality": -10,
+            "budget": -15,
+            "trust": -8
+          },
+          "flags": [
+            "caved_scope_creep"
+          ],
+          "feedback": "気持ちは汲みたいけど、テストを削るのは今回の合意になかった話だよね。旧データ移行を守るために確保した余力まで食いつぶしかねないよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「旧データ移行を守る前提は変わりません。権限管理画面は次の段階でご提案します」",
+          "effects": {
+            "quality": 6,
+            "customer": 10,
+            "budget": 8,
+            "trust": 5
+          },
+          "flags": [
+            "held_the_line"
+          ],
+          "feedback": "正解。動かせない期限という前提に立ち返って、後から来た要望にも同じ物差しで応えられてる。次の段階への案内までセットにできてるのもいいね。",
+          "next": "ending"
+        },
+        {
+          "text": "「テストを削るのは無理です。今回はできません」",
+          "effects": {
+            "customer": -12,
+            "trust": -10,
+            "budget": 5
+          },
+          "flags": [
+            "blunt_refusal"
+          ],
+          "feedback": "断ること自体は正しい。でも理由も代わりの案もないと、栗原さんは『じゃあどうすればいいんですか』と困るだけだよ。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": {
+            "flags": [
+              "asked_deadline_fact",
+              "scoped_by_deadline",
+              "presented_tradeoff",
+              "held_the_line"
+            ],
+            "minTotal": 280
+          },
+          "lines": [
+            {
+              "speaker": "customer",
+              "text": "……なるほど、守るところと後回しにするところ、筋が通っていますね。この内容で進めてください。上にもそう説明します。"
+            },
+            {
+              "speaker": "narration",
+              "text": "数か月後、旧受発注データの移行は期限内に無事完了。保守切れの旧システムに振り回されることなく、業務は止まらなかった。段階的に進めた残りの機能も、翌四半期の予算で着実に形になっていった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "予算が半分になったときは正直終わったと思いましたが……守るものさえはっきりしていれば、削っても案外前に進めるものですね。次の相談も、また力を貸してください。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 240
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "何度か優先順位の出し直しはあったものの、旧データ移行はどうにか期限に間に合った。栗原さんに大きな問題は起きなかったが、一部の判断は後になって効いてきた。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "結果オーライ、ではあるけどね。動かせない期限があるかどうか、もう少し早く確かめられていたら、優先順位で迷う時間はもっと減らせたと思うよ。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 200
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "優先順位を巡って栗原さんとのやり取りが何度も往復するうち、旧データ移行の着手はずるずると後ろ倒しになっていった。保守契約が切れる直前になって、ようやく本腰を入れることになったが、テスト期間はほとんど残っていなかった。"
+            },
+            {
+              "speaker": "narration",
+              "text": "移行作業の当日、旧システムから新システムへのデータ受け渡しで、一部の得意先データの文字化けが見つかった。画面を見つめながら、直せる範囲がどこまでか、頭の中で必死に線を引いていた。"
+            },
+            {
+              "speaker": "customer",
+              "text": "保守切れの前日にこんな状態だと、正直かなり肝が冷えました……。もっと早くから、ここだけは絶対に、と決めておいてほしかったです。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……動かせない期限があるかどうか、あのとき確かめられていたら、この綱渡りにはならなかったかもしれないね。"
+            }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "『全部を少しずつ』削った機能一覧は、どれも中途半端なまま開発が進んでいた。予算の半減という事実だけが独り歩きし、何を最優先にするかは最後まで曖昧なままだった。"
+            },
+            {
+              "speaker": "narration",
+              "text": "保守契約が切れる当日、旧受発注システムからのデータ移行はまだ半分も終わっていなかった。旧システムは静かに応答を止め、受注データの取り込みが完全にストップした。画面に並ぶエラーログを、ただ眺めることしかできなかった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "得意先への納品書が作れません……このままだと、明日の出荷が全部止まります。何とかなりませんか。"
+            },
+            {
+              "speaker": "narration",
+              "text": "深夜まで復旧作業が続いた。手作業でのデータ突き合わせに追われる中、栗原さんへの詫びの連絡は、何度書いても言葉が見つからなかった。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……動かせない期限があるかどうか、あのとき確かめられていたら、旧データ移行を最優先に据えられていたかもしれないね。",
+              "portrait": "portraits/aoi-dry.svg"
+            },
+            {
+              "speaker": "senpai",
+              "text": "でも、ここで終わりにしない。栗原さんが本当に守りたかったものは何だったのか、一緒に振り返ろう。",
+              "portrait": "portraits/aoi-dry.svg"
+            }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "お疲れさま。予算が急に半分になっても、最初にやることは変わらない。『何を守るか』を、動かせない事実から決めることだよ。",
+          "portrait": "portraits/aoi-dry.svg"
+        }
+      ],
+      "points": [
+        "前提が崩れたときほど、最初に『絶対に動かせない制約』を事実から特定する。裏取りで見つけた事実が、守るスコープを決めてくれる",
+        "『何を捨てるか』は作業のしやすさで決めない。目的に立ち返ってMVPまで絞り、残りは段階リリースという『後で』に変える。制約が動いたときの再仕分けは、MoSCoW法そのものだね",
+        "トレードオフは選択肢と帰結、推奨案をセットで見せて相手に選んでもらう。黙って削る・持ち帰る・現場で吸収する、どれも信頼を損なう",
+        "良い設計は変化への保険になる。先送りにしたものを技術的負債として見える化しておけば、揺さぶられたときの立て直しは楽になる"
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "term": "スコープ",
+      "def": "今回のプロジェクトで「作る範囲」のこと。制約が変わったときは、目的に立ち返って範囲を仕分け直す。"
+    },
+    {
+      "term": "MVP",
+      "def": "Minimum Viable Product(実用最小限の製品)。目的を達成するために必要な、最小限の機能の組み合わせ。"
+    },
+    {
+      "term": "段階リリース",
+      "def": "全部を一度にリリースせず、優先度の高いものから順に分けてリリースする進め方。捨てたわけではなく『後で』に回す手段。"
+    },
+    {
+      "term": "MoSCoW法",
+      "def": "要望をMust・Should・Could・Won'tの4段階に仕分ける手法。制約が変わったときの再仕分けにも使える。"
+    },
+    {
+      "term": "技術的負債",
+      "def": "スケジュールなどの都合で先送りにした設計・実装上の課題。放置すると将来の変更コストが増えていく。"
+    }
+  ]
+}

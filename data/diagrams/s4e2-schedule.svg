@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-label="要件定義・設計は完了、実装は進行中、結合テスト・受入テスト・リリース準備は未着手という工程スケジュール。受入条件の抜粋として、決済まわりのセキュリティ監査、ページ表示速度3秒以内、同時アクセス500セッション、在庫反映5分以内、障害復旧4時間以内の5項目が記載されている">
+  <rect width="960" height="560" fill="#0f1626"/>
+  <text x="480" y="34" text-anchor="middle" fill="#e9eef6" font-size="20" font-weight="bold">メゾン・エルデ サイト刷新: 工程スケジュールと受入条件</text>
+
+  <!-- gantt: month axis -->
+  <text x="60" y="66" fill="#9aa8bf" font-size="12">4月</text>
+  <text x="200" y="66" fill="#9aa8bf" font-size="12">5月</text>
+  <text x="340" y="66" fill="#9aa8bf" font-size="12">6月</text>
+  <text x="480" y="66" fill="#9aa8bf" font-size="12">7月</text>
+  <text x="620" y="66" fill="#9aa8bf" font-size="12">8月</text>
+  <text x="760" y="66" fill="#9aa8bf" font-size="12">9月</text>
+  <line x1="60" y1="74" x2="900" y2="74" stroke="#2a3549" stroke-width="1"/>
+
+  <!-- rows -->
+  <g font-size="14" fill="#e9eef6">
+    <text x="60" y="98">要件定義</text>
+    <rect x="180" y="86" width="90" height="20" rx="4" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+    <text x="360" y="98" fill="#9aa8bf" font-size="12">完了</text>
+
+    <text x="60" y="134">設計</text>
+    <rect x="180" y="122" width="120" height="20" rx="4" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+    <text x="360" y="134" fill="#9aa8bf" font-size="12">完了</text>
+
+    <text x="60" y="170">実装</text>
+    <rect x="180" y="158" width="260" height="20" rx="4" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+    <text x="360" y="170" fill="#9aa8bf" font-size="12">進行中(約5割)</text>
+
+    <text x="60" y="206">結合テスト</text>
+    <rect x="440" y="194" width="140" height="20" rx="4" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+    <text x="640" y="206" fill="#9aa8bf" font-size="12">未着手</text>
+
+    <text x="60" y="242">受入テスト</text>
+    <rect x="580" y="230" width="140" height="20" rx="4" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+    <text x="780" y="242" fill="#9aa8bf" font-size="12">未着手</text>
+
+    <text x="60" y="278">リリース準備</text>
+    <rect x="720" y="266" width="100" height="20" rx="4" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+    <text x="880" y="278" fill="#9aa8bf" font-size="12">未着手</text>
+  </g>
+
+  <!-- acceptance criteria table -->
+  <text x="480" y="330" text-anchor="middle" fill="#e9eef6" font-size="16" font-weight="bold">受入条件(抜粋)</text>
+  <rect x="60" y="346" width="840" height="36" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="80" y="370" fill="#9aa8bf" font-size="14" font-weight="bold">項目</text>
+  <text x="620" y="370" fill="#9aa8bf" font-size="14" font-weight="bold">基準値</text>
+
+  <g font-size="14" fill="#e9eef6">
+    <rect x="60" y="382" width="840" height="34" fill="#141c2c" stroke="#232f45" stroke-width="1"/>
+    <text x="80" y="405">決済まわりのセキュリティ監査</text>
+    <text x="620" y="405">外部機関の合格</text>
+
+    <rect x="60" y="416" width="840" height="34" fill="#0f1626" stroke="#232f45" stroke-width="1"/>
+    <text x="80" y="439">ページ表示速度</text>
+    <text x="620" y="439">3秒以内</text>
+
+    <rect x="60" y="450" width="840" height="34" fill="#141c2c" stroke="#232f45" stroke-width="1"/>
+    <text x="80" y="473">同時アクセス</text>
+    <text x="620" y="473">ピーク時500セッション</text>
+
+    <rect x="60" y="484" width="840" height="34" fill="#0f1626" stroke="#232f45" stroke-width="1"/>
+    <text x="80" y="507">在庫反映</text>
+    <text x="620" y="507">5分以内</text>
+
+    <rect x="60" y="518" width="840" height="34" fill="#141c2c" stroke="#232f45" stroke-width="1"/>
+    <text x="80" y="541">障害復旧</text>
+    <text x="620" y="541">4時間以内</text>
+  </g>
+</svg>

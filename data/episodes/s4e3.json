@@ -1,0 +1,942 @@
+{
+  "id": "s4e3",
+  "season": 4,
+  "title": "フルフルマーケット、再び",
+  "summary": "ネット通販「フルフルマーケット」の桜井さんが、成長した姿で戻ってきた。人気テレビ番組での特集が決定、想定アクセスは普段の10倍近く。予算・納期・チームの制約が同時に来る、シーズン最終問題。",
+  "estimatedMinutes": 10,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    },
+    "customer": {
+      "name": "桜井部長(フルフルマーケット)",
+      "role": "customer",
+      "portrait": "portraits/sakurai.svg"
+    }
+  },
+  "params": {
+    "customer": 50,
+    "quality": 50,
+    "budget": 50,
+    "trust": 50
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "ライトブリッジ株式会社に入社して、もうすぐ2年。担当を離れていた「フルフルマーケット」から、久しぶりに連絡が来た。"
+        },
+        {
+          "speaker": "narration",
+          "text": "会議室に現れたのは、あの桜井さんだった。肩書きは「マネージャー」から「部長」に変わっている。"
+        },
+        {
+          "speaker": "customer",
+          "text": "お久しぶりです!あれから会員数もずいぶん伸びて、今ではすっかり主力事業になりました。あのときMustに絞ってもらったおかげです、本当に。"
+        },
+        {
+          "speaker": "customer",
+          "text": "実は今日は嬉しいご相談で。来月、人気のテレビ番組でうちのサイトが特集されることになったんです!放映日はもう番組側のスケジュールで確定していて、こちらでは動かせません。"
+        },
+        {
+          "speaker": "customer",
+          "text": "マーケティングチームが今、想定アクセス数の試算をしているところで、結果はもうすぐ出るそうです。"
+        },
+        {
+          "speaker": "narration",
+          "text": "打ち合わせは残り15分。聞けるのはあと2つだけだ。"
+        }
+      ],
+      "next": "hearing1"
+    },
+    "hearing1": {
+      "type": "choice",
+      "prompt": "テレビ特集が決まったという。時間は限られている。まず何を聞く?(このあと、もう1問だけ聞ける)",
+      "options": [
+        {
+          "text": "「現在、サイトの実測アクセス数は普段どれくらいですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_current_traffic"
+          ],
+          "feedback": "実測値はあとで構成図を見れば分かること。今この場でしか聞けないことを先に確かめよう。",
+          "next": "hearing2_traffic"
+        },
+        {
+          "text": "「放映日は、番組側の都合で動く可能性はあるんでしょうか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_air_date_fixed"
+          ],
+          "feedback": "いい着眼点。ここが動くか動かないかで、この先の対応の方向性がまるごと変わるよ。",
+          "next": "hearing2_airdate"
+        },
+        {
+          "text": "「桜井さんは、その番組、普段からよく見るんですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "雑談自体は悪くないけど、その答えで対応方針は決まらないよね。この後の判断に効く質問を先に埋めよう。",
+          "next": "hearing2_hobby"
+        },
+        {
+          "text": "「今回の対応で、増員や追加予算を確保できる見込みはありますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_resource_ceiling"
+          ],
+          "feedback": "先に体制の余裕を確かめる質問だね。増やせる余地があるかどうかで対応も変わる。",
+          "next": "hearing2_resource"
+        }
+      ]
+    },
+    "hearing2_resource": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「放映日は、番組側の都合で動く可能性はあるんでしょうか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_air_date_fixed"
+          ],
+          "feedback": "動かせるかどうかという一番の急所、聞けたね。",
+          "next": "answer_airdate_resource"
+        },
+        {
+          "text": "「現在、サイトの実測アクセス数は普段どれくらいですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_current_traffic"
+          ],
+          "feedback": "実測値は取れた。ただ、放映日が動くかどうかの話は残ったままだね。",
+          "next": "answer_resource_traffic"
+        },
+        {
+          "text": "「桜井さんは、その番組、普段からよく見るんですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "番組の好みが分かっても、対応方針の判断は一つも進まないよ。",
+          "next": "answer_hobby_resource"
+        }
+      ]
+    },
+    "hearing2_airdate": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今回の対応で、増員や追加予算を確保できる見込みはありますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_resource_ceiling"
+          ],
+          "feedback": "体制の余裕も押さえた。堅実な2問だね。",
+          "next": "answer_airdate_resource"
+        },
+        {
+          "text": "「現在、サイトの実測アクセス数は普段どれくらいですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_current_traffic"
+          ],
+          "feedback": "実測値も判断の足しになるよ。",
+          "next": "answer_airdate_traffic"
+        },
+        {
+          "text": "「桜井さんは、その番組、普段からよく見るんですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "動かせない前提を先に聞けたのは大きい。",
+          "next": "answer_airdate_hobby"
+        }
+      ]
+    },
+    "hearing2_traffic": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今回の対応で、増員や追加予算を確保できる見込みはありますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_resource_ceiling"
+          ],
+          "feedback": "体制の余裕も取れたね。",
+          "next": "answer_resource_traffic"
+        },
+        {
+          "text": "「放映日は、番組側の都合で動く可能性はあるんでしょうか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_air_date_fixed"
+          ],
+          "feedback": "終わり際に、一番大事な前提を聞けたね。",
+          "next": "answer_airdate_traffic"
+        },
+        {
+          "text": "「桜井さんは、その番組、普段からよく見るんですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "その答えでは、何を守るべきかは一つも見えてこないよ。",
+          "next": "answer_hobby_traffic"
+        }
+      ]
+    },
+    "hearing2_hobby": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今回の対応で、増員や追加予算を確保できる見込みはありますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_resource_ceiling"
+          ],
+          "feedback": "せめて体制の余裕だけは確かめられた。",
+          "next": "answer_hobby_resource"
+        },
+        {
+          "text": "「放映日は、番組側の都合で動く可能性はあるんでしょうか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_air_date_fixed"
+          ],
+          "feedback": "最後にたどり着いたのが、一番動かせない前提だったね。",
+          "next": "answer_airdate_hobby"
+        },
+        {
+          "text": "「現在、サイトの実測アクセス数は普段どれくらいですか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_current_traffic"
+          ],
+          "feedback": "実測値の話だけは押さえられたね。",
+          "next": "answer_hobby_traffic"
+        }
+      ]
+    },
+    "answer_airdate_resource": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "放映日ですか?いえ、もう番組側の編成が確定していて、こちらの都合では一切動かせません。番組表にも載ってしまっているので。"
+        },
+        {
+          "speaker": "customer",
+          "text": "増員や追加予算ですか……正直、今期はもう厳しくて。今のチームと予算の範囲でお願いしたいんです。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……両方とも大事な情報だね。覚えておいて。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_airdate_traffic": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "放映日ですか?いえ、もう番組側の編成が確定していて、こちらの都合では一切動かせません。番組表にも載ってしまっているので。"
+        },
+        {
+          "speaker": "customer",
+          "text": "普段のアクセス数ですか?平均すると、だいたい秒間40件くらいだと聞いています。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "放映日も実測値も押さえた。堅実な2問だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_airdate_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "放映日ですか?いえ、もう番組側の編成が確定していて、こちらの都合では一切動かせません。番組表にも載ってしまっているので。"
+        },
+        {
+          "speaker": "customer",
+          "text": "あの番組、よく見てますよ。今回声をかけてもらえたの、実は個人的にもすごく嬉しくて(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "text": "動かせない前提を聞けたね。それが今日一番の収穫かも。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_resource_traffic": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "増員や追加予算ですか……正直、今期はもう厳しくて。今のチームと予算の範囲でお願いしたいんです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "普段のアクセス数ですか?平均すると、だいたい秒間40件くらいだと聞いています。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "体制の余裕も実測値も、判断の材料になるよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_hobby_resource": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "増員や追加予算ですか……正直、今期はもう厳しくて。今のチームと予算の範囲でお願いしたいんです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "あの番組、よく見てますよ。今回声をかけてもらえたの、実は個人的にもすごく嬉しくて(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……放映日が動かせるかどうか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_hobby_traffic": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "普段のアクセス数ですか?平均すると、だいたい秒間40件くらいだと聞いています。"
+        },
+        {
+          "speaker": "customer",
+          "text": "あの番組、よく見てますよ。今回声をかけてもらえたの、実は個人的にもすごく嬉しくて(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……放映日が動かせるかどうか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "briefing_done": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "打ち合わせの時間切れ。桜井さんは「良い返事を待ってます」と笑顔で会議室を出ていった。持ち帰って、アオイ先輩と今の構成を確認することになった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "これが今のフルフルマーケットのシステム構成。まずは全体を見ておこう。"
+        }
+      ],
+      "next": "screen_mockup"
+    },
+    "screen_mockup": {
+      "type": "scene",
+      "image": {
+        "src": "diagrams/s4e3-arch.svg",
+        "caption": "フルフルマーケット: 現在のシステム構成",
+        "alt": "クライアントからロードバランサー・アプリサーバー(2台)・キャッシュ(1台)・DB(1台)へと至る構成図。別系統として、レビュー・クーポンの非同期バッチ処理がDBに書き込みを行っている"
+      },
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "あの頃よりずいぶん機能が増えている。閲覧・決済に加えて、レビュー機能やクーポン一括発行のバッチ処理が同じDBに書き込みを行う構成になっていた。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "機能は増えたけど、まずは普段通りの計画で準備を進めよう。試算はまだ来てないからね。"
+        }
+      ],
+      "next": "progress_scene"
+    },
+    "progress_scene": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "翌週から、開発チームは通常の負荷を想定した準備を進めていた。マーケティングチームの試算は「もうすぐ出る」と言われたきり、まだ届いていない。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "試算が来たら、すぐ動けるようにしておこう。"
+        }
+      ],
+      "next": "shake"
+    },
+    "shake": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "放映日まで残りわずかというところで、桜井さんからマーケティングチームの試算が共有された。"
+        },
+        {
+          "speaker": "customer",
+          "text": "出ました……過去の似た特集の実績から見て、放映中は普段の10倍近いアクセスが来る見込みだそうです。正直、ここまでとは思っていませんでした。"
+        },
+        {
+          "speaker": "narration",
+          "text": "普段の秒間40件が、10倍近くまで跳ね上がる。画面の数字を見つめながら、しばらく手が止まった。"
+        }
+      ],
+      "effects": {
+        "quality": -35
+      },
+      "next": [
+        {
+          "require": {
+            "flags": [
+              "asked_air_date_fixed"
+            ]
+          },
+          "to": "shake_mitigated"
+        },
+        {
+          "default": true,
+          "to": "shake_fulldamage"
+        }
+      ]
+    },
+    "shake_mitigated": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "……アクセス10倍、来たね。でも、放映日が動かせないことはもう聞けてる。時間を稼ぐ交渉じゃなく、耐える設計に頭を使う番だよ。"
+        },
+        {
+          "speaker": "narration",
+          "text": "番組側のスケジュールという動かせない事実を思い出す。何に集中すべきかは、揺れずに見えていた。"
+        }
+      ],
+      "next": "retriage_choice"
+    },
+    "shake_fulldamage": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "……アクセス10倍、来たね。正直、放映日をずらせないか交渉すべきか、耐える設計に集中すべきか、まだ判断の軸が定まらない。"
+        },
+        {
+          "speaker": "narration",
+          "text": "放映日をずらせないか探る問い合わせに時間を使ってしまい、負荷対策の着手が遅れた。桜井さんにも「本当に間に合うんですか」と不安げに聞かれてしまった。"
+        }
+      ],
+      "effects": {
+        "customer": -10,
+        "trust": -10
+      },
+      "next": "retriage_choice"
+    },
+    "retriage_choice": {
+      "type": "choice",
+      "prompt": "放映中は普段の10倍近いアクセスの見込み。今の構成と実測値・費用感を見て、この状況にどう向き合う?",
+      "image": {
+        "src": "diagrams/s4e3-traffic.svg",
+        "caption": "現在の実測アクセス数と、月あたりの費用感(内訳)",
+        "alt": "現在の平均アクセス数は秒間40件、過去の類似特集での放映時ピーク実績は秒間400件前後という折れ線グラフ。現在の月額費用の内訳として、ロードバランサー・アプリサーバー・キャッシュ・DB・バッチ処理それぞれのおおよその金額が記載されている"
+      },
+      "options": [
+        {
+          "text": "「ピーク時間帯も含めて、全機能をこれまで通りフルスペックで稼働させる想定でいきましょう」",
+          "effects": {
+            "quality": -8,
+            "customer": -5,
+            "budget": 5,
+            "trust": -8
+          },
+          "flags": [
+            "keep_everything_full"
+          ],
+          "feedback": "気持ちは伝わるけど、増員も追加予算もない中で全機能を今のまま支えるのは、費用感を見ても現実的じゃない。全部を守ろうとすると、一番守りたいものまで巻き込むリスクがあるよ。",
+          "next": "retriage_reaction_keepall"
+        },
+        {
+          "text": "「監視とアラートの設定だけ手厚くして、あとはこれまで通りの構成で乗り切りましょう」",
+          "effects": {
+            "quality": -15,
+            "customer": 5,
+            "budget": 10,
+            "trust": -5
+          },
+          "flags": [
+            "monitor_only_effort"
+          ],
+          "feedback": "手を付けやすい監視強化は悪くないけど、それだけでは10倍のアクセスを受け止める力そのものは増えないよ。気づきが早くなるだけで、耐える力は変わらない。",
+          "next": "retriage_reaction_monitor"
+        },
+        {
+          "text": "「ピーク時間帯は、閲覧と決済だけ死守する前提で、他の処理は一時的に縮退させましょう」",
+          "effects": {
+            "quality": 14,
+            "customer": 12,
+            "budget": 18,
+            "trust": 6
+          },
+          "flags": [
+            "protected_checkout_path"
+          ],
+          "feedback": "正解。放映日が動かせない以上、そこは耐えるしかない。閲覧と決済という核だけに絞り、レビューやクーポンのような処理は放映中だけ一時的に抑えれば、限られた体制でも乗り切れる。",
+          "next": "retriage_reaction_good"
+        },
+        {
+          "text": "「レビュー機能やクーポン機能は、今後使わないものとして今回限りで廃止しましょう」",
+          "effects": {
+            "quality": 5,
+            "customer": -10,
+            "budget": 15,
+            "trust": -10
+          },
+          "flags": [
+            "permanent_cancel_features"
+          ],
+          "feedback": "廃止まで決め切ってしまうと、戻す道筋が消えてしまう。今回抑えるのは放映中の一時的な措置であって、機能そのものを手放す理由にはならないよ。",
+          "next": "retriage_reaction_cancel"
+        }
+      ]
+    },
+    "retriage_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。守るものを一つに絞ってから、残りを一時的に抑えられたね。"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "retriage_reaction_keepall": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "増員も追加予算もない中で、全部をフルスペックのまま支えきれる?"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "retriage_reaction_monitor": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "気づきが早くなっても、耐える力そのものは増えてないよ。"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "retriage_reaction_cancel": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『今回限りで廃止』、それ、放映が終わった後も戻ってこないよ。"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "explanation_setup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "方針は固まった。あとは、この内容を桜井さん、そして放映当日を待つ現場にどう伝えるかだ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "決めた中身は悪くない。問題は、ここからどう合意を取るか、だね。"
+        }
+      ],
+      "next": "explanation_choice"
+    },
+    "explanation_choice": {
+      "type": "choice",
+      "prompt": "アクセス急増後の対応方針が固まった。桜井さんにどう伝える?",
+      "options": [
+        {
+          "text": "「もう決めましたので、まずこちらで進めます。詳細は放映後にまとめてご報告します」",
+          "effects": {
+            "trust": -20,
+            "customer": -5,
+            "budget": 8
+          },
+          "flags": [
+            "silent_cut"
+          ],
+          "feedback": "先に進める判断力はいいけど、決めたのは桜井さんじゃない。事後報告は、後で『聞いてない』という話に必ずなるよ。",
+          "next": "explanation_reaction_silent"
+        },
+        {
+          "text": "「守る範囲と縮退させる範囲の案をお見せして、桜井さんに選んでいただきます」",
+          "effects": {
+            "trust": 16,
+            "customer": 10,
+            "budget": 6,
+            "quality": 2
+          },
+          "flags": [
+            "presented_tradeoff3"
+          ],
+          "feedback": "正解。何を守り、何を一時的に抑えるのかを構造で見せて、決める権利を桜井さんに渡せてる。丸投げじゃなく、選択肢と見立てをセットで渡せてるのがポイントだよ。",
+          "next": "explanation_reaction_good"
+        },
+        {
+          "text": "「重要な話なので即答できません。社内でよく検討して、来週改めてお伝えします」",
+          "effects": {
+            "trust": -8,
+            "customer": -10,
+            "budget": -10,
+            "quality": -2
+          },
+          "flags": [
+            "deferred_indecision"
+          ],
+          "feedback": "持ち帰ること自体は悪くないけど、材料はもう揃ってるよね。決められる状態なのに先送りすると、ただでさえ短い放映日までの時間がさらに削られていくよ。",
+          "next": "explanation_reaction_deferred"
+        },
+        {
+          "text": "「開発チームで何とか踏ん張ります。桜井さんには、通常通り稼働するとお伝えします」",
+          "effects": {
+            "customer": 8,
+            "trust": -10,
+            "budget": -5,
+            "quality": -12
+          },
+          "flags": [
+            "team_absorb"
+          ],
+          "feedback": "現場が無理をして帳尻を合わせても、それは見えない負債になるだけ。桜井さんに本当のことを伝えず『通常通り』を演じるのは、後でもっと大きな形で表面化するよ。",
+          "next": "explanation_reaction_absorb"
+        }
+      ]
+    },
+    "explanation_reaction_silent": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『後で報告』、桜井さんの立場で聞いたらどう思う?"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "explanation_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。決める材料と決める権利、両方きちんと渡せた。"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "explanation_reaction_deferred": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "材料は揃ってるのに、決めるのを先延ばしにしてない?"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "explanation_reaction_absorb": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『通常通り』を演じるの、いつまで続けられる?"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "final_setup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "数日後、桜井さんからマーケティングチーム発の提案が届いた。"
+        },
+        {
+          "speaker": "customer",
+          "text": "せっかく大勢の人が見てくれるので、放映中のピーク時間帯にあわせて、クーポンの一斉配布キャンペーンも打ちたいという話が出ていまして。乗せられませんか?"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……さあ、どう答える?"
+        }
+      ],
+      "next": "final_choice"
+    },
+    "final_choice": {
+      "type": "choice",
+      "prompt": "「ピーク時間帯にクーポン一斉配布も」という提案。どう応える?",
+      "options": [
+        {
+          "text": "「せっかくの機会なので、そのままピーク時間帯にクーポン施策も乗せて実施しましょう」",
+          "effects": {
+            "customer": 10,
+            "quality": -10,
+            "budget": -15,
+            "trust": -8
+          },
+          "flags": [
+            "caved_stack_campaign"
+          ],
+          "feedback": "気持ちは汲みたいけど、それは今まさに一時的に抑えると決めた処理だよね。一番負荷の高い瞬間に、その処理を上乗せするのは、決済を守るために立てた計画そのものを崩しかねないよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「それは受け入れられません」",
+          "effects": {
+            "customer": -12,
+            "trust": -10,
+            "budget": 5
+          },
+          "flags": [
+            "blunt_refusal"
+          ],
+          "feedback": "断ること自体は正しい。でも理由も代わりの案もないと、桜井さんは『じゃあどうすればいいんですか』と困るだけだよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「ピーク時間帯は決済優先の前提を崩せません。施策は前後の時間帯にご提案します」",
+          "effects": {
+            "quality": 6,
+            "customer": 10,
+            "budget": 8,
+            "trust": 5
+          },
+          "flags": [
+            "held_degradation_line"
+          ],
+          "feedback": "正解。放映日が動かせないという前提に立ち返って、後から来た提案にも同じ物差しで応えられてる。前後の時間帯という代替案までセットにできてるのもいいね。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": {
+            "flags": [
+              "asked_air_date_fixed",
+              "protected_checkout_path",
+              "presented_tradeoff3",
+              "held_degradation_line"
+            ],
+            "minTotal": 280
+          },
+          "lines": [
+            {
+              "speaker": "customer",
+              "text": "……なるほど、守るところと一時的に抑えるところ、筋が通っていますね。あのときのMust仕分けを思い出します。この内容で進めましょう。"
+            },
+            {
+              "speaker": "narration",
+              "text": "放映当日、サイトへのアクセスは実測で普段の10倍近くまで跳ね上がった。閲覧と決済は一件のエラーもなく応答し続け、一時的に抑えたレビューやクーポンの機能も、放映後まもなく通常運転に戻った。"
+            },
+            {
+              "speaker": "customer",
+              "text": "見てましたよ、当日の管理画面。閲覧と決済さえ止まらなければ、他は正直どうでもよかったんです。あのときも今回も、守るものを決めてもらえると安心できますね。次に何か変わることがあっても、また相談させてください。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 240
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "何度か抑える範囲の調整はあったものの、放映当日は大きな問題なく乗り切った。桜井さんに問題は起きなかったが、一部の判断は後になって効いてきた。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "結果オーライ、ではあるけどね。放映日が動かせるかどうか、もう少し早く確かめられていたら、対応の判断で迷う時間はもっと減らせたと思うよ。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 200
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "抑える範囲を巡って桜井さんとのやり取りが何度も往復するうち、負荷対策の着手はずるずると後ろ倒しになっていった。放映日の前日になって、ようやく本腰を入れることになったが、確認できたのは決済まわりの一部だけだった。"
+            },
+            {
+              "speaker": "narration",
+              "text": "放映開始の直後、閲覧ページの応答が目に見えて遅くなっていく。決済だけは何とか持ちこたえていたが、画面の前で祈るような気持ちでモニターを見つめ続けた。"
+            },
+            {
+              "speaker": "customer",
+              "text": "サイトが重いって、SNSで結構言われてますね……。決済が動いてるだけマシですけど、正直ひやひやしました。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……放映日が動かせないという前提、あのとき確かめられていたら、この綱渡りにはならなかったかもしれないね。"
+            }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "『全部フルスペックで』を掲げたまま、放映日は近づいていった。閲覧も決済もレビューもクーポンも、何を最優先にするかは最後まで曖昧なままだった。"
+            },
+            {
+              "speaker": "narration",
+              "text": "放映開始からわずか数分で、サイト全体が応答しなくなった。決済ページを開いても、ぐるぐると回る読み込みの表示が続くばかり。画面を何度更新しても、状況は変わらなかった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "決済が全然通りません……。せっかくテレビで見てもらえたのに、これじゃお客さんが離れていく一方です。"
+            },
+            {
+              "speaker": "narration",
+              "text": "放映中の数時間、サイトはほとんど機能しないままだった。復旧した頃にはもう遅く、その日の売上はほとんど積み上がらなかった。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……放映日が動かせないという前提、あのとき確かめられていたら、閲覧と決済だけは死守する計画を最優先に据えられていたかもしれないね。",
+              "portrait": "portraits/aoi-dry.svg"
+            },
+            {
+              "speaker": "senpai",
+              "text": "でも、ここで終わりにしない。桜井さんが最初のリニューアルから、ずっと守りたかったものは何だったのか、一緒に振り返ろう。",
+              "portrait": "portraits/aoi-dry.svg"
+            }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "お疲れさま。今日のテーマは『複数の制約が同時に来たときの守り方』。予算もチームもアクセスも一気に動いても、やることは変わらない。核となる機能だけ守り、残りを一時的に抑えるグレースフルデグラデーションという考え方、覚えておいて。",
+          "portrait": "portraits/aoi-dry.svg"
+        },
+        {
+          "speaker": "senpai",
+          "text": "思えば、桜井さんとの最初の案件でMoSCoW法を使ってMustに絞ったときから、ずっと同じことをやってきたね。前提が変わっても、目的に立ち返って絞る力は、ちゃんとあなたの中に積み重なってる。"
+        }
+      ],
+      "points": [
+        "複数の制約が同時に来たときも、まず『絶対に動かせない事実』を特定し、負荷が集中しうる単一障害点を見極めてから、守るものを一つに絞る",
+        "落とすのは『機能を消す』ことではなく、縮退運転として一時的に抑えること。ピークが過ぎれば元に戻す計画とセットで示す",
+        "トレードオフは選択肢と帰結、推奨案をセットで見せて相手に選んでもらう。この姿勢はシーズンを通じて変わらない",
+        "良い設計は変化への保険になる。日頃のキャパシティプランニングと、最初にMustへ絞った経験があったからこそ、今回のような揺さぶりにも立て直せる土台があった"
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "term": "グレースフルデグラデーション",
+      "def": "システムに過負荷がかかったとき、全てを止めるのではなく、優先度の低い機能から段階的に縮退させ、核となる機能だけは動かし続ける設計の考え方。"
+    },
+    {
+      "term": "縮退運転",
+      "def": "一部の機能を意図的に制限・停止し、必要最低限の機能を維持したまま運転を続けること。負荷が収まれば通常運転に戻す前提で行う。"
+    },
+    {
+      "term": "MoSCoW法",
+      "def": "要望をMust・Should・Could・Won'tの4段階に仕分ける手法。制約が変わったときの再仕分けにも使える。"
+    },
+    {
+      "term": "単一障害点",
+      "def": "そこが壊れるとシステム全体が止まってしまう箇所。負荷が集中する処理ほど、単一障害点になっていないか確認が要る。"
+    },
+    {
+      "term": "キャパシティプランニング",
+      "def": "将来の負荷を見積もり、それに耐えられるだけの処理能力をあらかじめ計画すること。想定を超えた負荷には縮退運転などの備えが要る。"
+    }
+  ]
+}

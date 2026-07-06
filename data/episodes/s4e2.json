@@ -1,0 +1,919 @@
+{
+  "id": "s4e2",
+  "season": 4,
+  "title": "リリースは1か月早まります",
+  "summary": "アパレルEC「メゾン・エルデ」の刷新案件。大型商談を理由にリリースが1か月前倒しに。契約に明記された受入条件のうち、何を死守し何を交渉するかが問われる。",
+  "estimatedMinutes": 9,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    },
+    "customer": {
+      "name": "早乙女玲事業部長(メゾン・エルデ)",
+      "role": "customer",
+      "portrait": "portraits/saotome.svg"
+    }
+  },
+  "params": {
+    "customer": 50,
+    "quality": 50,
+    "budget": 50,
+    "trust": 50
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "アパレルEC「メゾン・エルデ」のサイト刷新案件は、要件定義・設計を終え、実装が半分ほど進んだところだった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "早乙女さんは営業出身で押しが強いタイプ。でも理屈はちゃんと通じる人だから、感覚じゃなく構造で話そう。"
+        },
+        {
+          "speaker": "narration",
+          "text": "早乙女事業部長は、開口一番、身を乗り出して切り出した。"
+        },
+        {
+          "speaker": "customer",
+          "text": "朗報です!有名ブランドとの大型タイアップが決まりそうで。ただ、先方の展示会に合わせて、リリースを1か月早めたいんです。何とかなりませんか?"
+        },
+        {
+          "speaker": "customer",
+          "text": "契約書の納期条項も、もう書き換える方向で話が進んでいて……。"
+        },
+        {
+          "speaker": "narration",
+          "text": "打ち合わせは残り15分。聞けるのはあと2つだけだ。"
+        }
+      ],
+      "next": "hearing1"
+    },
+    "hearing1": {
+      "type": "choice",
+      "prompt": "リリースが1か月早まるという。時間は限られている。まず何を聞く?(このあと、もう1問だけ聞ける)",
+      "options": [
+        {
+          "text": "「今回の前倒しの話は、社内でどこまで確定していますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_decision_finality"
+          ],
+          "feedback": "確定度合いを確かめる質問だね。まだ動く余地があるかどうかで対応も変わる。",
+          "next": "hearing2_finality"
+        },
+        {
+          "text": "「現在、それぞれの工程はどこまで進んでいますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_progress"
+          ],
+          "feedback": "工程の状況は大事だけど、それは後で資料を見れば分かること。今この場でしか聞けないことを先に埋めよう。",
+          "next": "hearing2_progress"
+        },
+        {
+          "text": "「契約書の受入条件の中に、達成できないと違約金が発生するような、特に厳しい基準はありますか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_penalty_clause"
+          ],
+          "feedback": "鋭い質問。『何を死守するか』を決める芯になる情報だよ。",
+          "next": "hearing2_penalty"
+        },
+        {
+          "text": "「早乙女さんが個人的に、この新しいサイトで一番気に入っている機能って何ですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "雑談自体は悪くないけど、その答えで受入条件の優先順位は決まらないよね。この後の判断に効く質問を先に埋めよう。",
+          "next": "hearing2_hobby"
+        }
+      ]
+    },
+    "hearing2_finality": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「現在、それぞれの工程はどこまで進んでいますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_progress"
+          ],
+          "feedback": "進捗は取れた。ただ、受入条件の厳しさの話は残ったままだね。",
+          "next": "answer_finality_progress"
+        },
+        {
+          "text": "「契約書の受入条件の中に、達成できないと違約金が発生するような、特に厳しい基準はありますか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_penalty_clause"
+          ],
+          "feedback": "『何を死守するか』を決める芯になる情報、聞けたね。",
+          "next": "answer_finality_penalty"
+        },
+        {
+          "text": "「早乙女さんが個人的に、この新しいサイトで一番気に入っている機能って何ですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "気に入ってる機能が分かっても、受入条件の優先順位は一つも進まないよ。",
+          "next": "answer_finality_hobby"
+        }
+      ]
+    },
+    "hearing2_progress": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今回の前倒しの話は、社内でどこまで確定していますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_decision_finality"
+          ],
+          "feedback": "確定度合いも取れたね。",
+          "next": "answer_finality_progress"
+        },
+        {
+          "text": "「契約書の受入条件の中に、達成できないと違約金が発生するような、特に厳しい基準はありますか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_penalty_clause"
+          ],
+          "feedback": "終わり際に、一番大事な条件を聞けたね。",
+          "next": "answer_penalty_progress"
+        },
+        {
+          "text": "「早乙女さんが個人的に、この新しいサイトで一番気に入っている機能って何ですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "その答えでは、何を死守すべきかは一つも見えてこないよ。",
+          "next": "answer_hobby_progress"
+        }
+      ]
+    },
+    "hearing2_penalty": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今回の前倒しの話は、社内でどこまで確定していますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_decision_finality"
+          ],
+          "feedback": "確定度合いも押さえた。堅実な2問だね。",
+          "next": "answer_finality_penalty"
+        },
+        {
+          "text": "「現在、それぞれの工程はどこまで進んでいますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_progress"
+          ],
+          "feedback": "工程の状況も、後で効いてくる材料だよ。",
+          "next": "answer_penalty_progress"
+        },
+        {
+          "text": "「早乙女さんが個人的に、この新しいサイトで一番気に入っている機能って何ですか?」",
+          "effects": {
+            "budget": -5,
+            "trust": -8
+          },
+          "flags": [
+            "asked_hobby"
+          ],
+          "feedback": "違約金の話を先に聞けたのは大きい。",
+          "next": "answer_hobby_penalty"
+        }
+      ]
+    },
+    "hearing2_hobby": {
+      "type": "choice",
+      "prompt": "残り1問。何を聞く?",
+      "options": [
+        {
+          "text": "「今回の前倒しの話は、社内でどこまで確定していますか?」",
+          "effects": {
+            "budget": -3,
+            "trust": 3
+          },
+          "flags": [
+            "asked_decision_finality"
+          ],
+          "feedback": "せめて確定度合いだけは確かめられた。",
+          "next": "answer_finality_hobby"
+        },
+        {
+          "text": "「現在、それぞれの工程はどこまで進んでいますか?」",
+          "effects": {
+            "budget": -4,
+            "trust": -2
+          },
+          "flags": [
+            "asked_progress"
+          ],
+          "feedback": "工程の状況くらいは押さえられたね。",
+          "next": "answer_hobby_progress"
+        },
+        {
+          "text": "「契約書の受入条件の中に、達成できないと違約金が発生するような、特に厳しい基準はありますか?」",
+          "effects": {
+            "budget": -2,
+            "trust": 8
+          },
+          "flags": [
+            "asked_penalty_clause"
+          ],
+          "feedback": "最後の一問で、一番の急所を確かめられたね。",
+          "next": "answer_hobby_penalty"
+        }
+      ]
+    },
+    "answer_finality_progress": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "前倒しの件は、すでに役員会で承認されていて、正直もう動かせない決定なんです。大型商談の契約書に、この納期がそのまま明記されてしまっていて。"
+        },
+        {
+          "speaker": "customer",
+          "text": "現在の進捗ですか。要件定義と設計は完了していて、実装は今ちょうど半分くらい。結合テストと受入テストはまだこれからです。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "進捗の話も、後の判断の材料になるよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_finality_penalty": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "前倒しの件は、すでに役員会で承認されていて、正直もう動かせない決定なんです。大型商談の契約書に、この納期がそのまま明記されてしまっていて。"
+        },
+        {
+          "speaker": "customer",
+          "text": "受入条件の中で特に厳しいのは、決済まわりのセキュリティ監査です。これだけは契約上、合格できないと違約金が発生する条項になっていて……ここだけは絶対に外せません。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……両方とも大事な情報だね。覚えておいて。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_finality_hobby": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "前倒しの件は、すでに役員会で承認されていて、正直もう動かせない決定なんです。大型商談の契約書に、この納期がそのまま明記されてしまっていて。"
+        },
+        {
+          "speaker": "customer",
+          "text": "個人的に気に入ってる機能ですか?コーディネート提案機能ですかね、自分でも使いたいくらい(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……受入条件のどこが特に厳しいか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_penalty_progress": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "受入条件の中で特に厳しいのは、決済まわりのセキュリティ監査です。これだけは契約上、合格できないと違約金が発生する条項になっていて……ここだけは絶対に外せません。"
+        },
+        {
+          "speaker": "customer",
+          "text": "現在の進捗ですか。要件定義と設計は完了していて、実装は今ちょうど半分くらい。結合テストと受入テストはまだこれからです。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "受入条件の厳しさ、大事な情報だね。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_hobby_penalty": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "受入条件の中で特に厳しいのは、決済まわりのセキュリティ監査です。これだけは契約上、合格できないと違約金が発生する条項になっていて……ここだけは絶対に外せません。"
+        },
+        {
+          "speaker": "customer",
+          "text": "個人的に気に入ってる機能ですか?コーディネート提案機能ですかね、自分でも使いたいくらい(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "text": "受入条件の話を聞けたね。それが今日一番の収穫かも。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "answer_hobby_progress": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "customer",
+          "text": "現在の進捗ですか。要件定義と設計は完了していて、実装は今ちょうど半分くらい。結合テストと受入テストはまだこれからです。"
+        },
+        {
+          "speaker": "customer",
+          "text": "個人的に気に入ってる機能ですか?コーディネート提案機能ですかね、自分でも使いたいくらい(笑)"
+        },
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "……受入条件のどこが特に厳しいか、結局聞けずじまいだったね。この後、それが効いてくるかもしれないよ。"
+        }
+      ],
+      "next": "briefing_done"
+    },
+    "briefing_done": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "打ち合わせの時間切れ。早乙女さんは足早に会議室を出ていった。持ち帰って、アオイ先輩と今の工程スケジュールを確認することになった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "これが今の工程スケジュールと、契約書に載っている受入条件の抜粋。まずは全体を見ておこう。"
+        }
+      ],
+      "next": "progress_scene"
+    },
+    "progress_scene": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "翌週から、開発チームはこれまで通りの計画で作業を進めていた。前倒しの話は「契約書の書き換えが終わるまで」と、まだ現場には伝えていない。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "正式に来たら、すぐ動けるようにしておこう。"
+        }
+      ],
+      "next": "shake"
+    },
+    "shake": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "10日後。早乙女さんから一本のメッセージが届いた。文面はいつもより硬い。"
+        },
+        {
+          "speaker": "customer",
+          "text": "……契約書、正式に巻き直しました。リリース日、当初より1か月早い日付で確定です。開発チームには本当に申し訳ないんですが、何とかお願いします。"
+        },
+        {
+          "speaker": "narration",
+          "text": "画面のカレンダーを開き、日付を1か月分前にずらしてみる。空いた余白のなさに、しばらく手が止まった。"
+        }
+      ],
+      "effects": {
+        "budget": -35
+      },
+      "next": [
+        {
+          "require": {
+            "flags": [
+              "asked_penalty_clause"
+            ]
+          },
+          "to": "shake_mitigated"
+        },
+        {
+          "default": true,
+          "to": "shake_fulldamage"
+        }
+      ]
+    },
+    "shake_mitigated": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "……1か月前倒し、来たね。でも、絶対に外せない受入条件はもう聞けてる。何を死守するかの軸は、もうはっきりしてるはずだよ。"
+        },
+        {
+          "speaker": "narration",
+          "text": "決済まわりのセキュリティ監査という契約条項を思い出す。何を最優先すべきかは、揺れずに見えていた。"
+        }
+      ],
+      "next": "retriage_choice"
+    },
+    "shake_fulldamage": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "……1か月前倒し、来たね。正直、どの受入条件が一番動かせないのか、まだはっきりしないまま突入することになる。"
+        },
+        {
+          "speaker": "narration",
+          "text": "何を死守し、何を交渉すべきか判断する軸がないまま、テスト計画の見直しも後手に回った。手戻りが発生し、早乙女さんにも「本当に間に合うんですか」と不安げに聞かれてしまった。"
+        }
+      ],
+      "effects": {
+        "quality": -10,
+        "trust": -10
+      },
+      "next": "retriage_choice"
+    },
+    "retriage_choice": {
+      "type": "choice",
+      "prompt": "リリースは1か月前倒し。今の工程スケジュールと受入条件を見て、この状況にどう向き合う?",
+      "image": {
+        "src": "diagrams/s4e2-schedule.svg",
+        "caption": "現在の工程スケジュールと受入条件の抜粋",
+        "alt": "要件定義・設計は完了、実装は進行中、結合テスト・受入テスト・リリース準備は未着手という工程スケジュール。受入条件の抜粋として、決済まわりのセキュリティ監査、ページ表示速度3秒以内、同時アクセス500セッション、在庫反映5分以内、障害復旧4時間以内の5項目が記載されている"
+      },
+      "options": [
+        {
+          "text": "「受入条件はすべてこのまま死守しつつ、1か月の前倒しも受け入れます」",
+          "effects": {
+            "quality": -8,
+            "customer": -5,
+            "budget": 5,
+            "trust": -8
+          },
+          "flags": [
+            "promised_all_criteria"
+          ],
+          "feedback": "気持ちは伝わるけど、1か月分の作業時間はどこにも増えていないよね。全部を今の基準のまま死守すると宣言するのは、守れない約束になりやすいよ。",
+          "next": "retriage_reaction_promiseall"
+        },
+        {
+          "text": "「結合テストと受入テストの期間を、全項目一律で半分に圧縮しましょう」",
+          "effects": {
+            "quality": -15,
+            "customer": 5,
+            "budget": 10,
+            "trust": -5
+          },
+          "flags": [
+            "cut_test_uniformly"
+          ],
+          "feedback": "手を付けやすいところから削るのは楽だけど、テスト期間は条件の重さと関係なく一律に薄くなる。違約金が絡む監査ほど、そこが薄いと危ないよ。",
+          "next": "retriage_reaction_cuttest"
+        },
+        {
+          "text": "「決済まわりのセキュリティ監査は次回リリースに回し、まずは目に見える機能を前倒しの期限に間に合わせましょう」",
+          "effects": {
+            "quality": 5,
+            "customer": -10,
+            "budget": 15,
+            "trust": -10
+          },
+          "flags": [
+            "sacrifice_critical"
+          ],
+          "feedback": "次回に回す、という判断がよりによって一番動かせない条件に向いてしまっている。契約上の違約金条項がある基準を先送りにするのは、守るものの選び方を間違えているよ。",
+          "next": "retriage_reaction_sacrifice"
+        },
+        {
+          "text": "「決済まわりのセキュリティ監査は今のまま必達とし、他の基準は達成時期をずらして交渉します」",
+          "effects": {
+            "quality": 14,
+            "customer": 12,
+            "budget": 18,
+            "trust": 6
+          },
+          "flags": [
+            "prioritized_contract_criteria"
+          ],
+          "feedback": "正解。違約金が発生する条項がある以上、そこは死守すべき軸になる。他の基準は『諦める』ではなく『時期の交渉』にすれば、1か月の圧縮にも現実的に応じられる。",
+          "next": "retriage_reaction_good"
+        }
+      ]
+    },
+    "retriage_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。死守するものを最初に決めてから、残りを交渉材料にできたね。"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "retriage_reaction_promiseall": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "1か月分の作業時間、どこから捻出するつもりだった?"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "retriage_reaction_cuttest": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "テスト期間、条件の重さに関係なく一律に薄くなってるよ。"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "retriage_reaction_sacrifice": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『次回に回す』、それ、よりによって一番動かせない基準じゃない?"
+        }
+      ],
+      "next": "explanation_setup"
+    },
+    "explanation_setup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "方針は固まった。あとは、この内容を早乙女さん、そしてその先の商談相手にどう伝えるかだ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "決めた中身は悪くない。問題は、ここからどう合意を取るか、だね。"
+        }
+      ],
+      "next": "explanation_choice"
+    },
+    "explanation_choice": {
+      "type": "choice",
+      "prompt": "前倒し後の進め方が固まった。早乙女さんにどう伝える?",
+      "options": [
+        {
+          "text": "「もう決めましたので、まずこちらで進めます。変更点は後日まとめてご報告します」",
+          "effects": {
+            "trust": -20,
+            "customer": -5,
+            "budget": 8
+          },
+          "flags": [
+            "silent_cut"
+          ],
+          "feedback": "先に進める判断力はいいけど、決めたのは早乙女さんじゃない。事後報告は、後で『聞いてない』という話に必ずなるよ。",
+          "next": "explanation_reaction_silent"
+        },
+        {
+          "text": "「重要な話なので即答できません。社内でよく揉んでから、来週改めてお伝えします」",
+          "effects": {
+            "trust": -8,
+            "customer": -10,
+            "budget": -10,
+            "quality": -2
+          },
+          "flags": [
+            "deferred_indecision"
+          ],
+          "feedback": "持ち帰ること自体は悪くないけど、判断の材料はもう手元に揃っている。今決められることを先延ばしにすると、前倒しで削られた日程がさらに目減りするよ。",
+          "next": "explanation_reaction_deferred"
+        },
+        {
+          "text": "「必達の監査基準は死守する案と、他基準の調整案を見せて選んでいただきます」",
+          "effects": {
+            "trust": 16,
+            "customer": 10,
+            "budget": 6,
+            "quality": 2
+          },
+          "flags": [
+            "presented_tradeoff2"
+          ],
+          "feedback": "正解。何が動かせず、何を交渉できるのかを構造で見せて、決める権利を早乙女さんに渡せてる。丸投げじゃなく、選択肢と見立てをセットで渡せてるのがポイントだよ。",
+          "next": "explanation_reaction_good"
+        },
+        {
+          "text": "「開発チームで踏ん張って何とかします。早乙女さんには、いつも通り進んでいるとお伝えします」",
+          "effects": {
+            "customer": 8,
+            "trust": -10,
+            "budget": -5,
+            "quality": -12
+          },
+          "flags": [
+            "team_absorb"
+          ],
+          "feedback": "現場が無理をして帳尻を合わせても、それは見えない負債になるだけ。早乙女さんに本当のことを伝えず『いつも通り』を演じるのは、後でもっと大きな形で表面化するよ。",
+          "next": "explanation_reaction_absorb"
+        }
+      ]
+    },
+    "explanation_reaction_silent": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『後で報告』、早乙女さんの立場で聞いたらどう思う?"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "explanation_reaction_deferred": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "材料は揃ってるのに、決めるのを先延ばしにしてない?"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "explanation_reaction_good": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "いいね。決める材料と決める権利、両方きちんと渡せた。"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "explanation_reaction_absorb": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "portrait": "portraits/aoi-dry.svg",
+          "text": "『いつも通り』を演じるの、いつまで続けられる?"
+        }
+      ],
+      "next": "final_setup"
+    },
+    "final_setup": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "数日後、早乙女さんから提案が来た。"
+        },
+        {
+          "speaker": "customer",
+          "text": "監査、外部機関に頼むとどうしても時間がかかるじゃないですか。だったら、うちの内部エンジニアだけで確認して『合格』にしちゃいましょうよ。前倒しには、それが一番早い気がして。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "……さあ、どう答える?"
+        }
+      ],
+      "next": "final_choice"
+    },
+    "final_choice": {
+      "type": "choice",
+      "prompt": "「内部確認だけで『合格』にしよう」と早乙女さん。どう応える?",
+      "options": [
+        {
+          "text": "「承知しました。今回は内部の確認だけで『合格』として進めましょう」",
+          "effects": {
+            "customer": 10,
+            "quality": -10,
+            "budget": -15,
+            "trust": -8
+          },
+          "flags": [
+            "faked_compliance"
+          ],
+          "feedback": "気持ちは汲みたいけど、それは契約上の違約金条項に関わる基準だよね。中身を満たさないまま『合格』を名乗るのは、この案件で一番守ると決めたものそのものを裏切ることになるよ。",
+          "next": "ending"
+        },
+        {
+          "text": "「外部監査の合格が契約条件です。前倒しは準備の圧縮で対応します」",
+          "effects": {
+            "quality": 6,
+            "customer": 10,
+            "budget": 8,
+            "trust": 5
+          },
+          "flags": [
+            "protected_audit_integrity"
+          ],
+          "feedback": "正解。契約条件という動かせない前提に立ち返って、近道の提案にも同じ物差しで応えられてる。日程を詰める代替案までセットにできてるのもいいね。",
+          "next": "ending"
+        },
+        {
+          "text": "「それは受け入れられません」",
+          "effects": {
+            "customer": -12,
+            "trust": -10,
+            "budget": 5
+          },
+          "flags": [
+            "blunt_refusal"
+          ],
+          "feedback": "断ること自体は正しい。でも理由も代わりの案もないと、早乙女さんは『じゃあどうすればいいんですか』と困るだけだよ。",
+          "next": "ending"
+        }
+      ]
+    },
+    "ending": {
+      "type": "ending",
+      "variants": [
+        {
+          "require": {
+            "flags": [
+              "asked_penalty_clause",
+              "prioritized_contract_criteria",
+              "presented_tradeoff2",
+              "protected_audit_integrity"
+            ],
+            "minTotal": 280
+          },
+          "lines": [
+            {
+              "speaker": "customer",
+              "text": "……なるほど、死守するところと交渉するところ、筋が通っていますね。この内容で先方にも説明します。"
+            },
+            {
+              "speaker": "narration",
+              "text": "1か月後、リリースは無事に間に合った。決済まわりのセキュリティ監査は外部機関の合格を得て、大型タイアップの展示会にも間に合った。交渉で時期をずらした基準も、翌月には無理なく達成された。"
+            },
+            {
+              "speaker": "customer",
+              "text": "前倒しの連絡をしたときは正直生きた心地がしませんでしたが……死守するものさえはっきりしていれば、交渉する余地はちゃんとあるものですね。次のタイアップも、また力を貸してください。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 240
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "何度か基準の優先順位を出し直したものの、監査はどうにか期限に間に合った。早乙女さんに大きな問題は起きなかったが、一部の判断は後になって効いてきた。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "結果オーライ、ではあるけどね。違約金が絡む条件があるかどうか、もう少し早く確かめられていたら、優先順位で迷う時間はもっと減らせたと思うよ。"
+            }
+          ]
+        },
+        {
+          "require": {
+            "minTotal": 200
+          },
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "基準の優先順位を巡って早乙女さんとのやり取りが何度も往復するうち、監査の準備はずるずると後ろ倒しになっていった。外部機関への依頼が前倒しの期限の直前になり、テスト期間はほとんど残っていなかった。"
+            },
+            {
+              "speaker": "narration",
+              "text": "監査当日、指摘事項への対応に追われながら、モニターに並ぶチェック項目を一つずつ潰していく。残り時間を示す時計の針から、目が離せなかった。"
+            },
+            {
+              "speaker": "customer",
+              "text": "前倒しの期限ぎりぎりでこんな綱渡りだと、正直かなり肝が冷えました……。もっと早くから、ここだけは絶対に、と決めておいてほしかったです。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……違約金が絡む条件があるかどうか、あのとき確かめられていたら、この綱渡りにはならなかったかもしれないね。"
+            }
+          ]
+        },
+        {
+          "default": true,
+          "lines": [
+            {
+              "speaker": "narration",
+              "text": "『受入条件は全部このまま』を掲げたまま、1か月分の時間だけが過ぎていった。何を死守するかが最後まで曖昧なまま、テスト期間は全項目一律に削られていった。"
+            },
+            {
+              "speaker": "narration",
+              "text": "前倒しの期限当日、外部機関による決済まわりのセキュリティ監査で不合格の通知が届いた。画面に表示された指摘事項の数を、何度も数え直した。"
+            },
+            {
+              "speaker": "customer",
+              "text": "契約書に書いてある違約金条項、本当に発動してしまいます……。先方への説明、どうしたらいいんでしょうか。"
+            },
+            {
+              "speaker": "narration",
+              "text": "違約金の支払いと、先方への謝罪対応に追われる日々が続いた。信頼を取り戻すには、数か月を要した。"
+            },
+            {
+              "speaker": "senpai",
+              "text": "……違約金が絡む条件があるかどうか、あのとき確かめられていたら、監査の準備を最優先に据えられていたかもしれないね。",
+              "portrait": "portraits/aoi-dry.svg"
+            },
+            {
+              "speaker": "senpai",
+              "text": "でも、ここで終わりにしない。早乙女さんが本当に守りたかったものは何だったのか、一緒に振り返ろう。",
+              "portrait": "portraits/aoi-dry.svg"
+            }
+          ]
+        }
+      ],
+      "next": "debrief"
+    },
+    "debrief": {
+      "type": "debrief",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "お疲れさま。納期が急に1か月早まっても、最初にやることは変わらない。契約という動かせない事実から、死守する基準を決めることだよ。",
+          "portrait": "portraits/aoi-dry.svg"
+        }
+      ],
+      "points": [
+        "前提が崩れたときほど、最初に『契約上、動かせない基準』がクリティカルパス上にあるかを事実から特定する。裏取りで見つけた事実が、死守するものを決めてくれる",
+        "品質基準の調整は作業のしやすさで決めない。契約上の重みに立ち返ってスコープを絞り、他は『諦める』ではなく『時期の交渉』にする。今回動かした分は、次の段階リリースで戻す前提を示す",
+        "トレードオフは選択肢と帰結、推奨案をセットで見せて相手に選んでもらう。黙って進める・持ち帰る・現場で吸収する、どれも信頼を損なう",
+        "良い設計は変化への保険になる。先送りにした分を技術的負債として記録しておけば、揺さぶられたときの立て直しは楽になる"
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "term": "受入条件",
+      "def": "契約や合意で定められた、成果物を検収する際に満たすべき基準。満たさないと違約金など契約上の不利益につながることがある。"
+    },
+    {
+      "term": "クリティカルパス",
+      "def": "工程の依存関係の中で、最も時間がかかり全体の完了日を左右する経路。ここが遅れると、全体の納期がそのまま遅れる。"
+    },
+    {
+      "term": "スコープ",
+      "def": "今回のプロジェクトで「作る範囲」のこと。制約が変わったときは、目的に立ち返って範囲を仕分け直す。"
+    },
+    {
+      "term": "技術的負債",
+      "def": "スケジュールなどの都合で先送りにした設計・実装上の課題。放置すると将来の変更コストが増えていく。"
+    },
+    {
+      "term": "段階リリース",
+      "def": "全部を一度にリリースせず、優先度の高いものから順に分けてリリースする進め方。捨てたわけではなく『後で』に回す手段。"
+    }
+  ]
+}

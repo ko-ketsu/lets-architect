@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="現在の平均アクセス数は秒間40件、過去の類似特集での放映時ピーク実績は秒間400件前後という折れ線グラフ。現在の月額費用の内訳として、ロードバランサー・アプリサーバー・キャッシュ・DB・バッチ処理それぞれのおおよその金額が記載されている">
+  <rect width="900" height="520" fill="#0f1626"/>
+  <text x="450" y="34" text-anchor="middle" fill="#e9eef6" font-size="20" font-weight="bold">実測アクセス数と月額費用の内訳</text>
+
+  <!-- traffic chart -->
+  <line x1="60" y1="230" x2="840" y2="230" stroke="#3a4a63" stroke-width="1.5"/>
+  <line x1="60" y1="170" x2="840" y2="170" stroke="#232f45" stroke-width="1"/>
+  <line x1="60" y1="110" x2="840" y2="110" stroke="#232f45" stroke-width="1"/>
+  <line x1="60" y1="50" x2="840" y2="50" stroke="#232f45" stroke-width="1"/>
+
+  <text x="50" y="235" text-anchor="end" fill="#9aa8bf" font-size="12">0</text>
+  <text x="50" y="175" text-anchor="end" fill="#9aa8bf" font-size="12">150</text>
+  <text x="50" y="115" text-anchor="end" fill="#9aa8bf" font-size="12">300</text>
+  <text x="50" y="55" text-anchor="end" fill="#9aa8bf" font-size="12">450</text>
+  <text x="450" y="30" text-anchor="middle" fill="#9aa8bf" font-size="12">req/s</text>
+
+  <path d="M60,225 L420,225 L470,58 L560,58 L610,225 L840,225" fill="none" stroke="#22d3ee" stroke-width="3" stroke-linejoin="round"/>
+
+  <circle cx="240" cy="225" r="4" fill="#22d3ee"/>
+  <rect x="130" y="250" width="230" height="46" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="245" y="269" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">現在の平均アクセス数</text>
+  <text x="245" y="287" text-anchor="middle" fill="#9aa8bf" font-size="12">約40 req/s</text>
+
+  <circle cx="515" cy="58" r="4" fill="#22d3ee"/>
+  <rect x="400" y="250" width="290" height="46" rx="8" fill="#141c2c" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="545" y="269" text-anchor="middle" fill="#e9eef6" font-size="13" font-weight="bold">類似特集での放映時ピーク実績</text>
+  <text x="545" y="287" text-anchor="middle" fill="#9aa8bf" font-size="12">約400 req/s(継続時間 約2〜3時間)</text>
+
+  <!-- cost table -->
+  <text x="450" y="336" text-anchor="middle" fill="#e9eef6" font-size="16" font-weight="bold">現在の月額費用(内訳)</text>
+  <rect x="120" y="352" width="660" height="34" fill="#1a2334" stroke="#2a3549" stroke-width="1.5"/>
+  <text x="140" y="375" fill="#9aa8bf" font-size="14" font-weight="bold">項目</text>
+  <text x="560" y="375" fill="#9aa8bf" font-size="14" font-weight="bold">月額(概算)</text>
+
+  <g font-size="14" fill="#e9eef6">
+    <rect x="120" y="388" width="660" height="26" fill="#141c2c" stroke="#232f45" stroke-width="1"/>
+    <text x="140" y="406">ロードバランサー</text>
+    <text x="560" y="406">2万円</text>
+
+    <rect x="120" y="414" width="660" height="26" fill="#0f1626" stroke="#232f45" stroke-width="1"/>
+    <text x="140" y="432">アプリサーバー(2台)</text>
+    <text x="560" y="432">6万円</text>
+
+    <rect x="120" y="440" width="660" height="26" fill="#141c2c" stroke="#232f45" stroke-width="1"/>
+    <text x="140" y="458">キャッシュ</text>
+    <text x="560" y="458">2万円</text>
+
+    <rect x="120" y="466" width="660" height="26" fill="#0f1626" stroke="#232f45" stroke-width="1"/>
+    <text x="140" y="484">DB</text>
+    <text x="560" y="484">4万円</text>
+
+    <rect x="120" y="492" width="660" height="26" fill="#141c2c" stroke="#232f45" stroke-width="1"/>
+    <text x="140" y="510">バッチ処理基盤</text>
+    <text x="560" y="510">1万円</text>
+  </g>
+</svg>
