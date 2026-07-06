@@ -343,12 +343,25 @@ export function createPlayScreen(episode, { onQuit }) {
     showNext();
   }
 
+  /** Fisher-Yates で配列のコピーをシャッフルして返す。 */
+  function shuffled(array) {
+    const a = array.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
   function showChoice(node, onChoose) {
     // 選択肢ボタン内の用語ハイライトは行わない。<button> の中に
     // <button class="glossary-term"> を入れ子にすると HTML として不正で、
     // パーサーが外側のボタンを分断してテキストがはみ出すため。
-    const optionsHtml = node.options.map((opt, i) => `
-      <button type="button" class="choice-option" data-index="${i}">${escapeHtml(opt.text)}</button>
+    // 表示順はノード表示時に1回だけシャッフルする(SPEC 4.3)。data-index には
+    // データ上のインデックスを持たせるため、effects / flags / next の対応は不変。
+    const order = shuffled(node.options.map((_, i) => i));
+    const optionsHtml = order.map((i) => `
+      <button type="button" class="choice-option" data-index="${i}">${escapeHtml(node.options[i].text)}</button>
     `).join('');
     main.innerHTML = `
       <div class="choice-box">
