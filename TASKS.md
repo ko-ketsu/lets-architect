@@ -22,7 +22,7 @@
   - ランク閾値が高すぎて S 到達不可 → S≥280/A≥240/B≥200(SPEC 3.4)。S は各話ほぼ完璧なルート1本のみ
   - glossary ハイライトを button 等の対話要素の中に入れると描画が壊れる(選択肢内はプレーンテキスト)
   - 出題図に答えを描かない(SPEC 10.1)/ 正解位置を先頭に固めない(SPEC 10、smoke-test で自動検知)
-  - GitHub Pages のデプロイ失敗は複数ワークフロー実行の競合が原因のことがある(再実行で解消)
+  - GitHub Pages のデプロイ失敗(deploy-pages ステップ)は一時的なサービス側エラーが多い。ただし**「Re-run failed jobs」で再実行してはいけない**: upload が再実行されて同名アーティファクトが run 内に2個でき、`Multiple artifacts named "github-pages"` で必ず再失敗する(2026-07-06 に発生)。**Actions → Run workflow(workflow_dispatch)で新しい run を起動する**のが正しい復旧手順
 
 ## 方針メモ(再開時に読む)
 
