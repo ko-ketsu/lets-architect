@@ -142,5 +142,12 @@
       "estimatedMinutes": 10,
       "difficulty": 4
     }
-  ]
+  ],
+  "finale": {
+    "id": "final",
+    "file": "episodes/final.json",
+    "title": "序章の終わりに",
+    "summary": "桜井さんの案件が一段落した、ある夜。アオイ先輩から話がある。",
+    "estimatedMinutes": 5
+  }
 }

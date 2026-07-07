@@ -1,0 +1,164 @@
+{
+  "id": "final",
+  "finale": true,
+  "title": "序章の終わりに",
+  "summary": "桜井さんの案件が一段落した、ある夜。アオイ先輩から話がある。",
+  "estimatedMinutes": 5,
+  "characters": {
+    "player": {
+      "name": "あなた",
+      "role": "player"
+    },
+    "senpai": {
+      "name": "アオイ先輩",
+      "role": "mentor",
+      "portrait": "portraits/aoi-normal.svg"
+    }
+  },
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "桜井さんの案件が動き出してしばらく経った、残業終わりの夜。フロアに残っているのは、もうアオイ先輩と二人だけだった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "ちょっと話、いいかな。来月から、新規事業の立ち上げチームに異動になったんだ。フルフルマーケットの件、上のほうでも話題になっててね。"
+        },
+        {
+          "speaker": "narration",
+          "text": "おめでとうございます、と言いかけて、少しだけ喉が詰まった。"
+        }
+      ],
+      "next": "notebook"
+    },
+    "notebook": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "先輩は鞄から使い込んだ手帳を取り出し、ぱらぱらとめくった。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "最初の頃、マルカワ食品の丸川部長に『絶対に止まらないシステムにして』って言われて、固まってたよね。シートピアの入口の守り方も、メゾン・エルデの切替戦略も……どれも最後は、あなたが自分で線を引いてた。"
+        },
+        {
+          "speaker": "narration",
+          "text": "手帳を閉じて、先輩がまっすぐこちらを向いた。"
+        }
+      ],
+      "next": "growth_reflection"
+    },
+    "growth_reflection": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "senpai",
+          "text": "最近気づいたんだ。私がコメントする前に、あなた、もう決めてるでしょ。理由まで揃えて。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "実務ではね、選んだ直後に答え合わせをしてくれる人は隣にいない。結果は数か月後に、障害やユーザーの声になって返ってくる。……でも、あなたはもう大丈夫。自分で決断できるよ。"
+        },
+        {
+          "speaker": "narration",
+          "text": "先輩はそう言うと、いつも通りの顔で立ち上がった。"
+        }
+      ],
+      "next": "new_client_mail"
+    },
+    "new_client_mail": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "翌朝、受信トレイに新しい相談メールが届いていた。件名には、3つの「絶対」が並んでいた。"
+        },
+        {
+          "speaker": "narration",
+          "text": "「絶対に落ちない、絶対に漏れない、絶対に間に合うシステムにしてほしい」"
+        },
+        {
+          "speaker": "narration",
+          "text": "思わず苦笑いした。ずいぶん懐かしい響きだ。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "相変わらずみんな『絶対』が好きだね。……さて、最初の一手、どうする?"
+        }
+      ],
+      "next": "first_move"
+    },
+    "first_move": {
+      "type": "choice",
+      "prompt": "「絶対に落ちない、絶対に漏れない、絶対に間に合うシステムにしてほしい」。最初の一手は?",
+      "options": [
+        {
+          "text": "「まずは、3つの『絶対』を具体的なSLAの数字に翻訳しに行きます」",
+          "next": "after_choice"
+        },
+        {
+          "text": "「まずは、絶対に落としてはいけない処理の経路を特定しに行きます」",
+          "next": "after_choice"
+        },
+        {
+          "text": "「まずは、3つの『絶対』の優先順位を、先方とすり合わせに行きます」",
+          "next": "after_choice"
+        }
+      ]
+    },
+    "after_choice": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "……"
+        },
+        {
+          "speaker": "senpai",
+          "text": "ほらね。もう選べる。私の感想、要らないでしょ。"
+        }
+      ],
+      "next": "farewell"
+    },
+    "farewell": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "数日後、荷物をまとめ終えた先輩が、最後にデスクへ寄ってくれた。"
+        },
+        {
+          "speaker": "senpai",
+          "text": "答え合わせは、現場がしてくれる。"
+        },
+        {
+          "speaker": "narration",
+          "text": "それだけ言うと、先輩はいつも通りの足取りでフロアを出ていった。"
+        }
+      ],
+      "next": "epilogue"
+    },
+    "epilogue": {
+      "type": "scene",
+      "lines": [
+        {
+          "speaker": "narration",
+          "text": "後日。あの新しい相談の案件で、一人でクライアント先を訪ねることになった。"
+        },
+        {
+          "speaker": "narration",
+          "text": "エレベーターを降り、ドアの前に立つ。深呼吸を、一つ。"
+        },
+        {
+          "speaker": "narration",
+          "text": "ここまでは、序章。"
+        }
+      ]
+    }
+  }
+}

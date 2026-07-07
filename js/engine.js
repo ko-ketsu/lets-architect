@@ -173,15 +173,21 @@ export function validateEpisode(episode) {
     return ['episode must be an object'];
   }
 
-  const requiredTop = [
-    'id', 'season', 'title', 'summary', 'estimatedMinutes',
-    'characters', 'params', 'start', 'nodes', 'glossary',
-  ];
+  // SPEC 11.2: エピソード直下の finale: true で検証・進行を切り替える。
+  // finale では params/glossary 禁止・ランク要素なし・ノードは scene/choice のみ。
+  const isFinale = episode.finale === true;
+
+  const requiredTop = isFinale
+    ? ['id', 'finale', 'title', 'summary', 'estimatedMinutes', 'characters', 'start', 'nodes']
+    : ['id', 'season', 'title', 'summary', 'estimatedMinutes', 'characters', 'params', 'start', 'nodes', 'glossary'];
   for (const key of requiredTop) {
     if (!(key in episode)) errors.push(`missing top-level field: "${key}"`);
   }
 
-  if (episode.params && typeof episode.params === 'object') {
+  if (isFinale) {
+    if ('params' in episode) errors.push('finale episode must not have "params"');
+    if ('glossary' in episode) errors.push('finale episode must not have "glossary"');
+  } else if (episode.params && typeof episode.params === 'object') {
     for (const key of PARAM_KEYS) {
       if (typeof episode.params[key] !== 'number') {
         errors.push(`params.${key} must be a number`);
@@ -317,12 +323,26 @@ export function validateEpisode(episode) {
       errors.push(`${where}: missing type`);
       continue;
     }
+    // SPEC 11.2: finale のノードは scene/choice のみ(ending/debrief は使わない)。
+    if (isFinale && (node.type === 'ending' || node.type === 'debrief')) {
+      errors.push(`${where}: node type "${node.type}" is not allowed in finale episodes (finale uses scene/choice only)`);
+      continue;
+    }
     switch (node.type) {
       case 'scene': {
         checkLines(node.lines, where);
         checkImage(node.image, where);
-        checkEffects(node.effects, where);
-        checkNext(node.next, where);
+        if (isFinale) {
+          if (node.effects !== undefined) errors.push(`${where}: scene effects are not allowed in finale episodes`);
+        } else {
+          checkEffects(node.effects, where);
+        }
+        // SPEC 11.2: next のない scene は finale のときだけ終端として許可する。
+        if (isFinale && node.next === undefined) {
+          // 終端: OK
+        } else {
+          checkNext(node.next, where);
+        }
         break;
       }
       case 'choice': {
@@ -338,7 +358,14 @@ export function validateEpisode(episode) {
             if (!opt || typeof opt.text !== 'string' || opt.text.length === 0) {
               errors.push(`${optWhere}: missing text`);
             }
-            checkEffects(opt?.effects, optWhere);
+            if (isFinale) {
+              // SPEC 11.2: finale の option は text/next のみ(effects/flags/feedback 禁止)。
+              if (opt && opt.effects !== undefined) errors.push(`${optWhere}: effects are not allowed in finale episodes`);
+              if (opt && opt.flags !== undefined) errors.push(`${optWhere}: flags are not allowed in finale episodes`);
+              if (opt && opt.feedback !== undefined) errors.push(`${optWhere}: feedback is not allowed in finale episodes`);
+            } else {
+              checkEffects(opt?.effects, optWhere);
+            }
             checkNext(opt?.next, optWhere);
           });
         }
@@ -371,13 +398,15 @@ export function validateEpisode(episode) {
     }
   }
 
-  if (!Array.isArray(episode.glossary)) {
-    errors.push('glossary must be an array');
-  } else {
-    episode.glossary.forEach((g, i) => {
-      if (!g || typeof g.term !== 'string' || !g.term) errors.push(`glossary[${i}] missing term`);
-      if (!g || typeof g.def !== 'string' || !g.def) errors.push(`glossary[${i}] missing def`);
-    });
+  if (!isFinale) {
+    if (!Array.isArray(episode.glossary)) {
+      errors.push('glossary must be an array');
+    } else {
+      episode.glossary.forEach((g, i) => {
+        if (!g || typeof g.term !== 'string' || !g.term) errors.push(`glossary[${i}] missing term`);
+        if (!g || typeof g.def !== 'string' || !g.def) errors.push(`glossary[${i}] missing def`);
+      });
+    }
   }
 
   return errors;
@@ -388,6 +417,8 @@ export function validateEpisode(episode) {
  * choice ノードでの選択を strategy で制御する。
  * strategy: 'first' | 'last' | (node) => optionIndex
  * 戻り値: { state, result, log }
+ * SPEC 11.2: finale(episode.finale === true)では debrief が無く、next のない scene が
+ * 終端になる。この場合ランク処理は行わないので result は null になる。
  */
 export function playThrough(episode, strategy = 'first') {
   let state = createInitialState(episode);
@@ -406,6 +437,10 @@ export function playThrough(episode, strategy = 'first') {
     log.push({ nodeId: state.nodeId, type: node.type });
 
     if (node.type === 'scene') {
+      // SPEC 11.2: finale では next のない scene が終端。ランク処理は行わないので result は null。
+      if (episode.finale === true && node.next === undefined) {
+        return { state, result: null, log };
+      }
       // SPEC 3.3 拡張A: scene の effects を lines 表示後に適用してから next を解決する。
       const { state: afterEffects } = applySceneEffects(state, node);
       state = advance(afterEffects, resolveNext(node.next, afterEffects));

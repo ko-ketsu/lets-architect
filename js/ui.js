@@ -126,7 +126,50 @@ export function renderTitle({ onStart, onReset }) {
 // ---------------------------------------------------------------------------
 // エピソード選択画面
 // ---------------------------------------------------------------------------
-export function renderEpisodeSelect({ index, progress, onSelect, onBack }) {
+/**
+ * SPEC 11.1: エピソード選択画面最下部の「Final Episode」セクション。
+ * finale が null(index.json にまだ finale キーが無い)ならセクションごと非表示にする。
+ */
+function finaleSectionHtml(finale) {
+  if (!finale) return '';
+  const { entry, unlocked, sCount, total, cleared } = finale;
+
+  if (!unlocked) {
+    return `
+      <section class="season-group finale-group">
+        <h2 class="season-title">Final Episode</h2>
+        <div class="episode-list">
+          <div class="episode-card episode-card-locked" aria-disabled="true">
+            <div class="episode-card-head">
+              <h3 class="episode-card-title">${escapeHtml(entry.title)}</h3>
+              <span class="badge badge-lock" aria-hidden="true">🔒</span>
+            </div>
+            <p class="episode-card-summary">全エピソードで S ランクを達成すると解放</p>
+            <p class="episode-card-meta">S × ${sCount}/${total}</p>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="season-group finale-group">
+      <h2 class="season-title">Final Episode</h2>
+      <div class="episode-list">
+        <button type="button" class="episode-card" data-episode="${escapeHtml(entry.id)}">
+          <div class="episode-card-head">
+            <h3 class="episode-card-title">${escapeHtml(entry.title)}</h3>
+            ${cleared ? '<span class="badge badge-cleared">クリア済み</span>' : ''}
+          </div>
+          <p class="episode-card-summary">${escapeHtml(entry.summary || '')}</p>
+          <p class="episode-card-meta">所要時間 目安 ${escapeHtml(String(entry.estimatedMinutes ?? ''))} 分</p>
+        </button>
+      </div>
+    </section>
+  `;
+}
+
+export function renderEpisodeSelect({ index, progress, finale, onSelect, onBack }) {
   const seasons = index.seasons || [];
   const episodesBySeason = new Map();
   for (const ep of index.episodes || []) {
@@ -171,12 +214,13 @@ export function renderEpisodeSelect({ index, progress, onSelect, onBack }) {
         <button type="button" class="btn btn-ghost btn-back" data-action="back">戻る</button>
         <h1 class="select-title">エピソードを選ぶ</h1>
       </header>
-      <div class="select-body">${seasonsHtml}</div>
+      <div class="select-body">${seasonsHtml}${finaleSectionHtml(finale)}</div>
     </div>
   `;
 
   root().querySelector('[data-action="back"]').addEventListener('click', onBack);
-  root().querySelectorAll('.episode-card').forEach((el) => {
+  // ロック中の Final Episode カードは data-episode を持たないため、ここでは選ばれない。
+  root().querySelectorAll('.episode-card[data-episode]').forEach((el) => {
     el.addEventListener('click', () => onSelect(el.dataset.episode));
   });
 }
@@ -189,15 +233,17 @@ export function renderEpisodeSelect({ index, progress, onSelect, onBack }) {
  * プレイ画面を構築し、進行を駆動するためのハンドルを返す。
  * DOM の詳細(1行ずつ送る・フィードバックカード・用語ポップアップ)はここに閉じ込める。
  */
-export function createPlayScreen(episode, { onQuit }) {
+export function createPlayScreen(episode, { onQuit, finale = false }) {
   root().innerHTML = `
     <div class="screen screen-play">
       <header class="play-header">
         <button type="button" class="btn-quit" aria-label="中断してエピソード選択に戻る">×</button>
         <h1 class="play-title">${escapeHtml(episode.title)}</h1>
+        ${finale ? '' : `
         <div class="meters">
           ${PARAM_ORDER.map((key) => meterBarHtml(key, episode.params[key] ?? 50)).join('')}
         </div>
+        `}
       </header>
       <main class="play-main" id="play-main"></main>
       <div class="glossary-popup" id="glossary-popup" hidden>
@@ -491,4 +537,51 @@ export function renderResult({ episode, result, isNewBest, onReplay, onSelect })
   `;
   root().querySelector('[data-action="replay"]').addEventListener('click', onReplay);
   root().querySelector('[data-action="select"]').addEventListener('click', onSelect);
+}
+
+// ---------------------------------------------------------------------------
+// フィナーレ: タイトルドロップ画面(SPEC 11.3)
+// ---------------------------------------------------------------------------
+/**
+ * 終端 scene の後に表示する暗転画面。ロゴを CSS transition で静かにフェードインさせ、
+ * タップ/クリック/Enter で onAdvance を呼ぶ。UI 側に特殊なタイマーは足さない
+ * (フェードのタイミングは CSS のみで制御する)。
+ */
+export function renderFinaleTitleDrop({ onAdvance }) {
+  root().innerHTML = `
+    <div class="screen screen-finale-titledrop" tabindex="0" role="button" aria-label="タップして次へ">
+      <h1 class="finale-titledrop-logo">Let's Architect!</h1>
+    </div>
+  `;
+  const el = root().querySelector('.screen-finale-titledrop');
+  // 暗転からフェードインさせるため、初期レンダー直後の1フレームを空けてから is-visible を付与する。
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => el.classList.add('is-visible'));
+  });
+  const advance = () => onAdvance();
+  el.addEventListener('click', advance);
+  el.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      advance();
+    }
+  });
+  el.focus({ preventScroll: true });
+}
+
+// ---------------------------------------------------------------------------
+// フィナーレ: 称号画面(SPEC 11.3。リザルト画面の代替)
+// ---------------------------------------------------------------------------
+export function renderFinaleCredit({ onBack }) {
+  root().innerHTML = `
+    <div class="screen screen-finale-credit">
+      <p class="finale-credit-label">称号</p>
+      <h1 class="finale-credit-title">Architect</h1>
+      <p class="finale-credit-note">全12エピソード S ランク達成</p>
+      <div class="finale-credit-actions">
+        <button type="button" class="btn btn-primary" data-action="back">タイトルへ戻る</button>
+      </div>
+    </div>
+  `;
+  root().querySelector('[data-action="back"]').addEventListener('click', onBack);
 }

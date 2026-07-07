@@ -156,6 +156,12 @@ function main() {
       continue;
     }
 
+    // フィナーレはランク・ルート概念がないため対象外(SPEC 7章の6、検証は smoke-test 側)
+    if (episode.finale === true) {
+      console.log('  finale のためスキップ(smoke-test 側で検証)');
+      continue;
+    }
+
     const errors = validateEpisode(episode);
     if (errors.length > 0) {
       console.error('  validateEpisode エラー:');

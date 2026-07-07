@@ -275,6 +275,37 @@ ul {
   letter-spacing: 0.05em;
 }
 
+/* Final Episode セクション(11章) ---------------------------------------- */
+
+.finale-group {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+.episode-card-locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.badge-lock {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.badge-cleared {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  white-space: nowrap;
+}
+
 /* プレイ画面 ----------------------------------------------------------- */
 
 .screen-play {
@@ -782,6 +813,66 @@ ul {
 
 .error-message {
   color: var(--text-dim);
+}
+
+/* フィナーレ: タイトルドロップ画面(11.3) --------------------------------- */
+
+.screen-finale-titledrop {
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  cursor: pointer;
+  outline: none;
+}
+
+.finale-titledrop-logo {
+  margin: 0;
+  font-size: clamp(2rem, 8vw, 3rem);
+  letter-spacing: 0.02em;
+  color: var(--accent-strong);
+  text-shadow: 0 0 24px rgba(34, 211, 238, 0.35);
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+
+.screen-finale-titledrop.is-visible .finale-titledrop-logo {
+  opacity: 1;
+}
+
+/* フィナーレ: 称号画面(11.3。リザルト画面の代替) -------------------------- */
+
+.screen-finale-credit {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.finale-credit-label {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+}
+
+.finale-credit-title {
+  margin: 0;
+  font-size: clamp(3rem, 14vw, 4.5rem);
+  font-weight: 800;
+  color: var(--rank-s);
+  text-shadow: 0 0 30px rgba(103, 232, 249, 0.5);
+}
+
+.finale-credit-note {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+.finale-credit-actions {
+  margin-top: 24px;
+  width: 100%;
+  max-width: 320px;
 }
 
 /* レスポンシブ ----------------------------------------------------------- */

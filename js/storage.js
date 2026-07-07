@@ -1,6 +1,8 @@
 // storage.js — localStorage ラッパー。SPEC.md 第5章。
 // キー: lets-architect:v1
 // { "episodes": { "s1e1": { "cleared": true, "bestRank": "A", "playCount": 2, "lastPlayedAt": "ISO8601" } } }
+// フィナーレ(第11章)は episodes["final"] に bestRank なしで記録する(recordFinaleCleared):
+// { "cleared": true, "playCount": 1, "lastPlayedAt": "ISO8601" }
 
 const STORAGE_KEY = 'lets-architect:v1';
 export const RANK_ORDER = ['C', 'B', 'A', 'S'];
@@ -59,6 +61,37 @@ export function recordResult(episodeId, rank) {
   data.episodes[episodeId] = record;
   writeAll(data);
   return record;
+}
+
+/**
+ * フィナーレ(第11章)のクリアを記録する。ランク要素が無いため bestRank は持たない
+ * (SPEC 5章)。既存の recordResult はランク前提のため、finale ではこちらを使う。
+ * 戻り値: 更新後の episodes["final"] レコード。
+ */
+export function recordFinaleCleared(episodeId = 'final') {
+  const data = readAll();
+  const prev = data.episodes[episodeId];
+  const record = {
+    cleared: true,
+    playCount: (prev?.playCount || 0) + 1,
+    lastPlayedAt: new Date().toISOString(),
+  };
+  data.episodes[episodeId] = record;
+  writeAll(data);
+  return record;
+}
+
+/**
+ * フィナーレの解放条件(SPEC 11.1: 全エピソードの bestRank が S)を判定する。
+ * storage は data/index.json を fetch しない設計のため、判定対象のエピソード一覧
+ * (index.json の episodes 配列、各要素に少なくとも `id` を持つもの)を呼び出し側から渡す。
+ * 戻り値: { unlocked, sCount, total }
+ */
+export function getFinaleUnlockStatus(episodeEntries, progress = getAllProgress()) {
+  const entries = episodeEntries || [];
+  const total = entries.length;
+  const sCount = entries.filter((e) => progress?.[e.id]?.bestRank === 'S').length;
+  return { unlocked: total > 0 && sCount === total, sCount, total };
 }
 
 /** 全進捗をリセットする。 */

@@ -14,13 +14,25 @@
 //      ならないこと(正解が位置や文の長さで機械的に当てられる状態を検出する)
 //   4. エピソードが参照する image.src / portrait の実ファイルが data/ 配下に存在すること
 //   5. index.json の difficulty が 1〜4 であること
+//   6. final.json(第11章フィナーレ)は別枠で検証する: スキーマ(finale 必須項目・禁止
+//      フィールドの不在)/ start・全 next の参照整合 / 全分岐の通しプレイで終端到達。
+//      ランク assert・check-routes の対象には含めない。data/index.json に finale キーが
+//      無い、または data/episodes/final.json が未作成の間は警告して skip する(T50 未完)。
 
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { validateEpisode, playThrough } from '../js/engine.js';
+import {
+  validateEpisode,
+  playThrough,
+  createInitialState,
+  getNode,
+  applyChoice,
+  advance,
+  resolveNext,
+} from '../js/engine.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
@@ -139,6 +151,104 @@ async function checkEpisode(entry, episodePath) {
   checkedEpisodes += 1;
 }
 
+/**
+ * SPEC 7章6 / 11.4: フィナーレ(第11章)の全 choice 分岐を総当たりし、
+ * 終端 scene(next のない scene)に到達した経路を列挙する。
+ * ランク・debrief は存在しないので playThrough ではなく専用の総当たりを行う。
+ */
+function enumerateFinaleTerminals(episode) {
+  const terminals = [];
+  const guardLimit = 5000;
+  let guard = 0;
+
+  function walk(state) {
+    guard += 1;
+    if (guard > guardLimit) {
+      throw new Error('enumerateFinaleTerminals: guard limit exceeded — possible infinite loop');
+    }
+    const node = getNode(episode, state.nodeId);
+    if (node.type === 'scene') {
+      if (node.next === undefined) {
+        terminals.push(state.nodeId);
+        return;
+      }
+      walk(advance(state, resolveNext(node.next, state)));
+      return;
+    }
+    if (node.type === 'choice') {
+      node.options.forEach((_, i) => {
+        const { state: nextState } = applyChoice(episode, state, i);
+        walk(nextState);
+      });
+      return;
+    }
+    throw new Error(`enumerateFinaleTerminals: unexpected node type "${node.type}" at "${state.nodeId}"`);
+  }
+
+  walk(createInitialState(episode));
+  return terminals;
+}
+
+/**
+ * 6. final.json(第11章フィナーレ)を別枠で検証する。
+ * data/index.json に finale キーが無い、または final.json が未作成の間は警告して skip する
+ * (T50: シナリオ執筆が未完のため)。ランク assert・check-routes の対象には含めない。
+ */
+async function checkFinale(indexData) {
+  console.log('\n--- final: フィナーレ(第11章) ---');
+
+  const finaleEntry = indexData.finale;
+  if (!finaleEntry) {
+    console.log('… data/index.json に finale キーがまだありません — skipped (T50 未完)');
+    return;
+  }
+
+  const finalePath = path.join(dataDir, finaleEntry.file);
+  if (!existsSync(finalePath)) {
+    console.log(`… ${finaleEntry.file} not found — skipped (T50 未完)`);
+    return;
+  }
+
+  let episode;
+  try {
+    episode = await readJson(finalePath);
+  } catch (e) {
+    fail(`final: failed to parse JSON: ${e.message}`);
+    return;
+  }
+
+  if (episode.finale !== true) {
+    fail('final: episode.finale must be true');
+    return;
+  }
+
+  // スキーマ(finale 必須項目・禁止フィールドの不在)+ start・全 next の参照整合
+  const errors = validateEpisode(episode);
+  if (errors.length > 0) {
+    for (const err of errors) fail(`final: ${err}`);
+    return;
+  }
+  pass('final: schema + node references are valid (finale rules)');
+
+  if (episode.id !== finaleEntry.id) {
+    fail(`final: data/index.json finale.id "${finaleEntry.id}" does not match episode.id "${episode.id}"`);
+  }
+
+  checkAssetFiles(finaleEntry, episode);
+
+  // 全分岐の通しプレイで終端(next のない scene)に到達することを確認する。
+  try {
+    const terminals = enumerateFinaleTerminals(episode);
+    if (terminals.length === 0) {
+      fail('final: no route reached a terminal scene (scene without next)');
+    } else {
+      pass(`final: all branches reached a terminal scene (${terminals.length} route(s): ${terminals.join(', ')})`);
+    }
+  } catch (e) {
+    fail(`final: branch traversal threw: ${e.message}`);
+  }
+}
+
 function printSummaryAndExit() {
   console.log('\n----------------------------------------');
   if (failures > 0) {
@@ -198,6 +308,9 @@ async function main() {
     }
     await checkEpisode(entry, episodePath);
   }
+
+  // 6. final.json(第11章)は別枠で検証する。ランク assert・check-routes の対象外。
+  await checkFinale(indexData);
 
   printSummaryAndExit();
 }

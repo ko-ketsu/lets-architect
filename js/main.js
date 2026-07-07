@@ -19,7 +19,10 @@ async function loadIndex() {
 
 async function loadEpisode(id) {
   if (episodeCache.has(id)) return episodeCache.get(id);
-  const entry = indexData.episodes.find((e) => e.id === id);
+  // SPEC 11.1: finale は index.json のトップレベル `finale` キーに載る(episodes 配列には入らない)。
+  const entry = indexData.finale?.id === id
+    ? indexData.finale
+    : indexData.episodes.find((e) => e.id === id);
   if (!entry) throw new Error(`unknown episode id: ${id}`);
   const res = await fetch(`./data/${entry.file}`);
   if (!res.ok) throw new Error(`failed to load episode "${id}": ${res.status}`);
@@ -59,9 +62,24 @@ async function showEpisodeSelectScreen() {
     return;
   }
   const progress = storage.getAllProgress();
+
+  // SPEC 11.1: finale キーが無い間(T50 未完)はセクションごと非表示にする。
+  let finale = null;
+  if (indexData.finale) {
+    const { unlocked, sCount, total } = storage.getFinaleUnlockStatus(indexData.episodes, progress);
+    finale = {
+      entry: indexData.finale,
+      unlocked,
+      sCount,
+      total,
+      cleared: !!progress[indexData.finale.id]?.cleared,
+    };
+  }
+
   ui.renderEpisodeSelect({
     index: indexData,
     progress,
+    finale,
     onSelect: (id) => navigate(`#/play/${id}`),
     onBack: () => navigate('#/'),
   });
@@ -78,20 +96,31 @@ async function showPlayScreen(episodeId) {
 }
 
 function startEpisode(episode) {
+  // SPEC 11.3: finale ではヘッダーのメーターを表示せず、choice後のフィードバックカードも出さない。
+  const isFinale = episode.finale === true;
   let state = engine.createInitialState(episode);
   const screen = ui.createPlayScreen(episode, {
     onQuit: () => navigate('#/episodes'),
+    finale: isFinale,
   });
-  screen.updateMeters(state.params);
+  if (!isFinale) screen.updateMeters(state.params);
 
   function runNode() {
     const node = engine.getNode(episode, state.nodeId);
 
     if (node.type === 'scene') {
+      if (isFinale && node.next === undefined) {
+        // SPEC 11.2/11.3: next のない scene は finale の終端。lines 表示後にタイトルドロップへ。
+        screen.showLines(node.lines, () => {
+          navigate('#/finale/title-drop');
+        }, node.image);
+        return;
+      }
       screen.showLines(node.lines, () => {
         if (node.effects) {
           // SPEC 3.3 拡張A: lines 表示後に effects を適用し、フィードバックカードと同様の
           // 形でパラメータ増減を明示してからタップで先へ進む(アオイのコメントはなし)。
+          // finale では scene effects は禁止されるため、このパスは通常エピソードのみ通る。
           const { state: afterEffects, before } = engine.applySceneEffects(state, node);
           screen.updateMeters(afterEffects.params);
           screen.showSceneEffects(before, afterEffects.params, () => {
@@ -109,11 +138,17 @@ function startEpisode(episode) {
     if (node.type === 'choice') {
       screen.showChoice(node, (optionIndex) => {
         const { state: nextState, option, before } = engine.applyChoice(episode, state, optionIndex);
-        screen.updateMeters(nextState.params);
-        screen.showFeedback(option, before, nextState.params, () => {
+        if (isFinale) {
+          // SPEC 11.3: フィードバックカードを出さず、そのまま次ノードへ(演出の間はシナリオ側で作る)。
           state = nextState;
           runNode();
-        });
+        } else {
+          screen.updateMeters(nextState.params);
+          screen.showFeedback(option, before, nextState.params, () => {
+            state = nextState;
+            runNode();
+          });
+        }
       });
       return;
     }
@@ -164,6 +199,24 @@ function showResultScreen() {
   });
 }
 
+// SPEC 11.3: 終端 scene の後の専用画面(タイトルドロップ → 称号画面)。
+
+function showFinaleTitleDropScreen() {
+  ui.renderFinaleTitleDrop({
+    onAdvance: () => {
+      // 称号画面到達時に recordFinaleCleared() を呼ぶ(SPEC 5章/11.3)。
+      storage.recordFinaleCleared();
+      navigate('#/finale/credit');
+    },
+  });
+}
+
+function showFinaleCreditScreen() {
+  ui.renderFinaleCredit({
+    onBack: () => navigate('#/'),
+  });
+}
+
 function showErrorScreen(message, onBack) {
   const el = document.getElementById('app');
   el.innerHTML = `
@@ -197,6 +250,14 @@ function route() {
   }
   if (hash === '#/result') {
     showResultScreen();
+    return;
+  }
+  if (hash === '#/finale/title-drop') {
+    showFinaleTitleDropScreen();
+    return;
+  }
+  if (hash === '#/finale/credit') {
+    showFinaleCreditScreen();
     return;
   }
   // 不明なハッシュはタイトルへ。

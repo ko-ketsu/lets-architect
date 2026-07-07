@@ -166,9 +166,10 @@ s4e1/s4e2 の顧客キャラ設定(T38・T39 で共通に使う。Fable 定義):
 
 - [x] T47: design/ENDING.md 起案 — **ユーザー承認済み(2026-07-07)**。トーン修正1回(功績を伏せて背中を押す)を反映済み
 - [x] T48: SPEC 追記完了 — 新設 11章(解放条件=index.json トップレベル `finale` キー+全12話 bestRank S / finale スキーマ=params・effects・feedback 禁止・next なし scene が終端 / メーター非表示・フィードバックカード非表示 / タイトルドロップ→称号画面 / smoke-test 別枠検証)+ 2章・4.2・5章・7章に参照追記。storage は `recordFinaleCleared()` 新設(recordResult はランク前提のため不使用)
-- [ ] T49: engine/ui/storage/main の finale 対応(Sonnet)— ロック付き Final Episode カード(S×n/12 表示)、メーター/フィードバック/ランク省略、タイトルドロップ+称号画面
-- [ ] T50: data/episodes/final.json シナリオ執筆(Sonnet)— ENDING.md の幕構成・お手本台詞・トーン規則に沿う
-- [ ] T51: 統合・実プレイ検証(Fable)— ロック→解放遷移 / 全Sデータでの遡及解放 / フィードバック非表示 / smoke-test 別枠検証(ランク assert・check-routes 対象外)
+- [x] T49: engine/ui/storage/main の finale 対応完了(Sonnet、T50 と並行実行・ファイルスコープ分離で衝突なし)— engine: `finale: true` で検証/進行を分岐(禁止フィールド検査・next なし scene を終端として許可、playThrough は `result: null` を返す)/ storage: `recordFinaleCleared()`+`getFinaleUnlockStatus()`(index.json の episodes 一覧を引数で受け、storage は fetch しない)/ ui+main: Final Episode セクション(ロック中 S×n/12・解放後クリア済みバッジ)、finale はメーター非表示+フィードバックカード省略、`#/finale/title-drop`→`#/finale/credit` ルート新設 / smoke-test: final.json 別枠検証(未存在時は警告スキップ)/ scripts/test-finale-schema.mjs 新設(インメモリ fixture 18 assert)。記録タイミングはタイトルドロップ退出時(credit 直リロードでの二重記録を回避)
+- [x] T50: data/episodes/final.json シナリオ完了(Sonnet)— タイトル「序章の終わりに」。8ノード(intro→手帳→成長の観察→相談メール→3択→ほらね→去り際→エピローグ終端)。3択は「SLA翻訳/経路特定/優先順位合意」の同型・同文長・全合流。トーン規則遵守(功績言及なし・お手本台詞ほぼそのまま・振り返りは3件に圧縮・aoi-normal のみ)。index.json の `finale` キーも最小 diff で追記。**Fable 修正1件: 台詞行の鉤括弧を除去(7行)** — 既存文体は台詞行に鉤括弧なし・選択肢テキストのみ鉤括弧あり
+- [x] T51: 統合・実プレイ検証(Fable)完了 — **Fable 修正: check-routes.mjs に finale スキップを追加**(T49 の許可ファイル外だったため申し送りされた既知課題。引数なし実行が final.json で落ちるのを解消)。全テストパス(smoke 12話+finale / check-routes 全話 S1本・最善284 / test-s4-schema / test-finale-schema)。Playwright 実プレイ(モバイル390px・localStorage 注入): ロック中カード(S × 9/12 表示・summary 伏せ)→全S で遡及解放→メーターなしプレイ→3択シャッフル表示→選択後フィードバックカードなし(「……」のみ)→タイトルドロップ(黒背景+シアンロゴ)→称号「Architect」+全12話S達成+タイトルへ戻る→episodes.final が bestRank なしで記録→選択画面にクリア済みバッジ。スクリーンショット8枚を目視確認済み
+  - **教訓: 実プレイ検証の行送りは `.message-box` をクリックする**(画面中央の座標クリックでは進まない。メッセージボックス自体がクリック対象)
 
 ### 将来
 - [ ] 用語集の独立ページ
