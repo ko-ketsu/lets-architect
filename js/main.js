@@ -63,17 +63,16 @@ async function showEpisodeSelectScreen() {
   }
   const progress = storage.getAllProgress();
 
-  // SPEC 11.1: finale キーが無い間(T50 未完)はセクションごと非表示にする。
+  // SPEC 11.1: フィナーレは全エピソード S 達成まで存在ごと隠す(ロック中のカードも出さない)。
   let finale = null;
   if (indexData.finale) {
-    const { unlocked, sCount, total } = storage.getFinaleUnlockStatus(indexData.episodes, progress);
-    finale = {
-      entry: indexData.finale,
-      unlocked,
-      sCount,
-      total,
-      cleared: !!progress[indexData.finale.id]?.cleared,
-    };
+    const { unlocked } = storage.getFinaleUnlockStatus(indexData.episodes, progress);
+    if (unlocked) {
+      finale = {
+        entry: indexData.finale,
+        cleared: !!progress[indexData.finale.id]?.cleared,
+      };
+    }
   }
 
   ui.renderEpisodeSelect({
@@ -88,6 +87,14 @@ async function showEpisodeSelectScreen() {
 async function showPlayScreen(episodeId) {
   try {
     await loadIndex();
+    // SPEC 11.1: 解放前のフィナーレは直接 URL でも開けない(存在自体を隠す)。
+    if (indexData.finale?.id === episodeId) {
+      const { unlocked } = storage.getFinaleUnlockStatus(indexData.episodes, storage.getAllProgress());
+      if (!unlocked) {
+        navigate('#/episodes');
+        return;
+      }
+    }
     const episode = await loadEpisode(episodeId);
     startEpisode(episode);
   } catch (e) {

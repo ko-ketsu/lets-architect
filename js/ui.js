@@ -128,29 +128,12 @@ export function renderTitle({ onStart, onReset }) {
 // ---------------------------------------------------------------------------
 /**
  * SPEC 11.1: エピソード選択画面最下部の「Final Episode」セクション。
- * finale が null(index.json にまだ finale キーが無い)ならセクションごと非表示にする。
+ * finale が null(未解放、または index.json に finale キーが無い)ならセクションごと出さない
+ * (解放条件を満たすまでフィナーレの存在自体を隠す)。
  */
 function finaleSectionHtml(finale) {
   if (!finale) return '';
-  const { entry, unlocked, sCount, total, cleared } = finale;
-
-  if (!unlocked) {
-    return `
-      <section class="season-group finale-group">
-        <h2 class="season-title">Final Episode</h2>
-        <div class="episode-list">
-          <div class="episode-card episode-card-locked" aria-disabled="true">
-            <div class="episode-card-head">
-              <h3 class="episode-card-title">${escapeHtml(entry.title)}</h3>
-              <span class="badge badge-lock" aria-hidden="true">🔒</span>
-            </div>
-            <p class="episode-card-summary">全エピソードで S ランクを達成すると解放</p>
-            <p class="episode-card-meta">S × ${sCount}/${total}</p>
-          </div>
-        </div>
-      </section>
-    `;
-  }
+  const { entry, cleared } = finale;
 
   return `
     <section class="season-group finale-group">

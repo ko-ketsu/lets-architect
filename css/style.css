@@ -282,16 +282,6 @@ ul {
   padding-top: 20px;
 }
 
-.episode-card-locked {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.badge-lock {
-  font-size: 1rem;
-  line-height: 1;
-}
-
 .badge-cleared {
   display: inline-flex;
   align-items: center;
