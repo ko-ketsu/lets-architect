@@ -164,8 +164,8 @@ s4e1/s4e2 の顧客キャラ設定(T38・T39 で共通に使う。Fable 定義):
 
 コンセプトはユーザーと合意済み: **ハッピーエンドではなく「序章の終わり」**。全12話 bestRank=S で解放(既存ユーザーにも遡及)。アオイの異動→フィードバックカードが出ない最後のchoice(支援の不在をメカニクスで体感)→タイトルドロップ「Let's Architect!」→称号「Architect」。**トーン規則: アオイは功績を口にしない。観察として語り背中を押す**(初案の「私が『それでいい』って言ってきたから」は上から過ぎるとのユーザー修正 2026-07-07)。詳細は design/ENDING.md。
 
-- [ ] T47: design/ENDING.md 起案 — 執筆済み、**ユーザーレビュー待ち**
-- [ ] T48: SPEC 追記(解放条件・finale スキーマ・称号画面・テスト方針)— Fable、T47 承認後
+- [x] T47: design/ENDING.md 起案 — **ユーザー承認済み(2026-07-07)**。トーン修正1回(功績を伏せて背中を押す)を反映済み
+- [x] T48: SPEC 追記完了 — 新設 11章(解放条件=index.json トップレベル `finale` キー+全12話 bestRank S / finale スキーマ=params・effects・feedback 禁止・next なし scene が終端 / メーター非表示・フィードバックカード非表示 / タイトルドロップ→称号画面 / smoke-test 別枠検証)+ 2章・4.2・5章・7章に参照追記。storage は `recordFinaleCleared()` 新設(recordResult はランク前提のため不使用)
 - [ ] T49: engine/ui/storage/main の finale 対応(Sonnet)— ロック付き Final Episode カード(S×n/12 表示)、メーター/フィードバック/ランク省略、タイトルドロップ+称号画面
 - [ ] T50: data/episodes/final.json シナリオ執筆(Sonnet)— ENDING.md の幕構成・お手本台詞・トーン規則に沿う
 - [ ] T51: 統合・実プレイ検証(Fable)— ロック→解放遷移 / 全Sデータでの遡及解放 / フィードバック非表示 / smoke-test 別枠検証(ランク assert・check-routes 対象外)
